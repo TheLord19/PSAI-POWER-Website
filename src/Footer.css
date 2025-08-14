@@ -1,0 +1,161 @@
+/* Footer.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+.footer {
+  background-color: #003366;
+  color: #fff;
+  padding: 7rem 4rem;
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 1.2rem;
+}
+
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  gap: 10rem;
+}
+
+.footer__brand-col {
+  flex: 1 1 200px;
+  margin-right: 2rem;
+  padding-right: 2rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.footer__link-cols {
+  display: flex;
+  flex: 3 1 600px;
+  gap: 15rem;
+}
+
+.footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer__section-title {
+  margin-bottom: 1rem;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.footer__logo {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.footer__tagline {
+  margin: 0.5rem 0;
+  font-weight: 300;
+}
+
+.footer__phone {
+  margin: 0.5rem 0 1.2rem;
+  font-size: 1rem;
+  color: #cce4ff;
+  font-weight: 500;
+}
+
+.footer__links-grid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 0.8rem 2rem;
+}
+
+.footer__link {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.footer__link:hover {
+  color: #cce4ff;
+}
+
+.footer__social-link {
+  display: inline-flex;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 4px;
+  gap: 8px;
+}
+
+.footer__social-icon {
+  fill: white;
+  height: 24px;
+  width: 24px;
+}
+
+.footer__bottom {
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  padding-top: 1rem;
+  font-size: 1.0rem;
+}
+
+.footer__button {
+  position: relative;
+  background: #003366;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 0.4rem 1.2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 27px;
+  align-self: flex-start;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+  outline: none;
+}
+
+.footer__button--hover {
+  background-color: #fff !important;
+  color: #003366 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .footer__inner {
+    gap: 5rem;
+  }
+  
+  .footer__link-cols {
+    gap: 8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 4rem 2rem;
+  }
+  
+  .footer__inner {
+    flex-direction: column;
+    gap: 3rem;
+  }
+  
+  .footer__brand-col {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+    padding-right: 0;
+    padding-bottom: 2rem;
+    margin-right: 0;
+  }
+  
+  .footer__link-cols {
+    flex-direction: column;
+    gap: 3rem;
+  }
+  
+  .footer__links-grid {
+    grid-template-columns: repeat(2, auto);
+  }
+}   
