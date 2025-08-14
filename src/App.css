@@ -1,19 +1,279 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #222;
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.hero {
+  position: relative;
+  background-image: url('./welcome-substation.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.hero__overlay {
+  background: rgba(0, 0, 0, 0.2);
+  /* darkens image for contrast */
+  padding: 3rem;
+  text-align: center;
+  border-radius: 10px;
+  max-width: 800px;
+}
+
+.hero__heading {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.hero__subtext {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+}
+
+.hero__cta {
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: #fff;
+  color: #003366;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hero__cta:hover {
+  background-color: #0055aa;
+  color: white;
+}
+
+
+:root {
+  --primary-color: #003366;
+  --secondary-color: #555;
+  --bg-color: #f9f9f9;
+  --gradient-start: #e3f2fd;
+  --gradient-end: #ffffff;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* Prevents horizontal scroll */
+}
+
+/* ===== Full-width Page Layout ===== */
+.page {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Content Container ===== */
+.main {
+  width: 100%;
+  max-width: 1280px;
+  /* Constrain content width */
+  margin: 0 auto;
+  /* Center content */
+  flex: 1;
+  padding: clamp(1rem, 5vw, 3rem);
+}
+
+/* ===== Hero Section ===== */
+.hero {
+  width: 100%;
+  text-align: center;
+  padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 3rem);
+  /* Increased padding */
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  color: #222;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 3rem;
+  /* Space for next sections */
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+  animation: pulse 15s infinite linear;
+  z-index: 0;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero__heading {
+  font-size: clamp(2.5rem, 7vw, 4rem);
+  /* Larger text */
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  animation: fadeInUp 1s ease-out;
+}
+
+.hero__subtext {
+  font-size: clamp(1.25rem, 3.5vw, 1.75rem);
+  color: var(--primary-color);
+  /* strong color */
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  transition: color 0.3s ease;
+  opacity: 1;
+  /* start visible */
+  animation: fadeInUpNoOpacity 1s ease-out 0.2s forwards;
+}
+
+@keyframes fadeInUpNoOpacity {
+  from {
+    transform: translateY(20px);
+    /* opacity stays 1 all along */
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+hero__heading:hover {
+  text-shadow: 0 0 15px rgba(0, 82, 204, 0.3);
+  transition: text-shadow 0.3s ease;
+}
+
+.hero__heading::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(to right, var(--primary-color), transparent);
+  margin: 1rem auto 0;
+  animation: scaleIn 0.8s ease-out 0.4s forwards;
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+@keyframes scaleIn {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.hero__cta {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: fadeInUp 1s ease-out 0.4s forwards;
+  opacity: 0;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero__cta:hover {
+  background: #002b66;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.hero__cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+  z-index: -1;
+}
+
+.hero__cta:hover::before {
+  left: 100%;
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+  .hero {
+    border-radius: 0;
+  }
+}
+
+/* ===== Logo Styles (keep if needed) ===== */
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -22,6 +282,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -39,4 +300,62 @@
 
 .read-the-docs {
   color: #888;
+}
+
+
+
+
+
+
+
+
+
+.contact {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.contact h2 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.contact__form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.contact__form input,
+.contact__form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1.5rem;
+  border: 1.5px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.contact__form input:focus,
+.contact__form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.contact__form button.hero__cta {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
 }
