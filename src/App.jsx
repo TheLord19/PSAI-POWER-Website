@@ -1,53 +1,30 @@
 import React from 'react';
 import Header from './Header';
-import Footer from './Footer';  // import Footer component
+import Footer from './Footer';
+import './App.css';
+import SubstationImage from './welcome-substation.png'; // your image
+import ContactUs from './ContactUs'; 
 
 export default function App() {
   return (
-    <div style={styles.page}>
+    <div className="page">
       <Header />
-      <main style={styles.main}>
-        <section style={styles.hero}>
-          <h1 style={styles.heading}>Welcome to PSIPOWER</h1>
-          <p style={styles.subtext}>
-            Empowering the future with clean, reliable energy solutions.
-          </p>
+      <main className="main">
+        
+        <section
+          className="hero"
+          style={{ backgroundImage: `url(${SubstationImage})` }}
+        >
+          <div className="hero__overlay">
+            <h1 className="hero__heading">Welcome to PSAIPOWER</h1>
+            <p className="hero__subtext">
+              Empowering the future with clean, reliable energy solutions.
+            </p>
+            <button className="hero__cta">Explore Solutions</button>
+          </div>
         </section>
-        {/* You can add more sections here: About, Services, Contact, etc. */}
       </main>
-      <Footer /> {/* Add Footer here */}
+      <Footer />
     </div>
   );
 }
-
-const styles = {
-  page: {
-    backgroundColor: '#f9f9f9', // soft light gray background
-    minHeight: '100vh',
-    fontFamily: 'Segoe UI, sans-serif',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  main: {
-    flex: 1,           // Take available vertical space
-    padding: '2rem',
-  },
-  hero: {
-    textAlign: 'center',
-    padding: '2rem',
-    background: 'linear-gradient(to right, #e3f2fd, #ffffff)',
-    borderRadius: '1rem',
-    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
-  },
-  heading: {
-    fontSize: '2.5rem',
-    color: '#003366', // deep blue
-    marginBottom: '0.5rem',
-  },
-  subtext: {
-    fontSize: '1.2rem',
-    color: '#555',
-    maxWidth: '600px',
-    margin: '0 auto',
-  },
-};
