@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesDown } from '@fortawesome/free-solid-svg-icons';
 import './styles/Header.css';
@@ -8,26 +7,26 @@ export default function Header() {
   const navItems = [
     {
       label: 'Services',
-      to: '/services',
+      href: '#services',
       dropdown: [
-        { label: 'Consulting', to: '/services/consulting' },
-        { label: 'Installation', to: '/services/installation' },
-        { label: 'Maintenance', to: '/services/maintenance' },
+        { label: 'Consulting', href: '#consulting' },
+        { label: 'Installation', href: '#installation' },
+        { label: 'Maintenance', href: '#maintenance' },
       ],
     },
     {
       label: 'Who We Serve',
-      to: '/who-we-serve',
+      href: '#who-we-serve',
       dropdown: [
-        { label: 'Residential', to: '/who-we-serve/residential' },
-        { label: 'Commercial', to: '/who-we-serve/commercial' },
-        { label: 'Industrial', to: '/who-we-serve/industrial' },
+        { label: 'Residential', href: '#residential' },
+        { label: 'Commercial', href: '#commercial' },
+        { label: 'Industrial', href: '#industrial' },
       ],
     },
-    { label: 'About', to: '/about' },
-    { label: 'Resources', to: '/resources' },
-    { label: 'Licenses', to: '/licenses' },
-    { label: 'Contact Us', to: '/contact' },
+    { label: 'About', href: '#about' },
+    { label: 'Resources', href: '#resources' },
+    { label: 'Licenses', href: '#licenses' },
+    { label: 'Contact Us', href: '#contact' },
   ];
 
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -35,24 +34,20 @@ export default function Header() {
   return (
     <header className="header">
       <div className="header__container">
-        <Link to="/" className="header__logo">
+        <a href="/" className="header__logo">
           PSAIPOWER
-        </Link>
+        </a>
         <nav className="header__nav">
-          {navItems.map(({ label, to, dropdown }, index) => (
+          {navItems.map(({ label, href, dropdown }, index) => (
             <div
               key={label}
               className={`header__nav-item ${dropdown ? 'has-dropdown' : ''}`}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
-              <NavLink 
-                to={to} 
-                className={({ isActive }) => 
-                  `header__nav-link ${isActive ? 'active' : ''}`
-                }
-              >
+              <a href={href} className="header__nav-link">
                 {label.toUpperCase()}
+                {/* Always render the icon to maintain spacing */}
                 <FontAwesomeIcon
                   icon={faAnglesDown}
                   className={`header__arrow-icon ${dropdown ? '' : 'no-dropdown'}`}
@@ -62,19 +57,13 @@ export default function Header() {
                     marginLeft: '6px'
                   }}
                 />
-              </NavLink>
+              </a>
               {dropdown && hoveredIndex === index && (
                 <div className="header__dropdown">
-                  {dropdown.map(({ label: dLabel, to: dTo }) => (
-                    <NavLink 
-                      key={dLabel} 
-                      to={dTo} 
-                      className={({ isActive }) => 
-                        `header__dropdown-link ${isActive ? 'active' : ''}`
-                      }
-                    >
+                  {dropdown.map(({ label: dLabel, href: dHref }) => (
+                    <a key={dLabel} href={dHref} className="header__dropdown-link">
                       {dLabel}
-                    </NavLink>
+                    </a>
                   ))}
                 </div>
               )}
