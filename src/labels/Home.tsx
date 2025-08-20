@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import SubstationImage from '@/images/welcome-substation.png';
+import SubstationImage from './welcome-substation.png';
 
 function Home() {
     return (

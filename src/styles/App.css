@@ -16,7 +16,7 @@ body {
 }
 
 .hero {
-  
+  .hero {
   position: relative;
   background-size: cover;       /* makes the image fill the section */
   background-position: center;  /* keeps it centered */
@@ -27,7 +27,7 @@ body {
   justify-content: center;
   color: white;
 }
-
+}
 
 .hero__overlay {
   background: rgba(0, 0, 0, 0.2);
