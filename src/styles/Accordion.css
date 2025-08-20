@@ -45,6 +45,9 @@
   color: #444;
   transition: all 0.4s ease;
   overflow: hidden;
+<<<<<<< HEAD
   transition: max-height 0.3s ease, opacity 0.3s ease;
  
+=======
+>>>>>>> e8034c7fa6f5c62fee8df55ed13046ec1d95ff25
 }
