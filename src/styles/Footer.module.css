@@ -1,4 +1,4 @@
-
+/* Footer.module.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
 .footer {
@@ -18,14 +18,14 @@
   gap: 10rem;
 }
 
-.footer__brand-col {
+.footer__brand_col { /* Changed from footer__brand-col */
   flex: 1 1 200px;
   margin-right: 2rem;
   padding-right: 2rem;
   border-right: 1px solid rgba(255, 255, 255, 0.7);
 }
 
-.footer__link-cols {
+.footer__link_cols { /* Changed from footer__link-cols */
   display: flex;
   flex: 3 1 600px;
   gap: 15rem;
@@ -37,7 +37,7 @@
   gap: 0.5rem;
 }
 
-.footer__section-title {
+.footer__section_title { /* Changed from footer__section-title */
   margin-bottom: 1rem;
   font-weight: 700;
   font-size: 1.5rem;
@@ -60,7 +60,7 @@
   font-weight: 500;
 }
 
-.footer__links-grid {
+.footer__links_grid { /* Changed from footer__links-grid */
   display: grid;
   grid-template-columns: repeat(3, auto);
   gap: 0.8rem 2rem;
@@ -77,7 +77,7 @@
   color: #cce4ff;
 }
 
-.footer__social-link {
+.footer__social_link { /* Changed from footer__social-link */
   display: inline-flex;
   align-items: center;
   color: #fff;
@@ -87,7 +87,7 @@
   gap: 8px;
 }
 
-.footer__social-icon {
+.footer__social_icon { /* Changed from footer__social-icon */
   fill: white;
   height: 24px;
   width: 24px;
@@ -120,7 +120,7 @@
   outline: none;
 }
 
-.footer__button--hover {
+.footer__button_hover { /* Changed from footer__button--hover */
   background-color: #fff !important;
   color: #003366 !important;
 }
@@ -131,7 +131,7 @@
     gap: 5rem;
   }
   
-  .footer__link-cols {
+  .footer__link_cols {
     gap: 8rem;
   }
 }
@@ -146,7 +146,7 @@
     gap: 3rem;
   }
   
-  .footer__brand-col {
+  .footer__brand_col {
     border-right: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.7);
     padding-right: 0;
@@ -154,12 +154,12 @@
     margin-right: 0;
   }
   
-  .footer__link-cols {
+  .footer__link_cols {
     flex-direction: column;
     gap: 3rem;
   }
   
-  .footer__links-grid {
+  .footer__links_grid {
     grid-template-columns: repeat(2, auto);
   }
-}   
+}

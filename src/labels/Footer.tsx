@@ -1,11 +1,11 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import '../styles/Footer.module.css';
+import styles from '@/styles/Footer.module.css'; // ← Correct import
 
 const LinkedInIcon = () => (
   <svg
-    className="footer__social-icon"
+    className={styles.footer__social_icon} // ← Use styles.className
     viewBox="0 0 24 24"
     aria-hidden="true"
     focusable="false"
@@ -27,14 +27,14 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="footer">
-      <div className="footer__inner">
-        <div className="footer__brand-col">
-          <h2 className="footer__logo">PSAIPOWER</h2>
-          <p className="footer__tagline">Reliable energy solutions</p>
-          <p className="footer__phone">1-800-123-4567</p>
+    <footer className={styles.footer}> {/* ← Use styles.className */}
+      <div className={styles.footer__inner}>
+        <div className={styles.footer__brand_col}>
+          <h2 className={styles.footer__logo}>PSAIPOWER</h2>
+          <p className={styles.footer__tagline}>Reliable energy solutions</p>
+          <p className={styles.footer__phone}>1-800-123-4567</p>
           <button
-            className={`footer__button ${isHovered ? 'footer__button--hover' : ''}`}
+            className={`${styles.footer__button} ${isHovered ? styles.footer__button_hover : ''}`} // ← Fixed
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
@@ -42,26 +42,26 @@ export default function Footer() {
           </button>
         </div>
 
-        <div className="footer__link-cols">
-          <div className="footer__col">
-            <strong className="footer__section-title">EXPLORE</strong>
-            <div className="footer__links-grid">
+        <div className={styles.footer__link_cols}>
+          <div className={styles.footer__col}>
+            <strong className={styles.footer__section_title}>EXPLORE</strong>
+            <div className={styles.footer__links_grid}>
               {navItems.map(({ label, href }) => (
-                <Link key={label} href={href} className="footer__link">
+                <Link key={label} href={href} className={styles.footer__link}>
                   {label}
                 </Link>
               ))}
             </div>
           </div>
 
-          <div className="footer__col">
-            <strong className="footer__section-title">FOLLOW US</strong>
+          <div className={styles.footer__col}>
+            <strong className={styles.footer__section_title}>FOLLOW US</strong>
             <a
               href="https://linkedin.com/company/psipower"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              className="footer__social-link"
+              className={styles.footer__social_link}
             >
               <LinkedInIcon />
               <span>LinkedIn</span>
@@ -70,7 +70,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="footer__bottom">
+      <div className={styles.footer__bottom}>
         © {new Date().getFullYear()} PSAIPOWER. All rights reserved.
       </div>
     </footer>
