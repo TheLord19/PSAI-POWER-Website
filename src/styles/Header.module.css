@@ -63,9 +63,9 @@
 
 /* Metsco-style rectangular box on hover */
 .header__nav_link:hover {
-  background-color: #0078d4; /* Distinct blue background */
-  color: white; /* White text for contrast */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+ background-color: rgba(0, 0, 0, 0.08); /* Original subtle gray */
+  color: #0078d4; /* Original blue text */
+  box-shadow: none; /* Remove shadow */
 }
 
 .header__arrow_icon {

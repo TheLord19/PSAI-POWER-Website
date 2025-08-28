@@ -8,35 +8,29 @@ import styles from '@/styles/Header.module.css';
 export default function Header() {
   const navItems = [
     {
-      label: 'Services',
-      href: '/services',
-      dropdown: [
-        {
-          heading: 'Consulting',
-          items: [
-            { label: 'Power System Design', href: '/services#consulting1' },
-            { label: 'Grid Modernization', href: '/services#consulting2' },
-            { label: 'Renewable Integration', href: '/services#consulting3' },
-            { label: 'Power Analysis', href: '/services#consulting4' },
-          ],
-        },
-        {
-          heading: 'Installation',
-          items: [
-            { label: 'Substation Installation', href: '/services#installation1' },
-            { label: 'Switchgear Setup', href: '/services#installation2' },
-          ],
-        },
-        {
-          heading: 'Maintenance',
-          items: [
-            { label: 'Preventive Maintenance', href: '/services#maintenance1' },
-            { label: 'Corrective Maintenance', href: '/services#maintenance2' },
-            { label: 'System Optimization', href: '/services#maintenance3' },
-          ],
-        },
-      ],
-    },
+     
+    label: 'Services',
+    href: '/services',
+    dropdown: [
+      {
+        heading: 'Consulting',
+        items: [
+          { label: 'Power System Design', href: '/services#consulting1' },
+          { label: 'Grid Modernization', href: '/services#consulting2' },
+          { label: 'Renewable Integration', href: '/services#consulting3' },
+          { label: 'Power Analysis', href: '/services#consulting4' },
+        ],
+      },
+      {
+        heading: 'Maintenance',
+        items: [
+          { label: 'Preventive Maintenance', href: '/services#maintenance1' },
+          { label: 'Corrective Maintenance', href: '/services#maintenance2' },
+          { label: 'System Optimization', href: '/services#maintenance3' },
+        ],
+      },
+    ],
+  },  
     {
       label: 'Who We Serve',
       href: '/who-we-serve',
@@ -151,8 +145,8 @@ export default function Header() {
                         <div key={heading} className={styles.dropdown_section}>
                           <div className={styles.dropdown_heading}>{heading}</div>
                           {items.map(({ label: dLabel, href: dHref }) => (
-                            <Link href={dHref} key={dLabel} legacyBehavior>
-                              <a className={styles.header__dropdown_link}>{dLabel}</a>
+                            <Link href={dHref} key={dLabel} className={styles.header__dropdown_link}>
+                              {dLabel}
                             </Link>
                           ))}
                         </div>
