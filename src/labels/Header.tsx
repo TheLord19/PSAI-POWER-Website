@@ -2,35 +2,34 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAnglesDown } from '@fortawesome/free-solid-svg-icons';
+import { faAnglesDown, faMagnifyingGlass, faXmark, faGlobe } from '@fortawesome/free-solid-svg-icons';
 import styles from '@/styles/Header.module.css';
 
 export default function Header() {
   const navItems = [
     {
-     
-    label: 'Services',
-    href: '/services',
-    dropdown: [
-      {
-        heading: 'Consulting',
-        items: [
-          { label: 'Power System Design', href: '/services#consulting1' },
-          { label: 'Grid Modernization', href: '/services#consulting2' },
-          { label: 'Renewable Integration', href: '/services#consulting3' },
-          { label: 'Power Analysis', href: '/services#consulting4' },
-        ],
-      },
-      {
-        heading: 'Maintenance',
-        items: [
-          { label: 'Preventive Maintenance', href: '/services#maintenance1' },
-          { label: 'Corrective Maintenance', href: '/services#maintenance2' },
-          { label: 'System Optimization', href: '/services#maintenance3' },
-        ],
-      },
-    ],
-  },  
+      label: 'Services',
+      href: '/services',
+      dropdown: [
+        {
+          heading: 'Consulting',
+          items: [
+            { label: 'Power System Design', href: '/services#consulting1' },
+            { label: 'Grid Modernization', href: '/services#consulting2' },
+            { label: 'Renewable Integration', href: '/services#consulting3' },
+            { label: 'Power Analysis', href: '/services#consulting4' },
+          ],
+        },
+        {
+          heading: 'Maintenance',
+          items: [
+            { label: 'Preventive Maintenance', href: '/services#maintenance1' },
+            { label: 'Corrective Maintenance', href: '/services#maintenance2' },
+            { label: 'System Optimization', href: '/services#maintenance3' },
+          ],
+        },
+      ],
+    },
     {
       label: 'Who We Serve',
       href: '/who-we-serve',
@@ -91,8 +90,22 @@ export default function Header() {
   ];
 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState('EN');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Helper to split dropdown into columns of max 3 items
+  const toggleLanguage = () => {
+    setCurrentLanguage(prev => prev === 'EN' ? 'FR' : 'EN');
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Implement search functionality here
+    console.log('Searching for:', searchQuery);
+    setIsSearchOpen(false);
+    setSearchQuery('');
+  };
+
   const splitColumns = <T,>(items: T[], maxPerColumn = 3): T[][] => {
     const columns: T[][] = [];
     let currentColumn: T[] = [];
@@ -108,20 +121,39 @@ export default function Header() {
   };
 
   return (
-    <header className={styles.header}>
-      <div className={styles.header__container}>
-        <Link href="/" className={styles.header__logo}>
-          PSAI POWER
-        </Link>
-        <nav className={styles.header__nav}>
-          {navItems.map(({ label, href, dropdown }, index) => (
-            <div
-              key={label}
-              className={`${styles.header__nav_item} ${dropdown ? styles.has_dropdown : ''}`}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+    <>
+      <header className={styles.header}>
+        <div className={styles.header__container}>
+          <Link href="/" className={styles.header__logo}>
+            PSAI POWER
+          </Link>
+          
+          {/* Language Toggle - Top Right Corner */}
+          <div className={styles.language_toggle}>
+            <button 
+              className={currentLanguage === 'EN' ? styles.active : ''}
+              onClick={() => setCurrentLanguage('EN')}
             >
-              <Link href={href}  className={styles.header__nav_link}>
+              EN
+            </button>
+            <span>|</span>
+            <button 
+              className={currentLanguage === 'FR' ? styles.active : ''}
+              onClick={() => setCurrentLanguage('FR')}
+            >
+              FR
+            </button>
+          </div>
+
+          <nav className={styles.header__nav}>
+            {navItems.map(({ label, href, dropdown }, index) => (
+              <div
+                key={label}
+                className={`${styles.header__nav_item} ${dropdown ? styles.has_dropdown : ''}`}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+                <Link href={href} className={styles.header__nav_link}>
                   {label.toUpperCase()}
                   {dropdown && (
                     <FontAwesomeIcon
@@ -134,31 +166,68 @@ export default function Header() {
                       }}
                     />
                   )}
-                
-              </Link>
+                </Link>
 
-              {dropdown && hoveredIndex === index && (
-                <div className={`${styles.header__dropdown} ${styles.multi_column}`}>
-                  {splitColumns(dropdown).map((column, colIdx) => (
-                    <div key={colIdx} className={styles.dropdown_column}>
-                      {column.map(({ heading, items }) => (
-                        <div key={heading} className={styles.dropdown_section}>
-                          <div className={styles.dropdown_heading}>{heading}</div>
-                          {items.map(({ label: dLabel, href: dHref }) => (
-                            <Link href={dHref} key={dLabel} className={styles.header__dropdown_link}>
-                              {dLabel}
-                            </Link>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </nav>
-      </div>
-    </header>
+                {dropdown && hoveredIndex === index && (
+                  <div className={`${styles.header__dropdown} ${styles.multi_column}`}>
+                    {splitColumns(dropdown).map((column, colIdx) => (
+                      <div key={colIdx} className={styles.dropdown_column}>
+                        {column.map(({ heading, items }) => (
+                          <div key={heading} className={styles.dropdown_section}>
+                            <div className={styles.dropdown_heading}>{heading}</div>
+                            {items.map(({ label: dLabel, href: dHref }) => (
+                              <Link href={dHref} key={dLabel} className={styles.header__dropdown_link}>
+                                {dLabel}
+                              </Link>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+            
+            {/* Search Button */}
+            <button 
+              className={styles.search_toggle}
+              onClick={() => setIsSearchOpen(true)}
+              aria-label="Open search"
+            >
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      {/* Search Overlay */}
+      {isSearchOpen && (
+        <div className={styles.search_overlay}>
+          <div className={styles.search_container}>
+            <form onSubmit={handleSearch} className={styles.search_form}>
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={styles.search_input}
+                autoFocus
+              />
+              <button type="submit" className={styles.search_submit}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </button>
+            </form>
+            <button 
+              onClick={() => setIsSearchOpen(false)}
+              className={styles.search_close}
+              aria-label="Close search"
+            >
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

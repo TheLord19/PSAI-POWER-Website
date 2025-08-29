@@ -1,6 +1,7 @@
 'use client';
 import React from "react";
-import Accordion from "@/components/Card";
+// import Card from "@/components/Card";
+import Accordion from "@/components/Accordion";
 
 interface Section {
   title: string;

@@ -16,6 +16,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative; /* Needed for absolute positioning of language toggle */
 }
 
 .header__logo {
@@ -29,15 +30,16 @@
 
 .header__nav {
   display: flex;
-  gap: 0.25rem; /* Reduced gap for tighter spacing between boxes */
+  gap: 0.25rem;
   margin-left: auto;
   padding-right: 2rem;
   white-space: nowrap;
+  align-items: center;
 }
 
 .header__nav_item {
   position: relative;
-  flex: 0 0 auto; /* Changed to auto to accommodate different text lengths */
+  flex: 0 0 auto;
   height: 40px;
   display: flex;
   justify-content: center;
@@ -50,22 +52,21 @@
   text-align: center;
   font-weight: 600;
   font-size: 0.9rem;
-  padding: 0.6rem 1rem; /* Increased padding for a more boxy appearance */
+  padding: 0.6rem 1rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
-  border-radius: 4px; /* Slightly more rounded corners */
+  border-radius: 4px;
   position: relative;
 }
 
-/* Metsco-style rectangular box on hover */
 .header__nav_link:hover {
- background-color: rgba(0, 0, 0, 0.08); /* Original subtle gray */
-  color: #0078d4; /* Original blue text */
-  box-shadow: none; /* Remove shadow */
+  background-color: rgba(0, 0, 0, 0.08);
+  color: #0078d4;
+  box-shadow: none;
 }
 
 .header__arrow_icon {
@@ -143,7 +144,207 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* Responsive */
+/* Language Toggle Styles */
+.language_toggle {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 1001;
+}
+
+.language_toggle button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  color: #666;
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.language_toggle button.active {
+  color: #003366;
+  font-weight: 600;
+}
+
+.language_toggle button:hover {
+  color: #0078d4;
+}
+
+/* Search Toggle Button */
+.search_toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #333;
+  margin-left: 1rem;
+  font-size: 1.1rem;
+  transition: color 0.2s ease;
+}
+
+.search_toggle:hover {
+  color: #0078d4;
+}
+
+/* Search Overlay */
+.search_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+}
+
+.search_container {
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+}
+
+.search_form {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.search_input {
+  flex: 1;
+  padding: 1.2rem 1.5rem;
+  border: none;
+  font-size: 1.1rem;
+  outline: none;
+}
+
+.search_submit {
+  background: #003366;
+  border: none;
+  color: white;
+  padding: 1.2rem 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.search_submit:hover {
+  background: #002b66;
+}
+
+.search_close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Fullscreen search overlay */
+.full_search_overlay {
+  position: fixed;
+  inset: 0;
+  background-color: #e0f2ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  flex-direction: column;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.full_search_form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  padding: 1.5rem 2rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.full_search_form:focus-within {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.full_search_input {
+  flex-grow: 1;
+  font-size: 2rem;
+  border: none;
+  outline: none;
+  font-weight: 400;
+  color: #002952;
+  background: transparent;
+  padding-right: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 0.03em;
+}
+
+.full_search_input::placeholder {
+  color: #aac2d1;
+  font-weight: 400;
+}
+
+.full_search_icon_button {
+  background: #003366;
+  border: none;
+  color: white;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 1.3rem;
+}
+
+.full_search_close {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  font-size: 2.5rem;
+  background: none;
+  border: none;
+  color: #607d8b;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  line-height: 1;
+  padding: 0;
+}
+
+.full_search_close:hover {
+  color: #004080;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments */
 @media (max-width: 1024px) {
   .header__logo {
     margin-right: 10rem;
@@ -164,7 +365,7 @@
     width: 100%;
     justify-content: center;
     padding-right: 0;
-    flex-wrap: wrap; /* Allow items to wrap on mobile */
+    flex-wrap: wrap;
   }
 
   .header__arrow_icon {
@@ -172,7 +373,47 @@
   }
   
   .header__nav_link {
-    padding: 0.5rem 0.8rem; /* Slightly smaller padding on mobile */
+    padding: 0.5rem 0.8rem;
     font-size: 0.85rem;
   }
+  
+  .language_toggle {
+    position: static;
+    margin: 1rem auto;
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .search_toggle {
+    margin-left: 0.5rem;
+  }
+  
+  .full_search_form {
+    padding: 1rem 1.2rem;
+  }
+  
+  .full_search_input {
+    font-size: 1.5rem;
+  }
+  
+  .full_search_icon_button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+  
+  .full_search_close {
+    font-size: 2rem;
+    right: 1rem;
+    top: 1rem;
+  }
+}
+
+/* Remove duplicate styles */
+.header__controls,
+.search_btn,
+.lang_toggle,
+.header__search_mode {
+  display: none;
 }

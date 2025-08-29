@@ -9,11 +9,7 @@ const services = [
     id: 'consulting',
     title: 'Consulting Services',
     description: 'Expert advice to optimize your energy systems and infrastructure.',
-  },
-  {
-    id: 'installation',
-    title: 'Installation Services',
-    description: 'Professional installation of electrical systems with guaranteed safety.',
+    imageSrc:  '../images/1.jpg' ,
   },
   {
     id: 'maintenance',

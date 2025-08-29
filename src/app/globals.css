@@ -94,7 +94,6 @@ body {
   opacity: 1;
   animation: fadeInUpNoOpacity 1s ease-out 0.2s forwards;
 }
-
 .hero__cta {
   background: var(--primary-color);
   color: white;
@@ -134,12 +133,113 @@ body {
   left: 100%;
 }
 
+html {
+  overflow-y: scroll; /* Forces scrollbar always, avoids shift */
+}
+/* Now we need the page to look like anew on every reload  */
+/* Smooth entrance animation on page mount */
+body {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+body.mounted {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Optional: Animate header/footer */
+.header-container,
+.footer-container {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.footer-container {
+  transform: translateY(20px);
+}
+
+.header-container.mounted,
+.footer-container.mounted {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* since the header moves slight right */
+.page-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Modern Card Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-10px) rotate(120deg);
+  }
+  66% {
+    transform: translateY(5px) rotate(240deg);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Smooth transitions for dark mode */
+.modern-card {
+  transition: 
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glass morphism effect for cards */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* Button focus style for accessibility */
 .hero__cta:focus {
   outline: 3px solid var(--primary-color);
   outline-offset: 3px;
 }
+/* Smooth page transitions  */
 
+.page-transition {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth scrolling for entire site */
+html {
+  scroll-behavior: smooth;
+}
 /* ===== Animations ===== */
 @keyframes fadeInUpNoOpacity {
   from {
@@ -310,6 +410,9 @@ body,
   font-weight: 600;
   border-radius: 50px;
 }
+
+
+/* Section to display the content in a better way */
 /* Layout Wrapper */
 .page-wrapper {
   max-width: 960px;

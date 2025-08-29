@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import styles from '/styles/Card.css';
+import styles from '../styles/Card.module.css';
 
 type CardProps = {
   title: string;
