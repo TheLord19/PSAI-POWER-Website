@@ -1,12 +1,12 @@
 'use client';
 import React from 'react';
-import SubstationImage from '@/images/welcome-substation.png';
+
 
 function Home() {
     return (
         <section
             className="hero"
-            style={{ backgroundImage: `url(${SubstationImage})` }}
+            style={{ backgroundImage: `url('/images/welcome-substation.png')` }}
         >
             <div className="hero__overlay">
                 <h1 className="hero__heading">Welcome to PSAIPOWER</h1>
