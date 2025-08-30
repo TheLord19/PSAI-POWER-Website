@@ -1,0 +1,129 @@
+
+.pageContainer {
+    background-color: #ffffff;
+    color: #1e293b;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    background: #0f172a;
+    color: #ffffff;
+    padding: 7rem 1rem;
+    text-align: center;
+    z-index: 100;
+}
+
+.heroOverlay {
+    position: absolute;
+    inset: 0;
+    background-color: #0f172a;
+    opacity: 0.8;
+}
+
+.heroContent {
+    position: relative;
+    max-width: 80rem;
+    margin: 0 auto;
+}
+
+.heroTitle {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.heroSubtitle {
+    font-size: 1.25rem;
+    max-width: 48rem;
+    margin: 0 auto;
+    color: #e2e8f0;
+}
+
+/* Grid Section (Index Page) */
+.gridSection {
+    padding: 6rem 1rem;
+    background-color: #f8fafc;
+}
+
+.gridContainer {
+    max-width: 80rem;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+}
+@media (min-width: 768px) { .gridContainer { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .gridContainer { grid-template-columns: repeat(3, 1fr); } }
+
+/* Card Styles */
+.cardLink {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.cardTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.cardExcerpt {
+    color: #475569;
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    color: #4f46e5;
+}
+
+.cardArrow {
+    transition: transform 0.3s ease;
+}
+
+.card:hover .cardArrow {
+    transform: translateX(5px);
+}
+
+/* Content Section (Detail Page) */
+.contentSection {
+    padding: 4rem 1rem;
+}
+
+.articleContent {
+    max-width: 48rem; /* max-w-3xl */
+    margin: 0 auto;
+    font-size: 1.125rem; /* text-lg */
+    line-height: 1.75;
+    color: #334155; /* slate-700 */
+}
+
+.articleContent p + p {
+    margin-top: 1.5rem;
+}
+

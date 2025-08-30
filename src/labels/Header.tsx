@@ -32,7 +32,7 @@ export default function Header() {
     },
     {
       label: 'Who We Serve',
-      href: '/who-we-serve',
+      href: '/whoweserve',
       dropdown: [
         {
           heading: 'Utilities & Grid Operators',
@@ -86,7 +86,8 @@ export default function Header() {
     { label: 'About', href: '/about' },
     { label: 'Resources', href: '/resources' },
     { label: 'Licenses', href: '/licenses' },
-    { label: 'Contact Us', href: '/contact' },
+    { label : 'Contact Us' , href : '/contactus'},
+       
   ];
 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);

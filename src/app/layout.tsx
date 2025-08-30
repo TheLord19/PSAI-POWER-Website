@@ -1,8 +1,8 @@
 'use client';
 import './globals.css';
 import React, { useEffect, useState } from 'react';
-import Header from '../labels/Header';
-import Footer from '../labels/Footer';
+import Header from '@/labels/Header';
+import Footer from '@/labels/Footer';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [isMounted, setIsMounted] = useState(false);
