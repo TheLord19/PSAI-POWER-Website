@@ -1,7 +1,13 @@
 {
-  "/services/page": "app/services/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/about/page": "app/about/page.js",
   "/contact-us/page": "app/contact-us/page.js",
+  "/licenses/page": "app/licenses/page.js",
+  "/page": "app/page.js",
+  "/resources/[id]/page": "app/resources/[id]/page.js",
   "/resources/page": "app/resources/page.js",
-  "/who-we-serve/page": "app/who-we-serve/page.js",
-  "/about/page": "app/about/page.js"
+  "/services/[id]/page": "app/services/[id]/page.js",
+  "/services/page": "app/services/page.js",
+  "/who-we-serve/[id]/page": "app/who-we-serve/[id]/page.js",
+  "/who-we-serve/page": "app/who-we-serve/page.js"
 }
