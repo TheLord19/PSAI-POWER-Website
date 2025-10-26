@@ -1,102 +1,121 @@
+// src/components/layout/Header.tsx
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faAnglesDown, 
   faMagnifyingGlass, 
   faXmark,
-  faChevronDown
+  faChevronDown,
+  faGlobe
 } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
+import Logo from '@/images/Logo(1).png'
 
 export default function Header() {
+  const { t, i18n } = useTranslation();
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Close language dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isLanguageOpen) {
+        setIsLanguageOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isLanguageOpen]);
+
   const navItems = [
     {
-      label: 'Services',
+      label: t('services'),
       href: '/services',
       dropdown: [
         {
-          heading: 'Consulting',
+          heading: t('consulting'),
           items: [
-            { label: 'Power System Design', href: '/services#consulting1' },
-            { label: 'Grid Modernization', href: '/services#consulting2' },
-            { label: 'Renewable Integration', href: '/services#consulting3' },
-            { label: 'Power Analysis', href: '/services#consulting4' },
+            { label: t('power-system-design'), href: '/services/power-system-design' },
+            { label: t('grid-modernization'), href: '/services/grid-modernization' },
+            { label: t('renewable-integration'), href: '/services/renewable-integration' },
+            { label: t('power-analysis'), href: '/services/system-analysis' },
           ],
         },
         {
-          heading: 'Maintenance',
+          heading: t('maintenance'),
           items: [
-            { label: 'Preventive Maintenance', href: '/services#maintenance1' },
-            { label: 'Corrective Maintenance', href: '/services#maintenance2' },
-            { label: 'System Optimization', href: '/services#maintenance3' },
+            { label: t('preventive-maintenance'), href: '/services/electrical-protection' },
+            { label: t('corrective-maintenance'), href: '/services/energy-audits' },
+            { label: t('system-optimization'), href: '/services' },
           ],
         },
       ],
     },
     {
-      label: 'Who We Serve',
+      label: t('who-we-serve'),
       href: '/who-we-serve',
       dropdown: [
         {
-          heading: 'Utilities & Grid Operators',
+          heading: t('utilities-grid-operators'),
           items: [
-            { label: 'Grid Reliability', href: '/who-we-serve#utilities' },
-            { label: 'Smart Grid Transition', href: '/who-we-serve#utilities2' },
+            { label: t('grid-reliability'), href: '/who-we-serve/utilities-grid-operators' },
+            { label: t('smart-grid-transition'), href: '/who-we-serve/utilities-grid-operators' },
           ],
         },
         {
-          heading: 'Renewable Energy',
+          heading: t('renewable-energy'),
           items: [
-            { label: 'Solar', href: '/who-we-serve#renewable-solar' },
-            { label: 'Wind', href: '/who-we-serve#renewable-wind' },
-            { label: 'Hydro', href: '/who-we-serve#renewable-hydro' },
-            { label: 'Energy Storage', href: '/who-we-serve#renewable-storage' },
+            { label: t('solar'), href: '/who-we-serve/renewable-energy' },
+            { label: t('wind'), href: '/who-we-serve/renewable-energy' },
+            { label: t('hydro'), href: '/who-we-serve/renewable-energy' },
+            { label: t('energy-storage'), href: '/who-we-serve/renewable-energy' },
           ],
         },
         {
-          heading: 'Industrial Manufacturing',
+          heading: t('industrial-manufacturing'),
           items: [
-            { label: 'Factories', href: '/who-we-serve#industrial-factories' },
-            { label: 'Production Plants', href: '/who-we-serve#industrial-plants' },
+            { label: t('factories'), href: '/who-we-serve/industrial-manufacturing' },
+            { label: t('production-plants'), href: '/who-we-serve/industrial-manufacturing' },
           ],
         },
         {
-          heading: 'Oil & Gas',
+          heading: t('oil-gas'),
           items: [
-            { label: 'Offshore Platforms', href: '/who-we-serve#oil-gas1' },
-            { label: 'Refineries', href: '/who-we-serve#oil-gas2' },
-            { label: 'Pipelines', href: '/who-we-serve#oil-gas3' },
+            { label: t('offshore-platforms'), href: '/who-we-serve/oil-gas' },
+            { label: t('refineries'), href: '/who-we-serve/oil-gas' },
+            { label: t('pipelines'), href: '/who-we-serve/oil-gas' },
           ],
         },
         {
-          heading: 'Government & Regulatory',
+          heading: t('government-regulatory'),
           items: [
-            { label: 'Consulting', href: '/who-we-serve#gov-consulting' },
-            { label: 'Compliance', href: '/who-we-serve#gov-compliance' },
+            { label: t('consulting'), href: '/who-we-serve/government-regulatory' },
+            { label: t('compliance'), href: '/who-we-serve/government-regulatory' },
           ],
         },
         {
-          heading: 'Mining Industry',
+          heading: t('mining-industry'),
           items: [
-            { label: 'Remote Power Supply', href: '/who-we-serve#mining1' },
-            { label: 'Heavy Equipment Power', href: '/who-we-serve#mining2' },
-            { label: 'Grid-Connected Solutions', href: '/who-we-serve#mining3' },
-            { label: 'Energy Optimization', href: '/who-we-serve#mining4' },
+            { label: t('remote-power-supply'), href: '/who-we-serve/mining-industry' },
+            { label: t('heavy-equipment-power'), href: '/who-we-serve/mining-industry' },
+            { label: t('grid-connected-solutions'), href: '/who-we-serve/mining-industry' },
+            { label: t('energy-optimization'), href: '/who-we-serve/mining-industry' },
           ],
         },
       ],
     },
-    { label: 'About', href: '/about' },
-    { label: 'Resources', href: '/resources' },
-    { label: 'Licenses', href: '/licenses' },
-    { label: 'Contact Us', href: '/contact-us' },
+    { label: t('about'), href: '/about' },
+    { label: t('resources'), href: '/resources' },
+    { label: t('licenses'), href: '/licenses' },
+    { label: t('contact-us'), href: '/contact-us' },
   ];
-
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState('EN');
-  const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,13 +138,22 @@ export default function Header() {
     return columns;
   };
 
+  const handleLanguageChange = (newLanguage: string) => {
+    i18n.changeLanguage(newLanguage);
+    setIsLanguageOpen(false);
+  };
+
   return (
     <>
       <header className="sticky top-0 z-50 bg-[#F5F5F5] text-[#222] shadow-[0_2px_15px_rgba(0,0,0,0.1)] py-2 font-['Segoe_UI',_system-ui,_sans-serif]">
         <div className="max-w-7xl mx-auto px-8 flex items-center justify-between relative">
-          <Link href="/" className="font-bold text-2xl text-[#333] no-underline mx-12 mr-16">
-            PSAI POWER
-          </Link>
+          <Link href="/" className="no-underline mx-12 mr-16">
+          <img 
+            src={Logo.src} // Use the imported image
+            alt="PSAI Power Inc."
+            className="h-13 w-auto"
+          />
+        </Link>
 
           <nav className="flex gap-1 ml-auto pr-8 whitespace-nowrap items-center">
             {navItems.map(({ label, href, dropdown }, index) => (
@@ -177,36 +205,56 @@ export default function Header() {
               </div>
             ))}
             
-            
+           
+              {/* Language Toggle Dropdown */}
+              <div className="relative ml-4">
+                  <button
+                    className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors border border-gray-300 rounded-md hover:border-blue-300 bg-white min-w-[80px] justify-between"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent event bubbling
+                      setIsLanguageOpen(!isLanguageOpen);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faGlobe} className="w-4 h-4" />
+                    <span>{i18n.language === 'en' ? 'EN' : 'FR'}</span>
+                    <FontAwesomeIcon 
+                      icon={faChevronDown} 
+                      className={`w-3 h-3 transition-transform ${isLanguageOpen ? 'rotate-180' : ''}`} 
+                    />
+                  </button>
 
-              
-
-{/* Language Toggle Dropdown */}
-<div className="relative group ml-4">
-  <button className="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors">
-    CA/EN
-    <FontAwesomeIcon 
-      icon={faChevronDown} 
-      className="w-3 h-3 ml-1 transition-transform group-hover:rotate-180" 
-    />
-  </button>
-
-  {/* Dropdown Menu */}
-  <div className="absolute right-0 top-full mt-1 w-32 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-    <button
-      onClick={() => setCurrentLanguage('EN')}
-      className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 transition-colors first:rounded-t-md"
-    >
-      CA/FR
-    </button>
-    <button
-      onClick={() => setCurrentLanguage('FR')}
-      className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 transition-colors last:rounded-b-md"
-    >
-      CA/FR
-    </button>
-  </div>
-</div>
+                  {isLanguageOpen && (
+                    <div 
+                      className="absolute right-0 top-full mt-1 w-32 bg-white border border-gray-200 rounded-md shadow-lg z-50"
+                      onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside dropdown
+                    >
+                      <div className="flex flex-col">
+                        <button
+                          onClick={() => {
+                            console.log('Changing to English');
+                            handleLanguageChange('en');
+                          }}
+                          className={`w-full px-4 py-3 text-left text-sm hover:bg-gray-100 transition-colors rounded-t-md ${
+                            i18n.language === 'en' ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-700'
+                          }`}
+                        >
+                          English
+                        </button>
+                        <button
+                          onClick={() => {
+                            console.log('Changing to French');
+                            handleLanguageChange('fr');
+                          }}
+                          className={`w-full px-4 py-3 text-left text-sm hover:bg-gray-100 transition-colors rounded-b-md ${
+                            i18n.language === 'fr' ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-700'
+                          }`}
+                        >
+                          Français
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
             {/* Search Button */}
             <button 
               className="bg-transparent border-none cursor-pointer p-2 text-[#333] ml-4 text-lg transition-colors hover:text-[#0078d4]"

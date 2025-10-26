@@ -1,0 +1,41 @@
+{
+  "about-hero-title": "About PSAI POWER",
+  "about-hero-subtitle": "Trusted global leader in power system design, protection, and control",
+  "about-content": "At PSAI POWER, we are a trusted global leader in power system design, protection, and control. With extensive experience across diverse regions, including North America, Latin America, the Caribbean, and Asia, we have successfully delivered innovative, reliable, and cost-effective power solutions for utilities, mines, and industrial clients.",
+  "about-mission-title": "Our Mission",
+  "about-mission-body": "We pride ourselves on our customer-centric approach, working closely with clients to develop tailored solutions that meet their specific needs. Our team is dedicated to delivering innovative power measurement and protection instruments that are easy to install and ensure minimal outage durations.",
+  "about-vision-title": "Our Vision",
+  "about-vision-body": "We go beyond traditional approaches to bring forward-thinking technologies that improve both the performance and reliability of power systems while minimizing disruptions. Our goal is to lead the industry in advanced grid optimization, renewable energy integration, and cutting-edge protection schemes.",
+  "about-expertise-title": "Our Expertise",
+  "about-expertise-body": "Our expertise spans a wide range of power system applications, including Distributed Energy Resource (DER) interconnections to the distribution grid with successful integrations up to 150MW. We understand the unique challenges each project presents and approach each one with a deep understanding of the technical and regulatory environments.",
+
+  "contact-hero-title": "Contact Us",
+  "contact-hero-subtitle": "We're here to help. Reach out to us for any inquiries or to discuss your next project.",
+  "contact-form-title": "Send Us a Message",
+  "contact-label-name": "Full Name",
+  "contact-label-email": "Email Address",
+  "contact-label-subject": "Subject",
+  "contact-label-message": "Message",
+  "contact-button-submit": "Send Message",
+  "contact-status-error": "Please fill in all fields.",
+  "contact-status-info": "Sending...",
+  "contact-status-success": "Thank you for your message! We will get back to you soon.",
+
+  "resource-technical-whitepapers-title": "Technical Whitepapers",
+  "resource-technical-whitepapers-content": "Access our library of technical whitepapers covering advanced power system design, protection schemes, grid modernization strategies, and renewable energy integration methodologies. These documents represent our cutting-edge research and practical implementations across North America.",
+  "resource-case-studies-title": "Case Studies",
+  "resource-case-studies-content": "Explore real-world case studies showcasing our successful power system projects. Learn about our work with utilities, industrial clients, and renewable energy providers. Each case study details the challenges faced, solutions implemented, and results achieved.",
+  "resource-integration-guides-title": "Integration Guides",
+  "resource-integration-guides-content": "Comprehensive guides for Distributed Energy Resource (DER) interconnections, renewable energy integration, and grid modernization. These technical documents provide step-by-step instructions, best practices, and regulatory compliance information.",
+  "resource-compliance-documents-title": "Compliance Documents",
+  "resource-compliance-documents-content": "Access regulatory compliance documentation, standards adherence guidelines, and certification materials. Ensure your power systems meet all necessary industry standards and governmental regulations.",
+  "resource-technical-briefs-title": "Technical Briefs",
+  "resource-technical-briefs-content": "Concise technical briefs covering specific power system topics, innovative solutions, and emerging technologies. Perfect for quick reference and staying updated with industry advancements.",
+  "resource-best-practices-title": "Best Practices",
+  "resource-best-practices-content": "Industry best practices for power system maintenance, optimization, and reliability. These documents compile decades of experience into actionable guidelines for optimal system performance.",
+  "resource-not-found": "Resource Not Found",
+  "resource-access-resources": "Access Resources",
+  "resource-access-content": "Contact us to request access to our full resource library or schedule a technical consultation."
+}
+
+
