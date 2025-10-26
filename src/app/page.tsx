@@ -92,7 +92,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Industries We Serve */}
+      {/* Industries We Serve
       <section className="py-24 bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
@@ -129,7 +129,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Stats Section
       <section className="py-24 bg-gradient-to-r from-blue-900 via-blue-800 to-purple-900 text-white">
