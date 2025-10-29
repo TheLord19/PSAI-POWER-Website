@@ -62,10 +62,10 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
             <address className="text-gray-400 not-italic">
-              <p className="mb-2">123 Energy Avenue</p>
-              <p className="mb-2">Power City, PC 12345</p>
-              <p className="mb-2">Email: info@psaipower.com</p>
-              <p className="mb-2">Phone: (123) 456-7890</p>
+              <p className="mb-2">1099 Gordon Avenue, Unit 3</p>
+              <p className="mb-2">Sudbery , P3A 2V5</p>
+              <p className="mb-2">Email: info@psaipowerinc.ca</p>
+              <p className="mb-2">Phone:+1 (705) 970-6244</p>
             </address>
           </div>
         </div>

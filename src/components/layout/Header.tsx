@@ -147,13 +147,21 @@ export default function Header() {
     <>
       <header className="sticky top-0 z-50 bg-[#F5F5F5] text-[#222] shadow-[0_2px_15px_rgba(0,0,0,0.1)] py-2 font-['Segoe_UI',_system-ui,_sans-serif]">
         <div className="max-w-7xl mx-auto px-8 flex items-center justify-between relative">
-          <Link href="/" className="no-underline mx-12 mr-16">
-          <img 
-            src={Logo.src} // Use the imported image
-            alt="PSAI Power Inc."
-            className="h-13 w-auto"
-          />
-        </Link>
+          <Link href="/" className="no-underline mx-12 mr-16 flex items-center">
+            <img 
+              src={Logo.src} 
+              alt="PSAI Power Inc."
+              className="h-16 w-auto object-contain" // Fixed height, consistent sizing
+              style={{ minWidth: '120px',
+                        maxWidth: '160px'
+               }} // Prevents extreme shrinking
+              onLoad={(e) => {
+                // Force reflow to prevent layout shift
+                e.currentTarget.style.opacity = '1';
+              }}
+              // style={{ opacity: 0, transition: 'opacity 0.3s' }} // Smooth appearance
+            />
+          </Link>
 
           <nav className="flex gap-1 ml-auto pr-8 whitespace-nowrap items-center">
             {navItems.map(({ label, href, dropdown }, index) => (

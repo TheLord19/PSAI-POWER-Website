@@ -1,10 +1,7 @@
 {
   "/page": "app/page.js",
-  "/who-we-serve/page": "app/who-we-serve/page.js",
   "/services/page": "app/services/page.js",
   "/services/[id]/page": "app/services/[id]/page.js",
-  "/resources/page": "app/resources/page.js",
-  "/about/page": "app/about/page.js",
-  "/contact-us/page": "app/contact-us/page.js",
-  "/licenses/page": "app/licenses/page.js"
+  "/who-we-serve/page": "app/who-we-serve/page.js",
+  "/contact-us/page": "app/contact-us/page.js"
 }
