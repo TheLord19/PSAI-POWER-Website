@@ -1,8 +1,7 @@
 {
-  "/licenses/page": "app/licenses/page.js",
-  "/about/page": "app/about/page.js",
+  "/page": "app/page.js",
   "/contact-us/page": "app/contact-us/page.js",
   "/resources/page": "app/resources/page.js",
-  "/resources/[id]/page": "app/resources/[id]/page.js",
-  "/services/page": "app/services/page.js"
+  "/licenses/page": "app/licenses/page.js",
+  "/about/page": "app/about/page.js"
 }

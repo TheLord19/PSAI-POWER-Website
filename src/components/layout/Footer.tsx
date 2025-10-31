@@ -29,9 +29,9 @@ export default function Footer() {
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
                 <FontAwesomeIcon icon={faLinkedinIn} className="w-5 h-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              {/* <a href="#" className="text-gray-400 hover:text-white transition-colors">
                 <FontAwesomeIcon icon={faInstagram} className="w-5 h-5" />
-              </a>
+              </a> */}
             </div>
           </div>
 
@@ -63,7 +63,7 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
             <address className="text-gray-400 not-italic">
               <p className="mb-2">1099 Gordon Avenue, Unit 3</p>
-              <p className="mb-2">Sudbury , P3A 2V5</p>
+              <p className="mb-2">Sudbury, P3A 2V5</p>
               <p className="mb-2">Email: info@psaipowerinc.ca</p>
               <p className="mb-2">Phone:+1 (705) 970-6244</p>
             </address>

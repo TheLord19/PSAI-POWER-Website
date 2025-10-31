@@ -59,7 +59,7 @@ export default function Header() {
       ],
     },
     {
-      label: t('who-we-serve'),
+      label: t('who we serve'),
       href: '/who-we-serve',
       dropdown: [
         {
@@ -114,7 +114,7 @@ export default function Header() {
     { label: t('about'), href: '/about' },
     { label: t('resources'), href: '/resources' },
     { label: t('licenses'), href: '/licenses' },
-    { label: t('contact-us'), href: '/contact-us' },
+    { label: t('contact us'), href: '/contact-us' },
   ];
 
   const handleSearch = (e: React.FormEvent) => {
@@ -173,19 +173,33 @@ export default function Header() {
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
-                <Link 
+                {/* cornor accent  */}
+                      {/* <Link 
                   href={href} 
-                  className="text-[#333] no-underline font-semibold text-sm px-4 py-2.5 inline-flex items-center justify-center gap-1.5 transition-all rounded group-hover:bg-black/8 group-hover:text-[#0078d4]"
+                  className="text-[#333] no-underline font-semibold text-sm px-4 py-2.5 flex items-center justify-center transition-all rounded group-hover:bg-black/8 group-hover:text-[#0078d4] relative"
                 >
                   {label.toUpperCase()}
                   {dropdown && (
-                    <FontAwesomeIcon
-                      icon={faAnglesDown}
-                      className="text-xs opacity-0 -translate-y-0.75 transition-all group-hover:opacity-100 group-hover:translate-y-0 ml-1.5 animate-bounce-alt"
-                    />
+                    <>
+                      <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-[#0078d4] opacity-0 transition-all group-hover:opacity-100"></div>
+                      <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-[#0078d4] opacity-0 transition-all group-hover:opacity-100"></div>
+                    </>
+                  )}
+                </Link> */}
+                <Link 
+                  href={href} 
+                  className="text-[#333] no-underline font-semibold text-sm px-4 py-2.5 flex items-center justify-center transition-all rounded group-hover:bg-black/8 group-hover:text-[#0078d4] relative"
+                >
+                  {label.toUpperCase()}
+                  {dropdown && (
+                    <div className="absolute -right-3 top-1/2 transform -translate-y-1/2 opacity-0 transition-all group-hover:opacity-100">
+                      <FontAwesomeIcon
+                        icon={faAnglesDown}
+                        className="text-xs text-[#0078d4] animate-bounce-alt"
+                      />
+                    </div>
                   )}
                 </Link>
-
                 {dropdown && hoveredIndex === index && (
                   <div className="absolute top-full left-0 mt-1.5 bg-[#012e69] border border-white/10 shadow-lg rounded flex gap-8 p-4 z-[1500]">
                     {splitColumns(dropdown).map((column, colIdx) => (

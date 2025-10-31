@@ -40,7 +40,7 @@ const resources = [
 
 export default function ResourcesPage() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gray-50"> {/* Removed py-12 */}
 
       <section
         className="relative bg-cover bg-center text-white py-28 px-4"
@@ -54,21 +54,22 @@ export default function ResourcesPage() {
           </p>
         </div>
       </section>
-      <div className="py-12">
+
+      <div className="py-12"> {/* Keep this for spacing between hero and cards */}
         <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {resources.map(({ id, title, description }) => (
-            <Link href={`/resources/${id}`} key={id} className="block">
-              <Card 
-                title={title} 
-                description={description}
-                className="h-full hover:shadow-lg transition-shadow cursor-pointer"
-              />
-            </Link>
-          ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {resources.map(({ id, title, description }) => (
+              <Link href={`/resources/${id}`} key={id} className="block">
+                <Card 
+                  title={title} 
+                  description={description}
+                  className="h-full hover:shadow-lg transition-shadow cursor-pointer"
+                />
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
