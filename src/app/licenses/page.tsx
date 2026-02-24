@@ -70,7 +70,7 @@ export default function LicensesPage() {
                 logoContent: (
                   <div className="flex flex-col items-center justify-center w-full h-full">
                     <span className="text-2xl font-black tracking-tight text-white leading-none">WSIB</span>
-                    <span className="text-[9px] font-semibold text-orange-100 tracking-widest uppercase mt-0.5 text-center leading-tight">Safety &<br />Insurance</span>
+                    <span className="text-[9px] font-semibold text-orange-100 tracking-widest uppercase mt-0.5 text-center leading-tight">{"Safety & Insurance"}</span>
                   </div>
                 )
               },
@@ -98,7 +98,7 @@ export default function LicensesPage() {
                 logoContent: (
                   <div className="flex flex-col items-center justify-center w-full h-full">
                     <span className="text-2xl font-black tracking-tight text-white leading-none">IEEE</span>
-                    <span className="text-[8px] font-semibold text-blue-200 tracking-wider uppercase mt-0.5 text-center leading-tight">Electrical &<br />Electronics</span>
+                    <span className="text-[8px] font-semibold text-blue-200 tracking-wider uppercase mt-0.5 text-center leading-tight">{"Electrical & Electronics"}</span>
                   </div>
                 )
               }
