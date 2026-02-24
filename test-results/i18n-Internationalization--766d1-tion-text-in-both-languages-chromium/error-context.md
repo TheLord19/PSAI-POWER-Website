@@ -1,0 +1,123 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "PSAI Power Inc." [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "PSAI Power Inc." [ref=e5]
+      - navigation [ref=e6]:
+        - link "SERVICES" [ref=e8] [cursor=pointer]:
+          - /url: /services
+          - text: SERVICES
+          - img [ref=e9]
+        - link "QUI NOUS SERVONS" [ref=e12] [cursor=pointer]:
+          - /url: /who-we-serve
+          - text: QUI NOUS SERVONS
+          - img [ref=e13]
+        - link "À PROPOS" [ref=e16] [cursor=pointer]:
+          - /url: /about
+        - link "RESSOURCES" [ref=e18] [cursor=pointer]:
+          - /url: /resources
+        - link "LICENCES" [ref=e20] [cursor=pointer]:
+          - /url: /licenses
+        - link "CONTACTEZ-NOUS" [ref=e22] [cursor=pointer]:
+          - /url: /contact-us
+        - generic [ref=e23]:
+          - button "EN" [ref=e24] [cursor=pointer]
+          - button "FR" [active] [ref=e25] [cursor=pointer]
+  - main [ref=e26]:
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - img "Licenses Background" [ref=e30]
+        - generic [ref=e32]:
+          - heading "Licences et Certifications" [level=1] [ref=e33]
+          - paragraph [ref=e34]: Nos références et certifications de conformité réglementaire
+      - generic [ref=e37]:
+        - generic [ref=e40]:
+          - img [ref=e42]
+          - generic [ref=e45]: Professional License
+          - heading "Professional Engineers Ontario" [level=3] [ref=e46]
+          - paragraph [ref=e47]: PEO
+        - generic [ref=e50]:
+          - img [ref=e52]
+          - generic [ref=e55]: Professional License
+          - heading "Engineers & Geoscientists British Columbia" [level=3] [ref=e56]
+          - paragraph [ref=e57]: EGBC
+        - generic [ref=e60]:
+          - img [ref=e62]
+          - generic [ref=e67]: Safety Certification
+          - heading "Workplace Safety & Insurance Board" [level=3] [ref=e68]
+          - paragraph [ref=e69]: WSIB
+        - generic [ref=e72]:
+          - img [ref=e74]
+          - generic [ref=e77]: Professional License
+          - heading "Engineers Geoscientists Manitoba" [level=3] [ref=e78]
+          - paragraph [ref=e79]: EngGeoMB
+        - generic [ref=e82]:
+          - img [ref=e84]
+          - generic [ref=e86]: Membership
+          - heading "Institute of Electrical and Electronics Engineers" [level=3] [ref=e87]
+          - paragraph [ref=e88]: IEEE
+  - contentinfo [ref=e89]:
+    - generic [ref=e90]:
+      - generic [ref=e91]:
+        - generic [ref=e92]:
+          - heading "PSAI POWER" [level=3] [ref=e93]
+          - paragraph [ref=e94]: Propulser l'avenir avec des solutions d'IA innovantes pour le secteur de l'énergie.
+          - generic [ref=e95]:
+            - link [ref=e96] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e97]
+            - link [ref=e99] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e100]
+            - link [ref=e102] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e103]
+        - generic [ref=e105]:
+          - heading "Services" [level=4] [ref=e106]
+          - list [ref=e107]:
+            - listitem [ref=e108]:
+              - link "Conception de Systèmes Électriques" [ref=e109] [cursor=pointer]:
+                - /url: /services#consulting
+            - listitem [ref=e110]:
+              - link "Modernisation du Réseau" [ref=e111] [cursor=pointer]:
+                - /url: /services#consulting
+            - listitem [ref=e112]:
+              - link "Intégration Renouvelable" [ref=e113] [cursor=pointer]:
+                - /url: /services#consulting
+            - listitem [ref=e114]:
+              - link "Maintenance Préventive" [ref=e115] [cursor=pointer]:
+                - /url: /services#maintenance
+        - generic [ref=e116]:
+          - heading "Liens Rapides" [level=4] [ref=e117]
+          - list [ref=e118]:
+            - listitem [ref=e119]:
+              - link "À Propos" [ref=e120] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e121]:
+              - link "Nos Services" [ref=e122] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e123]:
+              - link "Qui Nous Servons" [ref=e124] [cursor=pointer]:
+                - /url: /who-we-serve
+            - listitem [ref=e125]:
+              - link "Ressources" [ref=e126] [cursor=pointer]:
+                - /url: /resources
+            - listitem [ref=e127]:
+              - link "Contactez-nous" [ref=e128] [cursor=pointer]:
+                - /url: /contact-us
+        - generic [ref=e129]:
+          - heading "Coordonnées" [level=4] [ref=e130]
+          - generic [ref=e131]:
+            - paragraph [ref=e132]: 1099 Gordon Avenue, Unité 3
+            - paragraph [ref=e133]: Sudbury, P3A 2V5
+            - paragraph [ref=e134]: "Email: info@psaipowerinc.ca"
+            - paragraph [ref=e135]: "Phone: +1 (705) 970-6244"
+      - paragraph [ref=e137]: © 2026 PSAI POWER. Tous droits réservés.
+  - button "Open Next.js Dev Tools" [ref=e143] [cursor=pointer]:
+    - img [ref=e144]
+  - alert [ref=e147]
+```

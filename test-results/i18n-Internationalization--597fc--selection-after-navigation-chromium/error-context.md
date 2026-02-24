@@ -1,0 +1,167 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "PSAI Power Inc." [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "PSAI Power Inc." [ref=e5]
+      - navigation [ref=e6]:
+        - link "SERVICES" [ref=e8] [cursor=pointer]:
+          - /url: /services
+          - text: SERVICES
+          - img [ref=e9]
+        - link "QUI NOUS SERVONS" [ref=e12] [cursor=pointer]:
+          - /url: /who-we-serve
+          - text: QUI NOUS SERVONS
+          - img [ref=e13]
+        - link "À PROPOS" [active] [ref=e16] [cursor=pointer]:
+          - /url: /about
+        - link "RESSOURCES" [ref=e18] [cursor=pointer]:
+          - /url: /resources
+        - link "LICENCES" [ref=e20] [cursor=pointer]:
+          - /url: /licenses
+        - link "CONTACTEZ-NOUS" [ref=e22] [cursor=pointer]:
+          - /url: /contact-us
+        - generic [ref=e23]:
+          - button "EN" [ref=e24] [cursor=pointer]
+          - button "FR" [ref=e25] [cursor=pointer]
+  - main [ref=e26]:
+    - generic [ref=e28]:
+      - generic [ref=e34]:
+        - generic [ref=e36]: L'Ingénierie du Futur
+        - heading "Propulser le Progrès par l'Excellence en Ingénierie" [level=1] [ref=e37]:
+          - text: Propulser le Progrès par
+          - text: l'Excellence en Ingénierie
+        - paragraph [ref=e38]: Solutions avancées de systèmes électriques pour les services publics, l'industrie et l'intégration des énergies renouvelables à travers l'Amérique du Nord et au-delà.
+        - generic [ref=e39]:
+          - link "Explorer les Services" [ref=e40] [cursor=pointer]:
+            - /url: /services
+            - generic [ref=e41]:
+              - text: Explorer les Services
+              - img [ref=e42]
+          - link "Contactez-nous" [ref=e44] [cursor=pointer]:
+            - /url: /contact-us
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - heading "Solutions Principales" [level=2] [ref=e48]
+          - paragraph [ref=e50]: Ingénierie complète des systèmes électriques conçue pour la fiabilité, l'efficacité et la durabilité.
+        - generic [ref=e51]:
+          - link "Power System Design Services de conception de bout en bout, des études de faisabilité à la mise en œuvre finale et aux tests. En savoir plus" [ref=e52] [cursor=pointer]:
+            - /url: /services/power-system-design
+            - generic [ref=e53]:
+              - img [ref=e55]
+              - heading "Power System Design" [level=3] [ref=e57]
+              - paragraph [ref=e58]: Services de conception de bout en bout, des études de faisabilité à la mise en œuvre finale et aux tests.
+              - generic [ref=e59]:
+                - text: En savoir plus
+                - img [ref=e60]
+          - link "Grid Modernization Solutions avancées pour moderniser et optimiser l'infrastructure électrique existante. En savoir plus" [ref=e62] [cursor=pointer]:
+            - /url: /services/grid-modernization
+            - generic [ref=e63]:
+              - img [ref=e65]
+              - heading "Grid Modernization" [level=3] [ref=e68]
+              - paragraph [ref=e69]: Solutions avancées pour moderniser et optimiser l'infrastructure électrique existante.
+              - generic [ref=e70]:
+                - text: En savoir plus
+                - img [ref=e71]
+          - link "Renewable Integration Intégration transparente des systèmes solaires, éoliens, hydroélectriques et de stockage au réseau. En savoir plus" [ref=e73] [cursor=pointer]:
+            - /url: /services/renewable-integration
+            - generic [ref=e74]:
+              - img [ref=e76]
+              - heading "Renewable Integration" [level=3] [ref=e79]
+              - paragraph [ref=e80]: Intégration transparente des systèmes solaires, éoliens, hydroélectriques et de stockage au réseau.
+              - generic [ref=e81]:
+                - text: En savoir plus
+                - img [ref=e82]
+        - link "Voir Tous les Services" [ref=e85] [cursor=pointer]:
+          - /url: /services
+          - text: Voir Tous les Services
+          - img [ref=e86]
+      - generic [ref=e90]:
+        - generic [ref=e91]:
+          - img [ref=e93]
+          - generic [ref=e99]: 75+
+          - generic [ref=e100]: Projects Completed
+        - generic [ref=e101]:
+          - img [ref=e103]
+          - generic [ref=e107]: 22+
+          - generic [ref=e108]: Years Experience
+        - generic [ref=e109]:
+          - img [ref=e111]
+          - generic [ref=e114]: 7+
+          - generic [ref=e115]: Countries
+        - generic [ref=e116]:
+          - img [ref=e118]
+          - generic [ref=e121]: 5+
+          - generic [ref=e122]: Global Reach
+      - generic [ref=e125]:
+        - heading "Prêt à Transformer Vos Systèmes Électriques ?" [level=2] [ref=e126]
+        - paragraph [ref=e127]: Rejoignez des centaines de clients satisfaits qui font confiance à PSAI POWER pour des solutions électriques innovantes, fiables et rentables.
+        - generic [ref=e128]:
+          - link "Démarrer Votre Projet" [ref=e129] [cursor=pointer]:
+            - /url: /contact-us
+          - link "Explorer les Solutions" [ref=e130] [cursor=pointer]:
+            - /url: /services
+  - contentinfo [ref=e131]:
+    - generic [ref=e132]:
+      - generic [ref=e133]:
+        - generic [ref=e134]:
+          - heading "PSAI POWER" [level=3] [ref=e135]
+          - paragraph [ref=e136]: Propulser l'avenir avec des solutions d'IA innovantes pour le secteur de l'énergie.
+          - generic [ref=e137]:
+            - link [ref=e138] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e139]
+            - link [ref=e141] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e142]
+            - link [ref=e144] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e145]
+        - generic [ref=e147]:
+          - heading "Services" [level=4] [ref=e148]
+          - list [ref=e149]:
+            - listitem [ref=e150]:
+              - link "Conception de Systèmes Électriques" [ref=e151] [cursor=pointer]:
+                - /url: /services#consulting
+            - listitem [ref=e152]:
+              - link "Modernisation du Réseau" [ref=e153] [cursor=pointer]:
+                - /url: /services#consulting
+            - listitem [ref=e154]:
+              - link "Intégration Renouvelable" [ref=e155] [cursor=pointer]:
+                - /url: /services#consulting
+            - listitem [ref=e156]:
+              - link "Maintenance Préventive" [ref=e157] [cursor=pointer]:
+                - /url: /services#maintenance
+        - generic [ref=e158]:
+          - heading "Liens Rapides" [level=4] [ref=e159]
+          - list [ref=e160]:
+            - listitem [ref=e161]:
+              - link "À Propos" [ref=e162] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e163]:
+              - link "Nos Services" [ref=e164] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e165]:
+              - link "Qui Nous Servons" [ref=e166] [cursor=pointer]:
+                - /url: /who-we-serve
+            - listitem [ref=e167]:
+              - link "Ressources" [ref=e168] [cursor=pointer]:
+                - /url: /resources
+            - listitem [ref=e169]:
+              - link "Contactez-nous" [ref=e170] [cursor=pointer]:
+                - /url: /contact-us
+        - generic [ref=e171]:
+          - heading "Coordonnées" [level=4] [ref=e172]
+          - generic [ref=e173]:
+            - paragraph [ref=e174]: 1099 Gordon Avenue, Unité 3
+            - paragraph [ref=e175]: Sudbury, P3A 2V5
+            - paragraph [ref=e176]: "Email: info@psaipowerinc.ca"
+            - paragraph [ref=e177]: "Phone: +1 (705) 970-6244"
+      - paragraph [ref=e179]: © 2026 PSAI POWER. Tous droits réservés.
+  - button "Open Next.js Dev Tools" [ref=e185] [cursor=pointer]:
+    - img [ref=e186]
+  - alert [ref=e189]
+```

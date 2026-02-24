@@ -1,142 +1,185 @@
 // src/app/services/page.tsx
 'use client';
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
-
-const services = [
-  {
-    id: 'power-system-design',
-    title: 'Power System Design & Engineering',
-    description: 'End-to-end design services from feasibility studies to final implementation and testing.',
-    features: [
-      'Customized System Design',
-      'Substation Design & Configuration', 
-      'Feasibility Studies & Planning',
-      'Component Selection & Sizing',
-      'Project Management'
-    ]
-  },
-  {
-    id: 'grid-modernization',
-    title: 'Grid Modernization & Optimization', 
-    description: 'Advanced solutions to modernize and optimize existing power grids.',
-    features: [
-      'Smart Grid Integration',
-      'Substation Upgrades',
-      'Energy Storage Solutions',
-      'Advanced Grid Control Systems',
-      'Demand Response Programs'
-    ]
-  },
-  {
-    id: 'renewable-integration',
-    title: 'Renewable Energy Integration',
-    description: 'Comprehensive solutions for integrating solar, wind, hydro, and storage into the grid.',
-    features: [
-      'Interconnection Studies',
-      'Hybrid System Design',
-      'Grid Stability Optimization',
-      'Regulatory Compliance Support',
-      'Substation Integration'
-    ]
-  },
-  {
-    id: 'system-analysis',
-    title: 'Power System Analysis & Simulation',
-    description: 'Detailed system performance analysis using state-of-the-art software tools.',
-    features: [
-      'Load Flow Studies',
-      'Fault Analysis & Protection Coordination',
-      'Dynamic Stability Analysis',
-      'Contingency Analysis',
-      'Power Quality Analysis'
-    ]
-  },
-  {
-    id: 'electrical-protection', 
-    title: 'Electrical System Protection',
-    description: 'Design and optimization of protection schemes for safety and reliability.',
-    features: [
-      'Relay Coordination',
-      'Short-Circuit Analysis',
-      'Arc Flash Analysis',
-      'Backup Protection Systems',
-      'System-wide Protection Optimization'
-    ]
-  },
-  {
-    id: 'energy-audits',
-    title: 'Energy Audits & Efficiency Studies',
-    description: 'Identify inefficiencies and suggest optimization strategies.',
-    features: [
-      'Energy Consumption Analysis',
-      'System Optimization',
-      'Cost-Benefit Analysis',
-      'Compliance & Sustainability',
-      'Regulatory Support'
-    ]
-  }
-];
+import { useTranslation } from 'react-i18next';
+import { Zap, Settings2, Leaf, Activity, ShieldCheck, BarChart3, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export default function ServicesPage() {
+  const { t } = useTranslation();
+
+  const services = [
+    {
+      id: 'power-system-design',
+      title: t('service-psd-title'),
+      description: t('service-psd-desc'),
+      image: "https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      features: [
+        t('service-psd-f1'),
+        t('service-psd-f2'),
+        t('service-psd-f3'),
+        t('service-psd-f4'),
+        t('service-psd-f5')
+      ]
+    },
+    {
+      id: 'grid-modernization',
+      title: t('service-gmo-title'),
+      description: t('service-gmo-desc'),
+      image: "https://images.pexels.com/photos/2678468/pexels-photo-2678468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      features: [
+        t('service-gmo-f1'),
+        t('service-gmo-f2'),
+        t('service-gmo-f3'),
+        t('service-gmo-f4'),
+        t('service-gmo-f5')
+      ]
+    },
+    {
+      id: 'renewable-integration',
+      title: t('service-rei-title'),
+      description: t('service-rei-desc'),
+      image: "https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      features: [
+        t('service-rei-f1'),
+        t('service-rei-f2'),
+        t('service-rei-f3'),
+        t('service-rei-f4'),
+        t('service-rei-f5')
+      ]
+    },
+    {
+      id: 'system-analysis',
+      title: t('service-pas-title'),
+      description: t('service-pas-desc'),
+      image: "https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      features: [
+        t('service-pas-f1'),
+        t('service-pas-f2'),
+        t('service-pas-f3'),
+        t('service-pas-f4'),
+        t('service-pas-f5')
+      ]
+    },
+    {
+      id: 'electrical-protection',
+      title: t('service-esp-title'),
+      description: t('service-esp-desc'),
+      image: "https://images.pexels.com/photos/257700/pexels-photo-257700.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      features: [
+        t('service-esp-f1'),
+        t('service-esp-f2'),
+        t('service-esp-f3'),
+        t('service-esp-f4'),
+        t('service-esp-f5')
+      ]
+    },
+    {
+      id: 'energy-audits',
+      title: t('service-aes-title'),
+      description: t('service-aes-desc'),
+      image: "https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      features: [
+        t('service-aes-f1'),
+        t('service-aes-f2'),
+        t('service-aes-f3'),
+        t('service-aes-f4'),
+        t('service-aes-f5')
+      ]
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Add this Hero Section */}
-      <section
-        className="relative bg-cover bg-center text-white py-28 px-4"
-        style={{ backgroundImage: `url('https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')` }}
-      >
-        <div className="absolute inset-0 bg-blue-900 opacity-60"></div>
-        <div className="relative max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Services</h1>
-          <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-            Comprehensive power system solutions tailored to your specific needs
+      {/* Hero Section */}
+      {/* Hero Section */}
+      <section className="relative overflow-hidden text-white py-32 px-4">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/hero/services.jpg"
+            alt="Services Background"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-[#0B1120]/80 backdrop-blur-[2px]"></div>
+        </div>
+
+        {/* Abstract Shapes (Optional: kept subtle or removed to focus on image) */}
+        <div className="absolute inset-0 z-0 opacity-30 pointer-events-none">
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-[100px] animate-pulse"></div>
+          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[120px]"></div>
+        </div>
+
+        <div className="relative z-10 text-center max-w-4xl mx-auto">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight drop-shadow-lg">
+            {t('services-hero-title')}
+          </h1>
+          <p className="text-xl text-slate-200 max-w-2xl mx-auto leading-relaxed font-light drop-shadow-md">
+            {t('services-hero-subtitle')}
           </p>
         </div>
       </section>
 
-      {/* Keep the existing content below */}
-      <div className="py-12">
-        <div className="max-w-7xl mx-auto px-6">
-          {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      {/* Services Grid */}
+      <section className="py-24 bg-slate-50 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {services.map((service) => (
-              <Link 
-                key={service.id} 
-                href={`/services/${service.id}`}
-                className="block group"
+              <div
+                key={service.id}
+                className="group bg-white rounded-2xl overflow-hidden shadow-md border border-slate-200 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
               >
-                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 h-full transition-all duration-300 hover:shadow-xl hover:border-blue-300">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 text-sm">
-                    {service.description}
-                  </p>
-                  <div className="space-y-2">
-                    {service.features.slice(0, 3).map((feature, index) => (
-                      <div key={index} className="flex items-center">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                        <span className="text-sm text-gray-700">{feature}</span>
-                      </div>
-                    ))}
-                    {service.features.length > 3 && (
-                      <p className="text-sm text-blue-600 font-medium mt-2">
-                        +{service.features.length - 3} more features
-                      </p>
-                    )}
-                  </div>
-                  <div className="mt-4 pt-4 border-t border-gray-100">
-                    <span className="text-blue-600 text-sm font-semibold group-hover:underline">
-                      Learn more →
-                    </span>
+                {/* Service Image */}
+                <div className="relative h-64 w-full overflow-hidden bg-slate-100">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <h3 className="text-2xl font-bold text-white drop-shadow-lg">
+                      {service.title}
+                    </h3>
                   </div>
                 </div>
-              </Link>
+
+                {/* Service Content */}
+                <div className="p-8">
+                  <p className="text-slate-600 mb-6 leading-relaxed">
+                    {service.description}
+                  </p>
+
+                  <ul className="space-y-3 mb-6">
+                    {service.features.slice(0, 3).map((feature, index) => (
+                      <li key={index} className="flex items-start text-slate-700 text-sm">
+                        <CheckCircle2 className="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                    <li className="text-slate-400 text-sm italic pl-8">
+                      + more features
+                    </li>
+                  </ul>
+
+                  <Link
+                    href={`/services/${service.id}`}
+                    className="inline-flex items-center font-semibold text-blue-600 group-hover:text-blue-700 transition-colors"
+                  >
+                    Learn More
+                    <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </div>
+              </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
-}
+};

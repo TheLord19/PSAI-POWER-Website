@@ -4,3 +4,5 @@ out/
 dist/
 .env
 .DS_Store
+reports/
+op_modes.md

@@ -1,126 +1,133 @@
 // src/app/licenses/page.tsx
 'use client';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
+import Image from 'next/image';
+import { ShieldCheck, Award, HardHat, Globe, Zap } from 'lucide-react'; // kept for potential future use
 
 export default function LicensesPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section
-        className="relative bg-cover bg-center text-white py-28 px-4"
-        style={{ backgroundImage: `url('https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')` }}
-      >
-        <div className="absolute inset-0 bg-orange-900 opacity-60"></div>
-        <div className="relative max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Licenses & Certifications</h1>
+      <section className="relative text-white py-28 px-4 overflow-hidden">
+        <Image
+          src="/images/hero/licenses.jpg"
+          alt="Licenses Background"
+          fill
+          className="object-cover object-center z-0"
+          priority
+        />
+        <div className="absolute inset-0 bg-orange-900 opacity-60 z-10"></div>
+        <div className="relative max-w-7xl mx-auto text-center z-20">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">{t('licenses-hero-title')}</h1>
           <p className="text-xl text-orange-100 max-w-3xl mx-auto">
-            Our credentials and regulatory compliance certifications
+            {t('licenses-hero-subtitle')}
           </p>
         </div>
       </section>
 
-      {/* Under Construction Section */}
-      <div className="max-w-4xl mx-auto px-6 py-16">
-        <div className="bg-white rounded-xl shadow-lg p-12 text-center">
-          
-          {/* Sharper Construction Animation with Clock */}
-          <div className="flex justify-center mb-8">
-            <div className="relative w-32 h-32">
-              {/* Outer rotating ring - SLOWER */}
-              <div className="absolute inset-0 border-4 border-blue-500 border-dashed rounded-full animate-spin-very-slow"></div>
-              
-              {/* Clock Face */}
-              <div className="absolute inset-2 bg-white rounded-full shadow-inner">
-                {/* Clock Center - Positioned slightly below center */}
-                <div className="absolute top-[50%] left-1/2 w-3 h-3 bg-blue-600 rounded-full transform -translate-x-1/2 -translate-y-1/2 z-10"></div>
+      {/* Licenses Grid */}
+      <section className="py-24 px-4 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                id: 'peo',
+                name: "Professional Engineers Ontario",
+                acronym: "PEO",
+                type: "Professional License",
+                color: "blue",
+                logoBg: "bg-blue-700",
+                logoContent: (
+                  <div className="flex flex-col items-center justify-center w-full h-full">
+                    <span className="text-2xl font-black tracking-tight text-white leading-none">PEO</span>
+                    <span className="text-[9px] font-semibold text-blue-200 tracking-widest uppercase mt-0.5 text-center leading-tight">Engineers<br />Ontario</span>
+                  </div>
+                )
+              },
+              {
+                id: 'egbc',
+                name: "Engineers & Geoscientists British Columbia",
+                acronym: "EGBC",
+                type: "Professional License",
+                color: "emerald",
+                logoBg: "bg-white border border-slate-200",
+                logoContent: (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src="/images/logos/egbc.png" alt="EGBC Logo" className="w-full h-full object-contain p-1" />
+                )
+              },
+              {
+                id: 'wsib',
+                name: "Workplace Safety & Insurance Board",
+                acronym: "WSIB",
+                type: "Safety Certification",
+                color: "orange",
+                logoBg: "bg-orange-600",
+                logoContent: (
+                  <div className="flex flex-col items-center justify-center w-full h-full">
+                    <span className="text-2xl font-black tracking-tight text-white leading-none">WSIB</span>
+                    <span className="text-[9px] font-semibold text-orange-100 tracking-widest uppercase mt-0.5 text-center leading-tight">Safety &<br />Insurance</span>
+                  </div>
+                )
+              },
+              {
+                id: 'enggeomb',
+                name: "Engineers Geoscientists Manitoba",
+                acronym: "EngGeoMB",
+                type: "Professional License",
+                color: "indigo",
+                logoBg: "bg-indigo-700",
+                logoContent: (
+                  <div className="flex flex-col items-center justify-center w-full h-full">
+                    <span className="text-xl font-black tracking-tight text-white leading-none">EGM</span>
+                    <span className="text-[9px] font-semibold text-indigo-200 tracking-widest uppercase mt-0.5 text-center leading-tight">Engineers<br />Geosci. MB</span>
+                  </div>
+                )
+              },
+              {
+                id: 'ieee',
+                name: "Institute of Electrical and Electronics Engineers",
+                acronym: "IEEE",
+                type: "Membership",
+                color: "cyan",
+                logoBg: "bg-[#00629B]",
+                logoContent: (
+                  <div className="flex flex-col items-center justify-center w-full h-full">
+                    <span className="text-2xl font-black tracking-tight text-white leading-none">IEEE</span>
+                    <span className="text-[8px] font-semibold text-blue-200 tracking-wider uppercase mt-0.5 text-center leading-tight">Electrical &<br />Electronics</span>
+                  </div>
+                )
+              }
+            ].map((license) => (
+              <div key={license.id} className="group bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                <div className={`absolute top-0 right-0 w-32 h-32 bg-${license.color}-50 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-500`}></div>
 
-                {/* Hour Hand - VERY SLOW moving */}
-                <div className="absolute top-[33%] left-1/2 w-1 h-8 bg-blue-800 rounded-full transform -translate-x-1/2 -translate-y-1/2 origin-[50%_100%] animate-hour-hand-very-slow"></div>
+                <div className="relative z-10">
+                  <div className={`w-20 h-20 ${license.logoBg} rounded-2xl flex items-center justify-center mb-6 group-hover:shadow-md transition-all overflow-hidden`}>
+                    {license.logoContent}
+                  </div>
 
-                {/* Minute Hand - SLOW moving */}
-                <div className="absolute top-[31%] left-1/2 w-1 h-10 bg-blue-600 rounded-full transform -translate-x-1/2 -translate-y-1/2 origin-[50%_100%] animate-minute-hand-slow"></div>
+                  <div className="inline-block px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold tracking-wider uppercase mb-4">
+                    {license.type}
+                  </div>
 
-                {/* Second Hand - MEDIUM moving */}
-                <div className="absolute top-[26%] left-1/2 w-0.5 h-12 bg-red-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 origin-[50%_100%] animate-second-hand-medium"></div>
-                
-                
+                  <h3 className="text-xl font-bold text-slate-900 mb-2 leading-tight">
+                    {license.name}
+                  </h3>
+
+                  <p className="text-slate-500 font-mono text-sm">
+                    {license.acronym}
+                  </p>
+                </div>
               </div>
-              
-              
-            </div>
-          </div>
-
-          {/* Moving Text Animation */}
-          <div className="mb-8">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4 animate-pulse">
-              Page Under Construction
-            </h2>
-            <div className="flex justify-center space-x-2 mb-6">
-              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></div>
-              <div className="w-3 h-3 bg-green-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-              <div className="w-3 h-3 bg-yellow-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-              <div className="w-3 h-3 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>
-            </div>
-          </div>
-
-          {/* Animated Progress Bar - 50% and slower */}
-          <div className="mb-8">
-            <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
-              <div 
-                className="bg-gradient-to-r from-blue-500 to-purple-600 h-4 rounded-full animate-progress-slow"
-                style={{ width: '50%' }}
-              ></div>
-            </div>
-            <p className="text-gray-600 text-sm">We're working hard to bring you this content - 50% complete</p>
-          </div>
-
-          {/* Content Preview */}
-          <div className="bg-gray-50 rounded-lg p-6 mb-8 border-2 border-dashed border-gray-300">
-            <h3 className="text-xl font-semibold text-gray-700 mb-4">Coming Soon:</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-              <div className="space-y-2">
-                <p className="text-gray-600 flex items-center">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3 animate-pulse"></span>
-                  Professional Engineering Licenses
-                </p>
-                <p className="text-gray-600 flex items-center">
-                  <span className="w-2 h-2 bg-green-500 rounded-full mr-3 animate-pulse"></span>
-                  Safety Certifications
-                </p>
-                <p className="text-gray-600 flex items-center">
-                  <span className="w-2 h-2 bg-yellow-500 rounded-full mr-3 animate-pulse"></span>
-                  Compliance Documentation
-                </p>
-              </div>
-              <div className="space-y-2">
-                <p className="text-gray-600 flex items-center">
-                  <span className="w-2 h-2 bg-purple-500 rounded-full mr-3 animate-pulse"></span>
-                  Industry Accreditations
-                </p>
-                <p className="text-gray-600 flex items-center">
-                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3 animate-pulse"></span>
-                  Quality Management Systems
-                </p>
-                <p className="text-gray-600 flex items-center">
-                  <span className="w-2 h-2 bg-indigo-500 rounded-full mr-3 animate-pulse"></span>
-                  Regulatory Compliance
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Info with Animation */}
-          <div className="bg-blue-50 rounded-lg p-6 border-l-4 border-blue-500 animate-pulse-slow">
-            <h3 className="text-lg font-semibold text-blue-900 mb-2">Need immediate assistance?</h3>
-            <p className="text-blue-700 mb-4">
-              Contact us directly for license verification or certification inquiries.
-            </p>
-            <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors transform hover:scale-105 duration-300 shadow-lg">
-              Contact Our Team
-            </button>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Custom Animations */}
       <style jsx>{`

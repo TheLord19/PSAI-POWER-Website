@@ -1,0 +1,209 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "PSAI Power Inc." [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "PSAI Power Inc." [ref=e5]
+      - navigation [ref=e6]:
+        - link "SERVICES" [ref=e8] [cursor=pointer]:
+          - /url: /services
+          - text: SERVICES
+          - img [ref=e9]
+        - generic [ref=e11]:
+          - link "WHO WE SERVE" [active] [ref=e12] [cursor=pointer]:
+            - /url: /who-we-serve
+            - text: WHO WE SERVE
+            - img [ref=e13]
+          - generic [ref=e15]:
+            - generic [ref=e16]:
+              - generic [ref=e17]:
+                - generic [ref=e18]: Utilities & Grid Operators
+                - link "Grid Reliability" [ref=e19] [cursor=pointer]:
+                  - /url: /who-we-serve/utilities-grid-operators
+                - link "Smart Grid Transition" [ref=e20] [cursor=pointer]:
+                  - /url: /who-we-serve/utilities-grid-operators
+              - generic [ref=e21]:
+                - generic [ref=e22]: Renewable Energy
+                - link "Solar" [ref=e23] [cursor=pointer]:
+                  - /url: /who-we-serve/renewable-energy
+                - link "Wind" [ref=e24] [cursor=pointer]:
+                  - /url: /who-we-serve/renewable-energy
+                - link "Hydro" [ref=e25] [cursor=pointer]:
+                  - /url: /who-we-serve/renewable-energy
+                - link "Energy Storage" [ref=e26] [cursor=pointer]:
+                  - /url: /who-we-serve/renewable-energy
+              - generic [ref=e27]:
+                - generic [ref=e28]: Industrial & Manufacturing
+                - link "Factories" [ref=e29] [cursor=pointer]:
+                  - /url: /who-we-serve/industrial-manufacturing
+                - link "Production Plants" [ref=e30] [cursor=pointer]:
+                  - /url: /who-we-serve/industrial-manufacturing
+            - generic [ref=e31]:
+              - generic [ref=e32]:
+                - generic [ref=e33]: Government & Regulatory
+                - link "Consulting" [ref=e34] [cursor=pointer]:
+                  - /url: /who-we-serve/government-regulatory
+                - link "Compliance" [ref=e35] [cursor=pointer]:
+                  - /url: /who-we-serve/government-regulatory
+              - generic [ref=e36]:
+                - generic [ref=e37]: Mining Industry
+                - link "Remote Power Supply" [ref=e38] [cursor=pointer]:
+                  - /url: /who-we-serve/mining-industry
+                - link "Heavy Equipment Power" [ref=e39] [cursor=pointer]:
+                  - /url: /who-we-serve/mining-industry
+                - link "Grid Connected Solutions" [ref=e40] [cursor=pointer]:
+                  - /url: /who-we-serve/mining-industry
+                - link "Energy Optimization" [ref=e41] [cursor=pointer]:
+                  - /url: /who-we-serve/mining-industry
+        - link "ABOUT" [ref=e43] [cursor=pointer]:
+          - /url: /about
+        - link "RESOURCES" [ref=e45] [cursor=pointer]:
+          - /url: /resources
+        - link "LICENSES" [ref=e47] [cursor=pointer]:
+          - /url: /licenses
+        - link "CONTACT US" [ref=e49] [cursor=pointer]:
+          - /url: /contact-us
+        - generic [ref=e50]:
+          - button "EN" [ref=e51] [cursor=pointer]
+          - button "FR" [ref=e52] [cursor=pointer]
+  - main [ref=e53]:
+    - generic [ref=e55]:
+      - generic [ref=e61]:
+        - generic [ref=e63]: Engineering the Future
+        - heading "Powering Progress Through Engineering Excellence" [level=1] [ref=e64]:
+          - text: Powering Progress Through
+          - text: Engineering Excellence
+        - paragraph [ref=e65]: Advanced power system solutions for utilities, industry, and renewable energy integration across North America and beyond.
+        - generic [ref=e66]:
+          - link "Explore Services" [ref=e67] [cursor=pointer]:
+            - /url: /services
+            - generic [ref=e68]:
+              - text: Explore Services
+              - img [ref=e69]
+          - link "Contact Us" [ref=e71] [cursor=pointer]:
+            - /url: /contact-us
+      - generic [ref=e73]:
+        - generic [ref=e74]:
+          - heading "Core Solutions" [level=2] [ref=e75]
+          - paragraph [ref=e77]: Comprehensive power system engineering designed for reliability, efficiency, and sustainability.
+        - generic [ref=e78]:
+          - link "Power System Design End-to-end design services from feasibility studies to final implementation and testing. Learn more" [ref=e79] [cursor=pointer]:
+            - /url: /services/power-system-design
+            - generic [ref=e80]:
+              - img [ref=e82]
+              - heading "Power System Design" [level=3] [ref=e84]
+              - paragraph [ref=e85]: End-to-end design services from feasibility studies to final implementation and testing.
+              - generic [ref=e86]:
+                - text: Learn more
+                - img [ref=e87]
+          - link "Grid Modernization Advanced solutions to modernize and optimize existing power infrastructure. Learn more" [ref=e89] [cursor=pointer]:
+            - /url: /services/grid-modernization
+            - generic [ref=e90]:
+              - img [ref=e92]
+              - heading "Grid Modernization" [level=3] [ref=e95]
+              - paragraph [ref=e96]: Advanced solutions to modernize and optimize existing power infrastructure.
+              - generic [ref=e97]:
+                - text: Learn more
+                - img [ref=e98]
+          - link "Renewable Integration Seamless integration of solar, wind, hydro, and storage systems into the grid. Learn more" [ref=e100] [cursor=pointer]:
+            - /url: /services/renewable-integration
+            - generic [ref=e101]:
+              - img [ref=e103]
+              - heading "Renewable Integration" [level=3] [ref=e106]
+              - paragraph [ref=e107]: Seamless integration of solar, wind, hydro, and storage systems into the grid.
+              - generic [ref=e108]:
+                - text: Learn more
+                - img [ref=e109]
+        - link "View All Services" [ref=e112] [cursor=pointer]:
+          - /url: /services
+          - text: View All Services
+          - img [ref=e113]
+      - generic [ref=e117]:
+        - generic [ref=e118]:
+          - img [ref=e120]
+          - generic [ref=e126]: 75+
+          - generic [ref=e127]: Projects Completed
+        - generic [ref=e128]:
+          - img [ref=e130]
+          - generic [ref=e134]: 22+
+          - generic [ref=e135]: Years Experience
+        - generic [ref=e136]:
+          - img [ref=e138]
+          - generic [ref=e141]: 7+
+          - generic [ref=e142]: Countries
+        - generic [ref=e143]:
+          - img [ref=e145]
+          - generic [ref=e148]: 5+
+          - generic [ref=e149]: Global Reach
+      - generic [ref=e152]:
+        - heading "Ready to Transform Your Power Systems?" [level=2] [ref=e153]
+        - paragraph [ref=e154]: Join hundreds of satisfied clients who trust PSAI POWER for innovative, reliable, and cost-effective power solutions.
+        - generic [ref=e155]:
+          - link "Start Your Project" [ref=e156] [cursor=pointer]:
+            - /url: /contact-us
+          - link "Explore Solutions" [ref=e157] [cursor=pointer]:
+            - /url: /services
+  - contentinfo [ref=e158]:
+    - generic [ref=e159]:
+      - generic [ref=e160]:
+        - generic [ref=e161]:
+          - heading "PSAI POWER" [level=3] [ref=e162]
+          - paragraph [ref=e163]: Powering the future with innovative AI solutions for the energy sector.
+          - generic [ref=e164]:
+            - link [ref=e165] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e166]
+            - link [ref=e168] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e169]
+            - link [ref=e171] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e172]
+        - generic [ref=e174]:
+          - heading "Services" [level=4] [ref=e175]
+          - list [ref=e176]:
+            - listitem [ref=e177]:
+              - link "Power System Design" [ref=e178] [cursor=pointer]:
+                - /url: /services#consulting
+            - listitem [ref=e179]:
+              - link "Grid Modernization" [ref=e180] [cursor=pointer]:
+                - /url: /services#consulting
+            - listitem [ref=e181]:
+              - link "Renewable Integration" [ref=e182] [cursor=pointer]:
+                - /url: /services#consulting
+            - listitem [ref=e183]:
+              - link "Preventive Maintenance" [ref=e184] [cursor=pointer]:
+                - /url: /services#maintenance
+        - generic [ref=e185]:
+          - heading "Quick Links" [level=4] [ref=e186]
+          - list [ref=e187]:
+            - listitem [ref=e188]:
+              - link "About Us" [ref=e189] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e190]:
+              - link "Our Services" [ref=e191] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e192]:
+              - link "Who We Serve" [ref=e193] [cursor=pointer]:
+                - /url: /who-we-serve
+            - listitem [ref=e194]:
+              - link "Resources" [ref=e195] [cursor=pointer]:
+                - /url: /resources
+            - listitem [ref=e196]:
+              - link "Contact Us" [ref=e197] [cursor=pointer]:
+                - /url: /contact-us
+        - generic [ref=e198]:
+          - heading "Contact Info" [level=4] [ref=e199]
+          - generic [ref=e200]:
+            - paragraph [ref=e201]: 1099 Gordon Avenue, Unit 3
+            - paragraph [ref=e202]: Sudbury, P3A 2V5
+            - paragraph [ref=e203]: "Email: info@psaipowerinc.ca"
+            - paragraph [ref=e204]: "Phone: +1 (705) 970-6244"
+      - paragraph [ref=e206]: © 2026 PSAI POWER. All rights reserved.
+  - button "Open Next.js Dev Tools" [ref=e212] [cursor=pointer]:
+    - img [ref=e213]
+  - alert [ref=e216]
+```

@@ -10,9 +10,17 @@ i18n
       en: { translation: en },
       fr: { translation: fr },
     },
-    lng: 'en', 
+    lng: 'en', // Always start with EN to match server-rendered HTML
     fallbackLng: 'en',
     interpolation: { escapeValue: false },
   });
 
+// Persist language choice whenever it changes
+i18n.on('languageChanged', (lng) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('psai-lang', lng);
+  }
+});
+
 export default i18n;
+

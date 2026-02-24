@@ -1,174 +1,151 @@
-// src/app/page.tsx
+'use client'; // Needed for useTranslation hook
+import React from 'react';
 import Link from 'next/link';
+import { Zap, Settings2, Leaf, ArrowRight, Activity, Trophy, CalendarClock, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function Home() {
+  const { t } = useTranslation();
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 selection:text-blue-900">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900 text-white py-32 px-4">
-        <div className="absolute inset-0 bg-black/30"></div>
-        <div className="relative z-10 text-center max-w-6xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Powering Progress Through <span className="text-blue-400 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Engineering Excellence</span>
+      <section className="relative overflow-hidden bg-[#0B1120] text-white py-24 lg:py-48 px-4">
+        {/* Modern Abstract Background */}
+        <div className="absolute inset-0 z-0 opacity-40">
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-[100px] animate-pulse"></div>
+          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-cyan-600/20 rounded-full blur-[120px]"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-900/20 rounded-full blur-[90px]"></div>
+        </div>
+
+        <div className="relative z-10 text-center max-w-5xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-900/30 border border-blue-700/50 mb-8 backdrop-blur-sm">
+            <span className="text-sm font-medium text-blue-200 tracking-wide uppercase">{t('home-hero-badge')}</span>
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tight">
+            {t('home-hero-title')} <br className="hidden md:block" />
+            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-300 bg-clip-text text-transparent drop-shadow-sm">
+              {t('home-hero-title-highlight')}
+            </span>
           </h1>
-          <p className="text-xl md:text-2xl text-blue-100 mb-12 max-w-3xl mx-auto leading-relaxed">
-            Advanced power system solutions for utilities, industry, and renewable energy integration across North America and beyond.
+
+          <p className="text-xl md:text-2xl text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
+            {t('home-hero-subtitle')}
           </p>
+
           <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <Link href="/services" className="px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:-translate-y-1 shadow-2xl shadow-blue-500/30">
-              Explore Our Services
+            <Link href="/services" className="group relative px-8 py-4 bg-blue-600 rounded-lg font-semibold text-lg text-white overflow-hidden transition-all hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/25">
+              <span className="relative z-10 flex items-center gap-2">
+                {t('home-hero-cta-primary')} <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              </span>
             </Link>
-            <Link href="/contact-us" className="px-10 py-5 border-2 border-blue-500 rounded-xl font-semibold text-lg hover:bg-blue-500/10 transition-all duration-300 backdrop-blur-sm">
-              Contact Us
+
+            <Link href="/contact-us" className="group px-8 py-4 bg-white/5 border border-white/10 rounded-lg font-semibold text-lg text-white hover:bg-white/10 backdrop-blur-sm transition-all">
+              {t('home-hero-cta-secondary')}
             </Link>
           </div>
         </div>
-        
-        {/* Floating elements */}
-        <div className="absolute top-20 left-10 w-4 h-4 bg-blue-400 rounded-full opacity-50 animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-6 h-6 bg-cyan-400 rounded-full opacity-30 animate-bounce"></div>
-        <div className="absolute bottom-20 left-1/4 w-3 h-3 bg-blue-300 rounded-full opacity-40 animate-ping"></div>
       </section>
 
       {/* Services Preview */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Services</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Comprehensive power system solutions engineered for reliability and performance
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 tracking-tight">{t('home-services-title')}</h2>
+            <div className="w-20 h-1 bg-blue-600 mx-auto rounded-full mb-6"></div>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              {t('home-services-subtitle')}
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                title: "Power System Design",
-                description: "End-to-end design services from feasibility studies to final implementation and testing",
-                icon: "⚡",
+                title: t('home-service-1-title'),
+                description: t('home-service-1-desc'),
+                icon: <Zap className="w-8 h-8 text-blue-600" />,
                 link: "/services/power-system-design",
-                gradient: "from-blue-500 to-blue-600"
+                borderColor: "group-hover:border-blue-200",
+                bgHover: "group-hover:bg-blue-50/50"
               },
               {
-                title: "Grid Modernization", 
-                description: "Advanced solutions to modernize and optimize existing power infrastructure",
-                icon: "🔧",
+                title: t('home-service-2-title'),
+                description: t('home-service-2-desc'),
+                icon: <Settings2 className="w-8 h-8 text-cyan-600" />,
                 link: "/services/grid-modernization",
-                gradient: "from-green-500 to-green-600"
+                borderColor: "group-hover:border-cyan-200",
+                bgHover: "group-hover:bg-cyan-50/50"
               },
               {
-                title: "Renewable Integration",
-                description: "Seamless integration of solar, wind, hydro, and storage systems into the grid",
-                icon: "🌿",
+                title: t('home-service-3-title'),
+                description: t('home-service-3-desc'),
+                icon: <Leaf className="w-8 h-8 text-emerald-600" />,
                 link: "/services/renewable-integration",
-                gradient: "from-emerald-500 to-emerald-600"
+                borderColor: "group-hover:border-emerald-200",
+                bgHover: "group-hover:bg-emerald-50/50"
               }
             ].map((service, index) => (
-              <Link key={index} href={service.link} className="group">
-                <div className="bg-gradient-to-br from-white to-gray-50 p-8 rounded-2xl border border-gray-200/50 hover:border-blue-300 transition-all duration-500 hover:scale-105 hover:shadow-2xl shadow-gray-200 group-hover:shadow-blue-100">
-                  <div className={`text-5xl mb-6 bg-gradient-to-r ${service.gradient} bg-clip-text text-transparent`}>
+              <Link key={index} href={service.link} className="group h-full">
+                <div className={`h-full p-8 rounded-2xl bg-white border border-slate-200 shadow-sm transition-all duration-300 ${service.borderColor} ${service.bgHover} hover:shadow-xl hover:-translate-y-1`}>
+                  <div className="mb-6 p-4 rounded-xl bg-slate-50 w-fit group-hover:bg-white border border-slate-100 shadow-sm transition-colors">
                     {service.icon}
                   </div>
-                  <h3 className="text-2xl font-semibold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">{service.description}</p>
-                  <div className="mt-6 pt-4 border-t border-gray-100 group-hover:border-blue-200 transition-colors">
-                    <span className="text-blue-600 font-semibold group-hover:text-blue-700 flex items-center gap-2">
-                      Learn more 
-                      <span className="transition-transform group-hover:translate-x-1">→</span>
-                    </span>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-4">{service.title}</h3>
+                  <p className="text-slate-600 mb-8 leading-relaxed">{service.description}</p>
+
+                  <div className="flex items-center text-sm font-semibold text-slate-900 mt-auto">
+                    {t('services-btn-learn-more')} <ArrowRight className="w-4 h-4 ml-2 text-blue-600 transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>
               </Link>
             ))}
           </div>
-          
+
           <div className="text-center mt-16">
-            <Link href="/services" className="inline-block px-12 py-4 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-xl font-semibold hover:from-gray-800 hover:to-gray-700 transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg">
-              View All Services
+            <Link href="/services" className="inline-flex items-center gap-2 px-6 py-3 text-slate-600 font-medium hover:text-blue-700 transition-colors border-b-2 border-transparent hover:border-blue-600">
+              {t('home-services-view-all')} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Industries We Serve
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-blue-50">
+      {/* Stats Section Placeholder (To be filled with real data) */}
+      <section className="py-20 bg-slate-900 text-white border-y border-slate-800">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Industries We Serve</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Trusted by leading organizations across diverse sectors
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center">
             {[
-              { name: "Utilities & Grid Operators", count: "150+", link: "/who-we-serve/utilities-grid-operators", color: "blue" },
-              { name: "Renewable Energy", count: "75+", link: "/who-we-serve/renewable-energy", color: "green" },
-              { name: "Industrial Manufacturing", count: "200+", link: "/who-we-serve/industrial-manufacturing", color: "orange" },
-              { name: "Oil & Gas", count: "45+", link: "/who-we-serve/oil-gas", color: "gray" },
-              { name: "Government", count: "30+", link: "/who-we-serve/government-regulatory", color: "purple" },
-              { name: "Mining Industry", count: "60+", link: "/who-we-serve/mining-industry", color: "amber" }
-            ].map((industry, index) => (
-              <Link key={index} href={industry.link} className="group">
-                <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:scale-102 group-hover:border-blue-200">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
-                    {industry.name}
-                  </h3>
-                  <div className={`text-3xl font-bold text-${industry.color}-600 mb-2`}>{industry.count}</div>
-                  <p className="text-gray-500 text-sm">Successful Projects</p>
-                  <div className="mt-6 pt-4 border-t border-gray-100">
-                    <span className="text-blue-600 font-medium text-sm group-hover:text-blue-700 flex items-center gap-2">
-                      View projects 
-                      <span className="transition-transform group-hover:translate-x-1">→</span>
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section> */}
-
-      {/* Stats Section
-      <section className="py-24 bg-gradient-to-r from-blue-900 via-blue-800 to-purple-900 text-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-            {[
-              { number: "150MW+", label: "Renewable Integration", icon: "⚡" },
-              { number: "500+", label: "Projects Completed", icon: "🏆" },
-              { number: "15+", label: "Years Experience", icon: "📅" },
-              { number: "100%", label: "Client Satisfaction", icon: "⭐" }
-            ].map((stat, index) => (
-              <div key={index} className="group">
-                <div className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                  {stat.number}
-                </div>
-                <div className="text-2xl mb-2">{stat.icon}</div>
-                <p className="text-blue-200 text-lg font-medium">{stat.label}</p>
-                <div className="mt-4 h-1 w-20 bg-blue-500 mx-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              { label: t('home-stats-projects'), value: "75+", icon: <Trophy className="w-6 h-6 text-yellow-400" /> },
+              { label: t('home-stats-years'), value: "22+", icon: <CalendarClock className="w-6 h-6 text-blue-400" /> },
+              { label: "Countries", value: "7+", icon: <Globe className="w-6 h-6 text-green-400" /> },
+              { label: t('home-stats-global'), value: "5+", icon: <Globe className="w-6 h-6 text-cyan-400" /> },
+            ].map((stat, i) => (
+              <div key={i} className="flex flex-col items-center">
+                <div className="mb-4 p-3 bg-white/5 rounded-full">{stat.icon}</div>
+                <div className="text-4xl font-bold mb-2">{stat.value}</div>
+                <div className="text-slate-400 text-sm uppercase tracking-wider">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
-      </section> */}
+      </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-            Ready to Transform Your Power Systems?
+      <section className="py-24 bg-[#0B1120] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
+          <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white tracking-tight">
+            {t('home-cta-title')}
           </h2>
-          <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Join hundreds of satisfied clients who trust PSAI POWER for innovative, reliable, and cost-effective power solutions.
+          <p className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto leading-relaxed">
+            {t('home-cta-subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <Link href="/contact-us" className="px-12 py-5 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-cyan-700 transition-all duration-300 transform hover:-translate-y-1 shadow-2xl shadow-cyan-500/30">
-              Start Your Project
+            <Link href="/contact-us" className="px-10 py-4 bg-white text-blue-900 rounded-lg font-bold text-lg hover:bg-blue-50 transition-all shadow-xl shadow-blue-900/20 transform hover:-translate-y-1">
+              {t('home-cta-primary')}
             </Link>
-            <Link href="/services" className="px-12 py-5 border-2 border-blue-500 rounded-xl font-semibold text-lg hover:bg-blue-500/10 transition-all duration-300 backdrop-blur-sm">
-              Explore Solutions
+            <Link href="/services" className="px-10 py-4 border border-slate-600 text-white rounded-lg font-semibold text-lg hover:bg-white/5 transition-all">
+              {t('home-cta-secondary')}
             </Link>
           </div>
         </div>

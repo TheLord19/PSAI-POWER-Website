@@ -2,23 +2,29 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faAnglesDown, 
-  faMagnifyingGlass, 
-  faXmark,
-  faChevronDown,
-  faGlobe
-} from '@fortawesome/free-solid-svg-icons';
+import Image from 'next/image';
+import {
+  ChevronDown,
+  // Search,  // ⚠️ DO NOT DELETE — SEARCH DISABLED for now. Re-enable when site search is implemented (e.g. Pagefind, Google Custom Search)
+  // X,
+  // Globe
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Logo from '@/images/Logo(1).png'
+
+declare global {
+  interface Window {
+    hoverTimeout?: NodeJS.Timeout | null;
+  }
+}
 
 export default function Header() {
   const { t, i18n } = useTranslation();
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  // ⚠️ DO NOT DELETE — SEARCH STATE (disabled until search backend is implemented)
+  // const [isSearchOpen, setIsSearchOpen] = useState(false);
+  // const [searchQuery, setSearchQuery] = useState('');
 
   // Close language dropdown when clicking outside
   useEffect(() => {
@@ -85,14 +91,7 @@ export default function Header() {
             { label: t('production-plants'), href: '/who-we-serve/industrial-manufacturing' },
           ],
         },
-        {
-          heading: t('oil-gas'),
-          items: [
-            { label: t('offshore-platforms'), href: '/who-we-serve/oil-gas' },
-            { label: t('refineries'), href: '/who-we-serve/oil-gas' },
-            { label: t('pipelines'), href: '/who-we-serve/oil-gas' },
-          ],
-        },
+
         {
           heading: t('government-regulatory'),
           items: [
@@ -117,12 +116,12 @@ export default function Header() {
     { label: t('contact us'), href: '/contact-us' },
   ];
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Searching for:', searchQuery);
-    setIsSearchOpen(false);
-    setSearchQuery('');
-  };
+  // ⚠️ DO NOT DELETE — SEARCH HANDLER (disabled until search backend is implemented)
+  // const handleSearch = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setIsSearchOpen(false);
+  //   setSearchQuery('');
+  // };
 
   const splitColumns = <T,>(items: T[], maxPerColumn = 3): T[][] => {
     const columns: T[][] = [];
@@ -140,26 +139,19 @@ export default function Header() {
 
   const handleLanguageChange = (newLanguage: string) => {
     i18n.changeLanguage(newLanguage);
-    setIsLanguageOpen(false);
   };
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-[#F5F5F5] text-[#222] shadow-[0_2px_15px_rgba(0,0,0,0.1)] py-2 font-['Segoe_UI',_system-ui,_sans-serif]">
+      <header className="sticky top-0 z-50 bg-[#F5F5F5]/95 backdrop-blur-md text-[#222] shadow-[0_2px_15px_rgba(0,0,0,0.05)] py-2 font-['Segoe_UI',_system-ui,_sans-serif] border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-8 flex items-center justify-between relative">
           <Link href="/" className="no-underline mx-12 mr-16 flex items-center">
-            <img 
-              src={Logo.src} 
+            <Image
+              src={Logo}
               alt="PSAI Power Inc."
-              className="h-16 w-auto object-contain" // Fixed height, consistent sizing
-              style={{ minWidth: '120px',
-                        maxWidth: '160px'
-               }} // Prevents extreme shrinking
-              onLoad={(e) => {
-                // Force reflow to prevent layout shift
-                e.currentTarget.style.opacity = '1';
-              }}
-              // style={{ opacity: 0, transition: 'opacity 0.3s' }} // Smooth appearance
+              className="h-16 w-auto object-contain"
+              style={{ minWidth: '120px', maxWidth: '160px' }}
+              priority
             />
           </Link>
 
@@ -167,53 +159,44 @@ export default function Header() {
             {navItems.map(({ label, href, dropdown }, index) => (
               <div
                 key={label}
-                className={`relative h-10 flex justify-center items-center ${
-                  dropdown ? 'group' : ''
-                }`}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
+                className={`relative h-10 flex justify-center items-center ${dropdown ? 'group' : ''
+                  }`}
+                onMouseEnter={() => {
+                  if (window.hoverTimeout) {
+                    clearTimeout(window.hoverTimeout);
+                    window.hoverTimeout = null;
+                  }
+                  setHoveredIndex(index);
+                }}
+                onMouseLeave={() => {
+                  window.hoverTimeout = setTimeout(() => {
+                    setHoveredIndex(null);
+                  }, 300); // 300ms delay
+                }}
               >
-                {/* cornor accent  */}
-                      {/* <Link 
-                  href={href} 
-                  className="text-[#333] no-underline font-semibold text-sm px-4 py-2.5 flex items-center justify-center transition-all rounded group-hover:bg-black/8 group-hover:text-[#0078d4] relative"
+                <Link
+                  href={href}
+                  className="text-[#333] no-underline font-semibold text-sm px-4 py-2.5 flex items-center justify-center transition-all rounded-full hover:bg-black/5 group-hover:text-[#0078d4] relative"
                 >
                   {label.toUpperCase()}
                   {dropdown && (
-                    <>
-                      <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-[#0078d4] opacity-0 transition-all group-hover:opacity-100"></div>
-                      <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-[#0078d4] opacity-0 transition-all group-hover:opacity-100"></div>
-                    </>
-                  )}
-                </Link> */}
-                <Link 
-                  href={href} 
-                  className="text-[#333] no-underline font-semibold text-sm px-4 py-2.5 flex items-center justify-center transition-all rounded group-hover:bg-black/8 group-hover:text-[#0078d4] relative"
-                >
-                  {label.toUpperCase()}
-                  {dropdown && (
-                    <div className="absolute -right-3 top-1/2 transform -translate-y-1/2 opacity-0 transition-all group-hover:opacity-100">
-                      <FontAwesomeIcon
-                        icon={faAnglesDown}
-                        className="text-xs text-[#0078d4] animate-bounce-alt"
-                      />
-                    </div>
+                    <ChevronDown className="w-4 h-4 ml-1 text-gray-400 group-hover:text-[#0078d4] transition-transform group-hover:rotate-180" />
                   )}
                 </Link>
                 {dropdown && hoveredIndex === index && (
-                  <div className="absolute top-full left-0 mt-1.5 bg-[#012e69] border border-white/10 shadow-lg rounded flex gap-8 p-4 z-[1500]">
+                  <div className="absolute top-full left-0 mt-2 bg-[#012e69] border border-white/10 shadow-2xl rounded-xl flex gap-8 p-6 z-[1500] animate-in fade-in slide-in-from-top-2 duration-200">
                     {splitColumns(dropdown).map((column, colIdx) => (
                       <div key={colIdx} className="flex flex-col gap-2">
                         {column.map(({ heading, items }) => (
-                          <div key={heading} className="flex flex-col">
-                            <div className="font-semibold text-white mb-2 text-sm uppercase">
+                          <div key={heading} className="flex flex-col mb-2">
+                            <div className="font-bold text-blue-200 mb-2 text-xs uppercase tracking-wider border-b border-white/10 pb-1">
                               {heading}
                             </div>
                             {items.map(({ label: dLabel, href: dHref }) => (
-                              <Link 
-                                href={dHref} 
-                                key={dLabel} 
-                                className="text-white/90 no-underline py-1.5 text-sm font-medium transition-colors hover:bg-white/10 px-2 rounded"
+                              <Link
+                                href={dHref}
+                                key={dLabel}
+                                className="text-white/80 hover:text-white no-underline py-1.5 text-sm font-medium transition-colors hover:translate-x-1 block"
                               >
                                 {dLabel}
                               </Link>
@@ -226,116 +209,74 @@ export default function Header() {
                 )}
               </div>
             ))}
-            
-           
-              {/* Language Toggle Dropdown */}
-              <div className="relative ml-4">
-                  <button
-                    className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors border border-gray-300 rounded-md hover:border-blue-300 bg-white min-w-[80px] justify-between"
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent event bubbling
-                      setIsLanguageOpen(!isLanguageOpen);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faGlobe} className="w-4 h-4" />
-                    <span>{i18n.language === 'en' ? 'EN' : 'FR'}</span>
-                    <FontAwesomeIcon 
-                      icon={faChevronDown} 
-                      className={`w-3 h-3 transition-transform ${isLanguageOpen ? 'rotate-180' : ''}`} 
-                    />
-                  </button>
 
-                  {isLanguageOpen && (
-                    <div 
-                      className="absolute right-0 top-full mt-1 w-32 bg-white border border-gray-200 rounded-md shadow-lg z-50"
-                      onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside dropdown
-                    >
-                      <div className="flex flex-col">
-                        <button
-                          onClick={() => {
-                            console.log('Changing to English');
-                            handleLanguageChange('en');
-                          }}
-                          className={`w-full px-4 py-3 text-left text-sm hover:bg-gray-100 transition-colors rounded-t-md ${
-                            i18n.language === 'en' ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-700'
-                          }`}
-                        >
-                          English
-                        </button>
-                        <button
-                          onClick={() => {
-                            console.log('Changing to French');
-                            handleLanguageChange('fr');
-                          }}
-                          className={`w-full px-4 py-3 text-left text-sm hover:bg-gray-100 transition-colors rounded-b-md ${
-                            i18n.language === 'fr' ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-700'
-                          }`}
-                        >
-                          Français
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-            {/* Search Button */}
-            <button 
-              className="bg-transparent border-none cursor-pointer p-2 text-[#333] ml-4 text-lg transition-colors hover:text-[#0078d4]"
+
+            {/* Modern Language Pill Toggle */}
+            <div className="bg-gray-100/80 border border-gray-200 rounded-full p-1 flex items-center ml-6 relative backdrop-blur-sm">
+              <button
+                onClick={() => handleLanguageChange('en')}
+                className={`px-3 py-1 text-xs font-bold rounded-full transition-all duration-300 ${i18n.language?.startsWith('en')
+                  ? 'bg-white text-blue-700 shadow-sm border border-transparent'
+                  : 'text-gray-500 hover:text-gray-700 border border-transparent'
+                  }`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => handleLanguageChange('fr')}
+                className={`px-3 py-1 text-xs font-bold rounded-full transition-all duration-300 ${i18n.language?.startsWith('fr')
+                  ? 'bg-white text-blue-700 shadow-sm border border-transparent'
+                  : 'text-gray-500 hover:text-gray-700 border border-transparent'
+                  }`}
+              >
+                FR
+              </button>
+            </div>
+
+            {/* ⚠️ DO NOT DELETE — SEARCH BUTTON. Disabled until site search is implemented. To re-enable: uncomment this block + the overlay below + the state/handler/imports above.
+            <button
+              className="bg-transparent border-none cursor-pointer p-2 text-[#333] ml-4 text-lg transition-colors hover:text-[#0078d4] hover:bg-gray-100 rounded-full"
               onClick={() => setIsSearchOpen(true)}
               aria-label="Open search"
             >
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
+              <Search className="w-5 h-5" />
             </button>
+            */}
           </nav>
         </div>
       </header>
 
-      {/* Search Overlay */}
+      {/* ⚠️ DO NOT DELETE — SEARCH OVERLAY. Disabled until site search is implemented. To re-enable: uncomment this block + the button above + the state/handler/imports above.
       {isSearchOpen && (
-        <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-[2000] animate-fade-in">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[2000] animate-in fade-in duration-200">
           <div className="w-full max-w-2xl relative">
-            <form onSubmit={handleSearch} className="flex items-center bg-white rounded overflow-hidden">
+            <form onSubmit={handleSearch} className="flex items-center bg-white rounded-2xl overflow-hidden shadow-2xl transform scale-100 animate-in zoom-in-95 duration-200">
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search resources, services, or case studies..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 py-4 px-6 border-none text-lg outline-none"
+                className="flex-1 py-6 px-8 border-none text-xl outline-none font-light"
                 autoFocus
               />
-              <button 
-                type="submit" 
-                className="bg-[#003366] border-none text-white py-4 px-6 cursor-pointer transition-colors hover:bg-[#002b66]"
+              <button
+                type="submit"
+                className="bg-blue-600 border-none text-white py-6 px-8 cursor-pointer transition-colors hover:bg-blue-700"
               >
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                <Search className="w-6 h-6" />
               </button>
             </form>
-            <button 
+            <button
               onClick={() => setIsSearchOpen(false)}
-              className="absolute -top-10 right-0 bg-transparent border-none text-white text-2xl cursor-pointer"
+              className="absolute -top-12 right-0 bg-white/10 hover:bg-white/20 rounded-full p-2 border-none text-white cursor-pointer transition-all"
               aria-label="Close search"
             >
-              <FontAwesomeIcon icon={faXmark} />
+              <X className="w-6 h-6" />
             </button>
           </div>
         </div>
       )}
-
-      <style jsx>{`
-        @keyframes bounce-alt {
-          from { transform: translateY(0); }
-          to { transform: translateY(2px); }
-        }
-        .animate-bounce-alt {
-          animation: bounce-alt 0.5s infinite alternate;
-        }
-        @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.3s ease;
-        }
-      `}</style>
+      */}
     </>
   );
 }
