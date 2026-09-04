@@ -6,3 +6,12 @@ dist/
 .DS_Store
 reports/
 op_modes.md
+
+# Build & tooling artifacts
+*.tsbuildinfo
+test-results/
+playwright-report/
+repomix-output.xml
+
+# Local agent settings
+.claude/settings.local.json
