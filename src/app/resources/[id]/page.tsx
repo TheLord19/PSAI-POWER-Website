@@ -1,46 +1,50 @@
 // src/app/resources/[id]/page.tsx
-'use client';
+"use client";
 
-import { useParams } from 'next/navigation';
-import React from 'react';
+import { useParams } from "next/navigation";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
-const resourceContent: { [key: string]: { title: string; content: string } } = {
-  'technical-whitepapers': {
-    title: 'Technical Whitepapers',
-    content: 'Access our library of technical whitepapers covering advanced power system design, protection schemes, grid modernization strategies, and renewable energy integration methodologies. These documents represent our cutting-edge research and practical implementations across North America.'
+const resourceKeyMap: { [key: string]: { title: string; content: string } } = {
+  "technical-whitepapers": {
+    title: "resource-technical-whitepapers-title",
+    content: "resource-technical-whitepapers-content",
   },
-  'case-studies': {
-    title: 'Case Studies',
-    content: 'Explore real-world case studies showcasing our successful power system projects. Learn about our work with utilities, industrial clients, and renewable energy providers. Each case study details the challenges faced, solutions implemented, and results achieved.'
+  "case-studies": {
+    title: "resource-case-studies-title",
+    content: "resource-case-studies-content",
   },
-  'integration-guides': {
-    title: 'Integration Guides',
-    content: 'Comprehensive guides for Distributed Energy Resource (DER) interconnections, renewable energy integration, and grid modernization. These technical documents provide step-by-step instructions, best practices, and regulatory compliance information.'
+  "integration-guides": {
+    title: "resource-integration-guides-title",
+    content: "resource-integration-guides-content",
   },
-  'compliance-documents': {
-    title: 'Compliance Documents',
-    content: 'Access regulatory compliance documentation, standards adherence guidelines, and certification materials. Ensure your power systems meet all necessary industry standards and governmental regulations.'
+  "compliance-documents": {
+    title: "resource-compliance-documents-title",
+    content: "resource-compliance-documents-content",
   },
-  'technical-briefs': {
-    title: 'Technical Briefs',
-    content: 'Concise technical briefs covering specific power system topics, innovative solutions, and emerging technologies. Perfect for quick reference and staying updated with industry advancements.'
+  "technical-briefs": {
+    title: "resource-technical-briefs-title",
+    content: "resource-technical-briefs-content",
   },
-  'best-practices': {
-    title: 'Best Practices',
-    content: 'Industry best practices for power system maintenance, optimization, and reliability. These documents compile decades of experience into actionable guidelines for optimal system performance.'
-  }
+  "best-practices": {
+    title: "resource-best-practices-title",
+    content: "resource-best-practices-content",
+  },
 };
 
 export default function ResourceDetailPage() {
+  const { t } = useTranslation();
   const params = useParams();
   const resourceId = params.id as string;
-  const resource = resourceContent[resourceId];
+  const resource = resourceKeyMap[resourceId];
 
   if (!resource) {
     return (
       <div className="min-h-screen bg-gray-50 py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-gray-900">Resource Not Found</h1>
+          <h1 className="text-4xl font-bold text-gray-900">
+            {t("resource-not-found")}
+          </h1>
         </div>
       </div>
     );
@@ -49,12 +53,18 @@ export default function ResourceDetailPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-4xl mx-auto px-4">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">{resource.title}</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-8">
+          {t(resource.title)}
+        </h1>
         <div className="bg-white rounded-lg shadow-md p-8">
-          <p className="text-gray-700 text-lg leading-relaxed">{resource.content}</p>
+          <p className="text-gray-700 text-lg leading-relaxed">
+            {t(resource.content)}
+          </p>
           <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-            <h3 className="font-semibold text-blue-900 mb-2">Access Resources</h3>
-            <p className="text-blue-700">Contact us to request access to our full resource library or schedule a technical consultation.</p>
+            <h3 className="font-semibold text-blue-900 mb-2">
+              {t("resource-access-resources")}
+            </h3>
+            <p className="text-blue-700">{t("resource-access-content")}</p>
           </div>
         </div>
       </div>

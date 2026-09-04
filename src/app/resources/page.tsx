@@ -1,63 +1,74 @@
 // src/app/resources/page.tsx
-'use client';
+"use client";
 
-import React from 'react';
-import Image from 'next/image';
-import { useTranslation } from 'react-i18next';
-import { FileText, BookOpen, Settings, Shield, Zap, CheckCircle, ArrowRight, Download } from 'lucide-react';
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useTranslation } from "react-i18next";
+import {
+  FileText,
+  BookOpen,
+  Settings,
+  Shield,
+  Zap,
+  CheckCircle,
+  ArrowRight,
+  Mail,
+} from "lucide-react";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 
 const ResourcesPage = () => {
   const { t } = useTranslation();
 
   const resources = [
     {
-      id: 'technical-whitepapers',
-      titleKey: 'resource-technical-whitepapers-title',
-      descKey: 'resource-technical-whitepapers-content',
+      id: "technical-whitepapers",
+      titleKey: "resource-technical-whitepapers-title",
+      descKey: "resource-technical-whitepapers-content",
       image: "/images/resources/technical-whitepapers.jpg",
       icon: <FileText className="w-8 h-8 text-blue-600" />,
-      color: "blue"
+      color: "blue",
     },
     {
-      id: 'case-studies',
-      titleKey: 'resource-case-studies-title',
-      descKey: 'resource-case-studies-content',
+      id: "case-studies",
+      titleKey: "resource-case-studies-title",
+      descKey: "resource-case-studies-content",
       image: "/images/resources/case-studies.jpg",
       icon: <BookOpen className="w-8 h-8 text-cyan-600" />,
-      color: "cyan"
+      color: "cyan",
     },
     {
-      id: 'integration-guides',
-      titleKey: 'resource-integration-guides-title',
-      descKey: 'resource-integration-guides-content',
+      id: "integration-guides",
+      titleKey: "resource-integration-guides-title",
+      descKey: "resource-integration-guides-content",
       image: "/images/resources/integration-guides.jpg",
       icon: <Settings className="w-8 h-8 text-emerald-600" />,
-      color: "emerald"
+      color: "emerald",
     },
     {
-      id: 'compliance-documents',
-      titleKey: 'resource-compliance-documents-title',
-      descKey: 'resource-compliance-documents-content',
+      id: "compliance-documents",
+      titleKey: "resource-compliance-documents-title",
+      descKey: "resource-compliance-documents-content",
       image: "/images/resources/compliance-documents.jpg",
       icon: <Shield className="w-8 h-8 text-purple-600" />,
-      color: "purple"
+      color: "purple",
     },
     {
-      id: 'technical-briefs',
-      titleKey: 'resource-technical-briefs-title',
-      descKey: 'resource-technical-briefs-content',
+      id: "technical-briefs",
+      titleKey: "resource-technical-briefs-title",
+      descKey: "resource-technical-briefs-content",
       image: "/images/resources/technical-briefs.jpg",
       icon: <Zap className="w-8 h-8 text-orange-600" />,
-      color: "orange"
+      color: "orange",
     },
     {
-      id: 'best-practices',
-      titleKey: 'resource-best-practices-title',
-      descKey: 'resource-best-practices-content',
+      id: "best-practices",
+      titleKey: "resource-best-practices-title",
+      descKey: "resource-best-practices-content",
       image: "/images/resources/best-practices.jpg",
       icon: <CheckCircle className="w-8 h-8 text-indigo-600" />,
-      color: "indigo"
-    }
+      color: "indigo",
+    },
   ];
 
   return (
@@ -82,13 +93,15 @@ const ResourcesPage = () => {
 
         <div className="relative z-10 text-center max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight">
-            {t('resources-hero-title')}
+            {t("resources-hero-title")}
           </h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
-            {t('resources-hero-subtitle')}
+            {t("resources-hero-subtitle")}
           </p>
         </div>
       </section>
+
+      <Breadcrumbs items={[{ label: t("resources") }]} />
 
       {/* Resources Grid */}
       <section className="py-24 px-4">
@@ -116,18 +129,21 @@ const ResourcesPage = () => {
                 </div>
 
                 {/* Resource Content */}
-                <div className="p-8" >
+                <div className="p-8">
                   <p className="text-slate-600 mb-6 leading-relaxed">
                     {t(resource.descKey)}
                   </p>
 
-                  <button className="flex items-center justify-between w-full px-4 py-3 bg-slate-50 text-slate-700 rounded-lg hover:bg-slate-100 transition-colors border border-slate-200 group-hover:border-slate-300">
+                  <Link
+                    href="/contact-us"
+                    className="flex items-center justify-between w-full px-4 py-3 bg-slate-50 text-slate-700 rounded-lg hover:bg-slate-100 transition-colors border border-slate-200 group-hover:border-slate-300"
+                  >
                     <span className="font-medium text-sm flex items-center gap-2">
-                      <Download className="w-4 h-4" />
-                      {t('resource-access-resources')}
+                      <Mail className="w-4 h-4" />
+                      {t("resource-request-access")}
                     </span>
                     <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-slate-600" />
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -135,10 +151,17 @@ const ResourcesPage = () => {
 
           {/* CTA Section */}
           <div className="mt-20 bg-white rounded-2xl p-10 shadow-lg border border-slate-100 text-center max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-slate-900 mb-4">{t('resource-access-resources')}</h3>
-            <p className="text-slate-600 mb-8 max-w-2xl mx-auto">{t('resource-access-content')}</p>
-            <a href="/contact-us" className="inline-flex items-center px-8 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200">
-              {t('contact us')} <ArrowRight className="w-4 h-4 ml-2" />
+            <h3 className="text-2xl font-bold text-slate-900 mb-4">
+              {t("resource-access-resources")}
+            </h3>
+            <p className="text-slate-600 mb-8 max-w-2xl mx-auto">
+              {t("resource-access-content")}
+            </p>
+            <a
+              href="/contact-us"
+              className="inline-flex items-center px-8 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200"
+            >
+              {t("contact us")} <ArrowRight className="w-4 h-4 ml-2" />
             </a>
           </div>
         </div>
