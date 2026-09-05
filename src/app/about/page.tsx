@@ -11,12 +11,14 @@ import {
   CheckCircle,
   ShieldCheck,
   Award,
+  User,
 } from "lucide-react";
 import Image from "next/image";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 
 const AboutPage = () => {
   const { t } = useTranslation();
+  const [founderPhotoFailed, setFounderPhotoFailed] = React.useState(false);
 
   return (
     <div className="min-h-screen bg-white text-slate-800">
@@ -183,6 +185,56 @@ const AboutPage = () => {
                   <p className="text-slate-600">{val.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Founder Section */}
+          <div className="mb-20 sm:mb-32">
+            <div className="max-w-5xl mx-auto grid md:grid-cols-5 gap-10 md:gap-16 items-center bg-white rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 p-6 sm:p-12">
+              <div className="md:col-span-2">
+                <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-slate-200 border border-slate-300 shadow-lg">
+                  {founderPhotoFailed ? (
+                    <div className="flex h-full w-full items-center justify-center bg-slate-100">
+                      <User className="h-16 w-16 text-slate-300" />
+                    </div>
+                  ) : (
+                    <Image
+                      src="/images/team/founder.jpg"
+                      alt="Founder"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 40vw"
+                      onError={() => setFounderPhotoFailed(true)}
+                    />
+                  )}
+                </div>
+              </div>
+              <div className="md:col-span-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 mb-4">
+                  <Award className="w-3.5 h-3.5" />
+                  Founder & CEO
+                </div>
+                {/*
+                  Founder name and bio pending final copy from the client.
+                  Do not publish placeholder text on the live site — fill this
+                  in with the real name/bio once confirmed, then move it out
+                  of this comment into the JSX below.
+
+                  <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+                    Founder Name
+                  </h2>
+                  <p className="text-lg text-slate-500 mb-6">P.Eng. — Province</p>
+                  <p className="text-slate-600 leading-relaxed mb-6">
+                    Bio — education, years of experience, areas of expertise,
+                    key projects, industry involvement.
+                  </p>
+                */}
+                <p className="text-slate-600 leading-relaxed">
+                  PSAI Power is led by a licensed Professional Engineer with
+                  hands-on experience across utilities, industry, and
+                  renewable energy.
+                </p>
+              </div>
             </div>
           </div>
 

@@ -110,7 +110,6 @@ export default function Header() {
       ]),
     },
     { label: t("about"), href: "/about" },
-    { label: t("team"), href: "/team" },
     { label: t("resources"), href: "/resources" },
     { label: t("licenses"), href: "/licenses" },
     { label: t("careers"), href: "/careers" },
