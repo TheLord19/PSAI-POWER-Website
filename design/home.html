@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PSAI POWER — Power system design, protection, and commissioning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --film:#E9ECEA;
+  --film-deep:#DDE2DF;
+  --ink:#141A18;
+  --ink-soft:#4A5551;
+  --trace:#9AA5A0;
+  --trace-faint:#C3CAC6;
+  --verdigris:#3E7A6B;
+  --verdigris-deep:#2C5A4E;
+  --signal:#E8B92E;
+
+  --measure:64ch;
+  --gutter:clamp(1.25rem,4vw,4rem);
+  --rule:1px;
+  --bus:3px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--film);
+  color:var(--ink);
+  font-family:Archivo,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-variation-settings:"wdth" 100,"wght" 400;
+  font-size:clamp(1rem,0.96rem + 0.2vw,1.0625rem);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"tnum" 0;
+}
+img,svg{max-width:100%;display:block}
+a{color:inherit}
+
+.shell{max-width:1240px;margin-inline:auto;padding-inline:var(--gutter)}
+
+/* ---------- numerals: electrical quantities as typography ---------- */
+.qty{font-variant-numeric:tabular-nums lining-nums;font-feature-settings:"tnum" 1}
+.qty .val{font-variation-settings:"wdth" 88,"wght" 620;letter-spacing:-0.02em}
+.qty .unit{font-variation-settings:"wdth" 100,"wght" 380;color:var(--ink-soft)}
+.qty .unit::before{content:"\2009"} /* thin space before unit */
+
+/* ---------- masthead ---------- */
+.masthead{border-bottom:var(--rule) solid var(--trace-faint)}
+.masthead__in{display:flex;align-items:center;justify-content:space-between;gap:2rem;padding-block:1.1rem}
+.wordmark{display:flex;align-items:baseline;gap:.5rem;text-decoration:none}
+.wordmark b{font-variation-settings:"wdth" 78,"wght" 700;letter-spacing:.02em;font-size:1.0625rem}
+.wordmark span{font-variation-settings:"wdth" 92,"wght" 400;color:var(--ink-soft);font-size:.8125rem}
+.nav{display:flex;gap:1.75rem;align-items:center}
+.nav a{text-decoration:none;font-size:.9375rem;color:var(--ink-soft);padding-block:.2rem;border-bottom:2px solid transparent}
+.nav a:hover,.nav a:focus-visible{color:var(--ink);border-bottom-color:var(--verdigris)}
+.nav__cta{text-decoration:none;font-size:.9375rem;font-variation-settings:"wght" 560;padding:.5rem .9rem;border:var(--rule) solid var(--ink);color:var(--ink)}
+.nav__cta:hover{background:var(--ink);color:var(--film)}
+@media(max-width:860px){.nav{display:none}}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(3rem,7vw,6rem) clamp(2rem,4vw,3rem)}
+.hero h1{
+  margin:0 0 1.25rem;
+  font-variation-settings:"wdth" 74,"wght" 700;
+  font-size:clamp(2.75rem,1.6rem + 5.2vw,6rem);
+  line-height:.95;
+  letter-spacing:-0.035em;
+  max-width:18ch;
+  text-wrap:balance;
+}
+.hero p{margin:0;max-width:56ch;font-size:clamp(1.0625rem,1rem + 0.35vw,1.25rem);color:var(--ink-soft);line-height:1.5}
+.hero__actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+.btn{
+  text-decoration:none;font-size:.9375rem;font-variation-settings:"wght" 560;
+  padding:.72rem 1.35rem;border:var(--rule) solid var(--ink);
+}
+.btn--solid{background:var(--ink);color:var(--film)}
+.btn--solid:hover{background:var(--verdigris-deep);border-color:var(--verdigris-deep)}
+.btn--line{color:var(--ink)}
+.btn--line:hover{background:var(--ink);color:var(--film)}
+
+/* ---------- single line diagram ---------- */
+.sld{margin-top:clamp(1.75rem,3.5vw,2.75rem);overflow-x:auto;overflow-y:hidden}
+.sld__wide{min-width:880px;width:100%;height:auto}
+.sld__tall{display:none;width:100%;max-width:26rem;height:auto}
+/* below the fold of a phone the bus is drawn vertically, as a riser diagram */
+@media(max-width:760px){
+  .sld{overflow:visible;margin-inline:auto}
+  .sld__wide{display:none}
+  .sld__tall{display:block}
+}
+/* conductors are energized: verdigris. equipment is drawn on top in ink. */
+.sld .conductor{fill:none;stroke:var(--verdigris);stroke-width:2.4;stroke-linecap:square}
+.sld .bus{fill:none;stroke:var(--verdigris-deep);stroke-width:5;stroke-linecap:square}
+.sld .sym{fill:var(--film);stroke:var(--ink);stroke-width:1.8}
+.sld .lbl{fill:var(--ink);font-size:14px;font-variation-settings:"wdth" 90,"wght" 600}
+.sld .lbl--soft{fill:var(--ink-soft);font-size:12px;font-variation-settings:"wdth" 96,"wght" 400}
+
+@media(prefers-reduced-motion:no-preference){
+  .sld .conductor,.sld .bus{stroke-dasharray:1;stroke-dashoffset:1;animation:energize .7s .25s cubic-bezier(.65,0,.35,1) forwards}
+  .sld .bus{animation-duration:.9s;animation-delay:.85s}
+  .sld .tap-run{animation-delay:1.5s}
+}
+@keyframes energize{to{stroke-dashoffset:0}}
+
+/* ---------- record strip ---------- */
+.record{border-block:var(--rule) solid var(--trace-faint);padding-block:clamp(1.75rem,3.5vw,2.75rem)}
+.record__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2rem clamp(1.5rem,3vw,3rem)}
+.record dt{font-size:.875rem;color:var(--ink-soft);margin-bottom:.4rem}
+.record dd{margin:0;font-size:clamp(1.75rem,1.2rem + 1.8vw,2.5rem);line-height:1}
+
+/* ---------- section frame ---------- */
+.band{padding-block:clamp(3rem,5.5vw,4.75rem)}
+.band__head{margin-bottom:clamp(2rem,4vw,3rem);max-width:var(--measure)}
+.band__head h2{
+  margin:0 0 .6rem;font-size:clamp(1.75rem,1.3rem + 1.6vw,2.75rem);
+  font-variation-settings:"wdth" 80,"wght" 660;letter-spacing:-0.02em;line-height:1.05;
+}
+.band__head p{margin:0;color:var(--ink-soft);max-width:58ch}
+
+/* ---------- taps off a bus ---------- */
+.taps{position:relative;padding-left:3.25rem;max-width:72rem}
+.taps::before{content:"";position:absolute;left:0;top:.55rem;bottom:.55rem;width:5px;background:var(--verdigris-deep)}
+.tap{position:relative;padding:1.35rem 0;border-bottom:var(--rule) solid var(--trace-faint)}
+.tap:last-child{border-bottom:0}
+.tap::before{content:"";position:absolute;left:-3.25rem;top:2rem;width:2.05rem;height:2.4px;background:var(--verdigris)}
+.tap::after{content:"";position:absolute;left:-1.3rem;top:calc(2rem - 6px);width:13px;height:13px;background:var(--film);border:1.8px solid var(--ink)}
+.tap__row{display:grid;grid-template-columns:minmax(0,19rem) minmax(0,1fr);gap:.35rem clamp(1.5rem,3vw,2.75rem);align-items:baseline}
+.tap h3{margin:0;font-size:1.125rem;font-variation-settings:"wdth" 92,"wght" 600;line-height:1.3}
+.tap p{margin:0;color:var(--ink-soft);font-size:.9688rem;max-width:52ch}
+@media(max-width:720px){.tap__row{grid-template-columns:1fr}}
+
+/* ---------- sectors ---------- */
+.sectors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:var(--rule) solid var(--trace-faint);border-left:var(--rule) solid var(--trace-faint)}
+@media(max-width:900px){.sectors{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:580px){.sectors{grid-template-columns:1fr}}
+.sector{padding:1.5rem 1.4rem 1.7rem;border-right:var(--rule) solid var(--trace-faint);border-bottom:var(--rule) solid var(--trace-faint)}
+.sector h3{margin:0 0 .45rem;font-size:1.0625rem;font-variation-settings:"wdth" 92,"wght" 600}
+.sector p{margin:0;font-size:.9375rem;color:var(--ink-soft)}
+.sector__tag{display:block;margin-bottom:.9rem;color:var(--verdigris-deep);font-size:.8125rem;font-variation-settings:"wght" 560}
+
+/* ---------- reach ---------- */
+.reach{background:var(--film-deep);border-block:var(--rule) solid var(--trace-faint)}
+.reach__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2rem,5vw,4.5rem);align-items:start}
+@media(max-width:820px){.reach__grid{grid-template-columns:1fr}}
+.regions{margin:0;padding:0;list-style:none;border-top:var(--rule) solid var(--trace)}
+.regions li{display:flex;justify-content:space-between;gap:1.5rem;padding:.85rem 0;border-bottom:var(--rule) solid var(--trace-faint);font-size:.9688rem}
+.regions span{color:var(--ink-soft)}
+
+/* ---------- close ---------- */
+.close h2{margin:0 0 1rem;font-size:clamp(1.9rem,1.3rem + 2.2vw,3.25rem);font-variation-settings:"wdth" 76,"wght" 680;letter-spacing:-0.028em;line-height:1.02;max-width:20ch}
+.close p{margin:0 0 2rem;color:var(--ink-soft);max-width:52ch}
+
+/* ---------- footer ---------- */
+.foot{border-top:var(--rule) solid var(--trace-faint);padding-block:2.5rem 3rem;font-size:.9375rem}
+.foot__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem}
+.foot h4{margin:0 0 .7rem;font-size:.8125rem;color:var(--ink-soft);font-variation-settings:"wght" 560}
+.foot ul{margin:0;padding:0;list-style:none}
+.foot li{margin-bottom:.4rem}
+.foot a{text-decoration:none;color:var(--ink)}
+.foot a:hover{color:var(--verdigris-deep);text-decoration:underline;text-underline-offset:3px}
+.foot__base{margin-top:2.5rem;padding-top:1.25rem;border-top:var(--rule) solid var(--trace-faint);color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between}
+
+:focus-visible{outline:2px solid var(--verdigris-deep);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="shell masthead__in">
+    <a class="wordmark" href="/"><b>PSAI POWER</b><span>Sudbury, Ontario</span></a>
+    <nav class="nav">
+      <a href="#services">Services</a>
+      <a href="#sectors">Who we serve</a>
+      <a href="#reach">Projects</a>
+      <a href="#">Careers</a>
+      <a class="nav__cta" href="#contact">Talk to an engineer</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero shell">
+    <h1>Power systems that hold.</h1>
+    <p>Design, protection, and commissioning for utilities, mines, and industrial plants — from the first feasibility study through to site energization.</p>
+    <div class="hero__actions">
+      <a class="btn btn--solid" href="#services">See what we design</a>
+      <a class="btn btn--line" href="#contact">Talk to an engineer</a>
+    </div>
+
+    <figure class="sld">
+      <svg class="sld__wide" viewBox="0 0 1000 340" role="img" aria-labelledby="sldTitle sldDesc">
+        <title id="sldTitle">Single-line diagram of PSAI POWER's scope of work</title>
+        <desc id="sldDesc">A 115 kV utility supply passes through a disconnect switch, a circuit breaker, and a 115 to 25 kV step-down transformer onto a 25 kV distribution bus. Four feeders tap off that bus, each through its own breaker, standing for the firm's four areas of work: system studies, protection and control, substation design, and commissioning.</desc>
+
+        <!-- incoming conductor run (breaks where equipment sits) -->
+        <path class="conductor" pathLength="1" d="M46 46 V58 M46 78 V92 M46 110 V126 M46 168 V210"/>
+        <!-- disconnect blade, shown open-hinged per SLD convention -->
+        <path class="conductor" pathLength="1" d="M46 78 L63 59"/>
+
+        <!-- 25 kV distribution bus -->
+        <path class="bus" pathLength="1" d="M4 210 H986"/>
+
+        <!-- feeder conductor runs -->
+        <path class="conductor tap-run" pathLength="1" d="M290 210 V240 M290 258 V280 M480 210 V240 M480 258 V280 M670 210 V240 M670 258 V280 M880 210 V240 M880 258 V280"/>
+
+        <!-- equipment symbols sit on top and interrupt the conductor -->
+        <rect class="sym" x="37" y="92" width="18" height="18"/>
+        <circle class="sym" cx="46" cy="139" r="13"/>
+        <circle class="sym" cx="46" cy="155" r="13"/>
+        <rect class="sym" x="281" y="240" width="18" height="18"/>
+        <rect class="sym" x="471" y="240" width="18" height="18"/>
+        <rect class="sym" x="661" y="240" width="18" height="18"/>
+        <rect class="sym" x="871" y="240" width="18" height="18"/>
+
+        <!-- annotations -->
+        <text class="lbl" x="78" y="42">115 kV utility supply</text>
+        <text class="lbl--soft" x="78" y="76">disconnect</text>
+        <text class="lbl--soft" x="78" y="107">breaker</text>
+        <text class="lbl--soft" x="78" y="152">115 / 25 kV transformer</text>
+        <text class="lbl--soft" x="4" y="233">25 kV distribution bus</text>
+
+        <text class="lbl" x="290" y="304" text-anchor="middle">System studies</text>
+        <text class="lbl--soft" x="290" y="324" text-anchor="middle">load flow, short circuit, arc flash</text>
+
+        <text class="lbl" x="480" y="304" text-anchor="middle">Protection &amp; control</text>
+        <text class="lbl--soft" x="480" y="324" text-anchor="middle">relay selection and settings</text>
+
+        <text class="lbl" x="670" y="304" text-anchor="middle">Substation design</text>
+        <text class="lbl--soft" x="670" y="324" text-anchor="middle">single lines and layouts</text>
+
+        <text class="lbl" x="880" y="304" text-anchor="middle">Commissioning</text>
+        <text class="lbl--soft" x="880" y="324" text-anchor="middle">testing to energization</text>
+      </svg>
+
+      <!-- phone: same circuit drawn as a vertical riser -->
+      <svg class="sld__tall" viewBox="0 0 380 540" role="img" aria-labelledby="sldTitleT sldDescT">
+        <title id="sldTitleT">Single-line riser diagram of PSAI POWER's scope of work</title>
+        <desc id="sldDescT">The same circuit drawn vertically: a 115 kV utility supply through a disconnect, breaker and 115 to 25 kV transformer onto a 25 kV bus, with four feeders tapping off it.</desc>
+
+        <path class="conductor" pathLength="1" d="M40 32 V44 M40 64 V78 M40 96 V112 M40 154 V180"/>
+        <path class="conductor" pathLength="1" d="M40 64 L57 45"/>
+
+        <path class="bus" pathLength="1" d="M40 180 V500"/>
+
+        <path class="conductor tap-run" pathLength="1" d="M40 220 H74 M92 220 H116 M40 300 H74 M92 300 H116 M40 380 H74 M92 380 H116 M40 460 H74 M92 460 H116"/>
+
+        <rect class="sym" x="31" y="78" width="18" height="18"/>
+        <circle class="sym" cx="40" cy="125" r="13"/>
+        <circle class="sym" cx="40" cy="141" r="13"/>
+        <rect class="sym" x="74" y="211" width="18" height="18"/>
+        <rect class="sym" x="74" y="291" width="18" height="18"/>
+        <rect class="sym" x="74" y="371" width="18" height="18"/>
+        <rect class="sym" x="74" y="451" width="18" height="18"/>
+
+        <text class="lbl" x="66" y="28">115 kV utility supply</text>
+        <text class="lbl--soft" x="66" y="62">disconnect</text>
+        <text class="lbl--soft" x="66" y="93">breaker</text>
+        <text class="lbl--soft" x="66" y="138">115 / 25 kV transformer</text>
+        <text class="lbl--soft" x="4" y="524">25 kV distribution bus</text>
+
+        <text class="lbl" x="126" y="216">System studies</text>
+        <text class="lbl--soft" x="126" y="234">load flow, short circuit, arc flash</text>
+        <text class="lbl" x="126" y="296">Protection &amp; control</text>
+        <text class="lbl--soft" x="126" y="314">relay selection and settings</text>
+        <text class="lbl" x="126" y="376">Substation design</text>
+        <text class="lbl--soft" x="126" y="394">single lines and layouts</text>
+        <text class="lbl" x="126" y="456">Commissioning</text>
+        <text class="lbl--soft" x="126" y="474">testing to energization</text>
+      </svg>
+    </figure>
+  </section>
+
+  <section class="record">
+    <div class="shell">
+      <dl class="record__grid">
+        <div>
+          <dt>Largest DER interconnection delivered</dt>
+          <dd class="qty"><span class="val">150</span><span class="unit">MW</span></dd>
+        </div>
+        <div>
+          <dt>Regions with delivered projects</dt>
+          <dd class="qty"><span class="val">4</span><span class="unit">regions</span></dd>
+        </div>
+        <div>
+          <dt>Project delivery languages</dt>
+          <dd class="qty"><span class="val">EN / FR</span></dd>
+        </div>
+        <div>
+          <dt>Professional licensure</dt>
+          <dd class="qty"><span class="val">EGBC</span></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="band shell" id="services">
+    <div class="band__head">
+      <h2>What we design</h2>
+      <p>Six practices that run from a feasibility study through to the moment a system is put into service.</p>
+    </div>
+
+    <div class="taps">
+      <article class="tap"><div class="tap__row">
+        <h3>Power system design &amp; engineering</h3>
+        <p>End-to-end design, from feasibility and concept through detailed drawings, equipment specification, and final implementation.</p>
+      </div></article>
+      <article class="tap"><div class="tap__row">
+        <h3>Electrical system protection</h3>
+        <p>Protection schemes and relay coordination built so a fault clears where it should, and nowhere else.</p>
+      </div></article>
+      <article class="tap"><div class="tap__row">
+        <h3>Power system analysis &amp; simulation</h3>
+        <p>Load flow, short circuit, coordination, arc flash, and grounding studies modelled in ETAP and equivalent tools.</p>
+      </div></article>
+      <article class="tap"><div class="tap__row">
+        <h3>Renewable energy integration</h3>
+        <p>Interconnection studies and design for solar, wind, hydro, and storage joining an existing grid — including DER connections to 150 MW.</p>
+      </div></article>
+      <article class="tap"><div class="tap__row">
+        <h3>Grid modernization &amp; optimization</h3>
+        <p>Upgrades to ageing infrastructure that raise capacity and reliability without rebuilding from zero.</p>
+      </div></article>
+      <article class="tap"><div class="tap__row">
+        <h3>Energy audits &amp; efficiency studies</h3>
+        <p>Measurement of where energy is actually being lost, and what it costs to recover it.</p>
+      </div></article>
+    </div>
+  </section>
+
+  <section class="band shell" id="sectors">
+    <div class="band__head">
+      <h2>Who we serve</h2>
+      <p>The same engineering discipline, applied under six very different sets of constraints.</p>
+    </div>
+
+    <div class="sectors">
+      <article class="sector"><span class="sector__tag">Utilities &amp; grid operators</span>
+        <h3>Reliability at network scale</h3>
+        <p>Grid reliability work and the integration of new generation into existing networks.</p></article>
+      <article class="sector"><span class="sector__tag">Mining</span>
+        <h3>Power that cannot stop</h3>
+        <p>Remote operations and heavy equipment, where dewatering and hoisting do not get a second chance.</p></article>
+      <article class="sector"><span class="sector__tag">Renewable energy</span>
+        <h3>Getting connected</h3>
+        <p>System design, interconnection, and optimization for generation joining the grid.</p></article>
+      <article class="sector"><span class="sector__tag">Industrial manufacturing</span>
+        <h3>Continuous process loads</h3>
+        <p>Large-scale operations where an unplanned outage is measured in lost production.</p></article>
+      <article class="sector"><span class="sector__tag">Oil &amp; gas</span>
+        <h3>Hazardous and remote</h3>
+        <p>Offshore platforms, refineries, and pipeline operations under classified-area requirements.</p></article>
+      <article class="sector"><span class="sector__tag">Government &amp; regulatory</span>
+        <h3>Infrastructure and compliance</h3>
+        <p>Public infrastructure projects, code compliance, and system upgrade consulting.</p></article>
+    </div>
+  </section>
+
+  <section class="reach band" id="reach">
+    <div class="shell reach__grid">
+      <div>
+        <h2 style="margin:0 0 .75rem;font-size:clamp(1.75rem,1.3rem + 1.6vw,2.75rem);font-variation-settings:'wdth' 80,'wght' 660;letter-spacing:-0.02em;line-height:1.05">Global work, from a northern Ontario base</h2>
+        <p style="margin:0;color:var(--ink-soft);max-width:52ch">The grid does not care about borders or budgets. It responds only to whether someone did the calculation honestly. We have delivered under four regulatory regimes and found the same thing to be true in each.</p>
+      </div>
+      <ul class="regions">
+        <li>North America <span>utilities, mining, industrial</span></li>
+        <li>Latin America <span>generation and transmission</span></li>
+        <li>Caribbean <span>grid reliability and integration</span></li>
+        <li>Asia <span>industrial and renewable</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band shell close" id="contact">
+    <h2>Send us the single line.</h2>
+    <p>Tell us what you are building or what is failing. You will get an engineer on the phone, not a sales team.</p>
+    <div class="hero__actions" style="margin-top:0">
+      <a class="btn btn--solid" href="mailto:info@psaipowerinc.ca">info@psaipowerinc.ca</a>
+      <a class="btn btn--line" href="tel:+17059706244">+1 (705) 970-6244</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="shell">
+    <div class="foot__grid">
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Power system design</a></li>
+          <li><a href="#services">System protection</a></li>
+          <li><a href="#services">Analysis &amp; simulation</a></li>
+          <li><a href="#services">Renewable integration</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sectors</h4>
+        <ul>
+          <li><a href="#sectors">Utilities</a></li>
+          <li><a href="#sectors">Mining</a></li>
+          <li><a href="#sectors">Oil &amp; gas</a></li>
+          <li><a href="#sectors">Industrial</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Firm</h4>
+        <ul>
+          <li><a href="#">Leadership</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Licences</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:info@psaipowerinc.ca">info@psaipowerinc.ca</a></li>
+          <li><a href="tel:+17059706244">+1 (705) 970-6244</a></li>
+          <li>1099 Gordon Avenue, Unit 3<br>Sudbury, ON P3A 2V5</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>© 2026 PSAI POWER Inc.</span>
+      <span>Engineers and Geoscientists British Columbia</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
