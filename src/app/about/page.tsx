@@ -230,9 +230,10 @@ const AboutPage = () => {
                   </p>
                 */}
                 <p className="text-slate-600 leading-relaxed">
-                  PSAI Power is led by a licensed Professional Engineer with
-                  hands-on experience across utilities, industry, and
-                  renewable energy.
+                  IIT Delhi taught me the theory. Everything since has taught
+                  me the rest: the best work is judged by what never goes
+                  wrong, not by what gets noticed — and I've built my career
+                  on that difference.
                 </p>
               </div>
             </div>
