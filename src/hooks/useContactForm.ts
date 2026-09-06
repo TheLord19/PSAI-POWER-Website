@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { FORMSPREE_ENDPOINT } from "@/lib/constants";
 
 export function useContactForm() {
   const [formStatus, setFormStatus] = useState<
@@ -26,11 +25,10 @@ export function useContactForm() {
       try {
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData.entries());
-        const response = await fetch(FORMSPREE_ENDPOINT, {
+        const response = await fetch("/api/contact", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Accept: "application/json",
           },
           body: JSON.stringify(data),
           signal: controller.signal,

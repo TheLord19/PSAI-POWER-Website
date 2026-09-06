@@ -99,7 +99,7 @@ test('[CONTACT] Contact form has required fields', async ({ page }) => {
 test('[CONTACT] Phone and email links are present', async ({ page }) => {
     await page.goto('/contact-us');
     await expect(page.locator('a[href="tel:+17059706244"]')).toBeVisible();
-    await expect(page.locator('a[href="mailto:info@psaipowerinc.ca"]')).toBeVisible();
+    await expect(page.locator('a[href="mailto:team@psaipowerinc.ca"]')).toBeVisible();
 });
 
 test('[CONTACT] Ontario slideshow is present', async ({ page }) => {

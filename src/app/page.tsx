@@ -194,7 +194,7 @@ export default function Home() {
                   accent: "text-emerald-600",
                 },
                 {
-                  value: "2+",
+                  value: "Canada",
                   label: t("home-stats-countries"),
                   accent: "text-violet-600",
                 },
