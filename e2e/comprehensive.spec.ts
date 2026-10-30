@@ -1,96 +1,97 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Comprehensive Site Health Tests', () => {
+const KEY_PAGES = [
+  "/",
+  "/capabilities/protection-and-control",
+  "/capabilities/arc-flash-and-safety",
+  "/capabilities/commissioning",
+  "/projects",
+  "/projects/caribbean-solar-interconnection",
+  "/firm",
+  "/contact-us",
+  "/careers",
+  "/privacy-policy",
+  "/accessibility",
+];
 
-    test('All main navigation links should be functional', async ({ page }) => {
-        await page.goto('/');
+// Accessibility floor from the brief: responsive to 360px, visible keyboard
+// focus, reduced motion respected.
+test.describe("at 360px", () => {
+  test.use({ viewport: { width: 360, height: 780 } });
 
-        // Define labels exactly as they appear (uppercase in UI)
-        const navLinks = [
-            { name: "SERVICES", url: "/services" },
-            { name: "WHO WE SERVE", url: "/who-we-serve" },
-            { name: "ABOUT", url: "/about" },
-            { name: "RESOURCES", url: "/resources" },
-            { name: "LICENSES", url: "/licenses" },
-            { name: "CONTACT US", url: "/contact-us" },
-        ];
-
-        for (const link of navLinks) {
-            console.log(`Testing link: ${link.name}`);
-
-            // Re-find the element on each iteration to avoid staleness
-            const header = page.locator('header');
-            const navLink = header.getByRole('link', { name: link.name, exact: true }).first();
-
-            await expect(navLink).toBeVisible();
-            await navLink.click();
-
-            // Wait for navigation and verify URL
-            await expect(page).toHaveURL(new RegExp(link.url), { timeout: 10000 });
-
-            // Verify content exists
-            await expect(page.locator('h1')).toBeVisible();
-
-            // Go back to home for next iteration
-            await page.goto('/');
-        }
+  for (const path of KEY_PAGES) {
+    test(`${path} does not scroll sideways`, async ({ page }) => {
+      await page.goto(path);
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      );
+      expect(overflow).toBeLessThanOrEqual(0);
     });
+  }
 
-    test('Deeper links for specific services should work', async ({ page }) => {
-        const services = [
-            { id: 'power-system-design', name: /Power System/i },
-            { id: 'grid-modernization', name: /Grid/i },
-            { id: 'renewable-integration', name: /Renewable/i }
-        ];
+  test("mobile menu opens and navigates", async ({ page }) => {
+    await page.goto("/");
+    const toggle = page.locator('button[aria-controls="mobile-nav"]');
+    await toggle.click();
+    await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    await page.locator("#mobile-nav").getByRole("link", { name: "Projects" }).click();
+    await expect(page).toHaveURL(/\/projects$/);
+    await expect(page.locator("#mobile-nav")).toBeHidden();
+  });
+});
 
-        for (const service of services) {
-            await page.goto(`/services/${service.id}`);
-            await expect(page.locator('h1')).toContainText(service.name);
-            // Verify breadcrumb or "Overview" section
-            await expect(page.locator('h2')).toContainText(/Overview/i);
-        }
+test.describe("motion budget", () => {
+  test("reduced motion shows the energized diagram without animating", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+    const names = await page
+      .locator("svg .energise")
+      .evaluateAll((els) => els.map((e) => getComputedStyle(e).animationName));
+    expect(names.length).toBeGreaterThan(0);
+    expect(names.every((n) => n === "none")).toBe(true);
+  });
+});
+
+test.describe("accessibility basics", () => {
+  // The accessibility page promises that whatever has focus is always
+  // outlined. Tab through the first stops on each key page and check the
+  // browser draws a visible focus indicator on every one.
+  for (const path of KEY_PAGES) {
+    test(`${path}: keyboard focus is always visible`, async ({ page }) => {
+      await page.goto(path);
+      for (let i = 0; i < 8; i++) {
+        await page.keyboard.press("Tab");
+        const ring = await page.evaluate(() => {
+          const el = document.activeElement as HTMLElement | null;
+          if (!el || el === document.body) return null;
+          const s = getComputedStyle(el);
+          return {
+            tag: el.tagName,
+            text: (el.textContent || "").trim().slice(0, 40),
+            outline: s.outlineStyle !== "none" && parseFloat(s.outlineWidth) > 0,
+            shadow: s.boxShadow !== "none",
+          };
+        });
+        if (!ring) continue;
+        expect(ring.outline || ring.shadow, `no focus ring on <${ring.tag}> "${ring.text}"`).toBe(true);
+      }
     });
+  }
 
-    test('Deeper links for specific industries should work', async ({ page }) => {
-        const industries = [
-            { id: 'mining-industry', name: /Mining/i },
-            { id: 'oil-gas', name: /Oil/i },
-            { id: 'utilities-grid-operators', name: /Utilities/i }
-        ];
+  test("skip link is the first stop for keyboard users", async ({ page }) => {
+    await page.goto("/");
+    await page.keyboard.press("Tab");
+    await expect(page.getByRole("link", { name: "Skip to content" })).toBeFocused();
+  });
 
-        for (const industry of industries) {
-            await page.goto(`/who-we-serve/${industry.id}`);
-            await expect(page.locator('h1')).toContainText(industry.name);
-            await expect(page.locator('h2')).toContainText(/Overview/i);
-        }
+  for (const path of KEY_PAGES) {
+    test(`${path}: images have alt text and no script errors`, async ({ page }) => {
+      const errors: string[] = [];
+      page.on("pageerror", (err) => errors.push(err.message));
+      await page.goto(path);
+      await page.waitForLoadState("load");
+      await expect(page.locator("img:not([alt])")).toHaveCount(0);
+      expect(errors).toHaveLength(0);
     });
-
-    test('Contact form should be practical', async ({ page }) => {
-        await page.goto('/contact-us');
-
-        // Fill form
-        await page.fill('input[name="name"]', 'Test User');
-        await page.fill('input[name="email"]', 'test@example.com');
-        await page.fill('input[name="subject"]', 'E2E Test Inquiry');
-        await page.fill('textarea[name="message"]', 'This is an automated test message.');
-
-        // Verify submit button is enabled and visible
-        const submitBtn = page.locator('button[type="submit"]');
-        await expect(submitBtn).toBeVisible();
-        await expect(submitBtn).toBeEnabled();
-    });
-
-    test('Footer links and presence', async ({ page }) => {
-        await page.goto('/');
-        const footer = page.locator('footer');
-
-        // Check social links
-        const socialLinks = footer.locator('a[href="#"]');
-        await expect(socialLinks).toHaveCount(3); // Facebook, Twitter, LinkedIn
-
-        // Check copyright year
-        const currentYear = new Date().getFullYear().toString();
-        await expect(footer).toContainText(currentYear);
-        await expect(footer).toContainText(/PSAI POWER/);
-    });
+  }
 });

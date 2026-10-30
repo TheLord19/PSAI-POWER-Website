@@ -1,19 +1,30 @@
 import Link from "next/link";
 
+const WHERE_TO = [
+  { href: "/capabilities", label: "Capabilities" },
+  { href: "/projects", label: "Projects" },
+  { href: "/firm", label: "The firm" },
+  { href: "/contact-us", label: "Talk to an engineer" },
+];
+
 export default function NotFound() {
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center p-4 text-center">
-      <h1 className="text-9xl font-black text-slate-100 mb-4">404</h1>
-      <h2 className="text-3xl font-bold text-slate-900 mb-4">Page Not Found</h2>
-      <p className="text-slate-600 mb-8 max-w-md">
-        The page you are looking for doesn&apos;t exist or has been moved.
+    <div className="wrap pb-24 pt-16 sm:pt-20">
+      <p className="text-[0.9375rem] text-ink-3 tabular">404</p>
+      <h1 className="mt-2 max-w-[20ch]">Page not found</h1>
+      <p className="mt-4 max-w-[56ch] text-[1.0625rem] leading-relaxed text-ink-2">
+        The site was reorganized recently and some addresses changed. These
+        are the pages most people are looking for.
       </p>
-      <Link
-        href="/"
-        className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
-      >
-        Return Home
-      </Link>
+      <ul className="mt-8 max-w-[36rem] border-t border-rule">
+        {WHERE_TO.map((l) => (
+          <li key={l.href} className="border-b border-rule">
+            <Link href={l.href} className="block py-3">
+              {l.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

@@ -1,39 +1,40 @@
-
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
-      zIndex: {
-        '60': '60',
-        '70': '70',
-        '80': '80',
-        '90': '90',
-        '100': '100',
+      // PSAI Power tokens. Values live as CSS custom properties in
+      // src/styles/globals.css; Tailwind only maps names onto them.
+      colors: {
+        porcelain: { DEFAULT: 'var(--porcelain)', 2: 'var(--porcelain-2)' },
+        figure: 'var(--figure-ground)',
+        tank: { DEFAULT: 'var(--tank)', deep: 'var(--tank-deep)' },
+        steel: 'var(--steel)',
+        rule: 'var(--rule)',
+        ink: { 2: 'var(--ink-2)', 3: 'var(--ink-3)' },
+        'on-tank': { DEFAULT: 'var(--on-tank)', 2: 'var(--on-tank-2)' },
+        'tank-rule': 'var(--tank-rule)',
+        live: {
+          DEFAULT: 'var(--live)',
+          ink: 'var(--live-ink)',
+          line: 'var(--live-line)',
+        },
+        'phase-b': 'var(--phase-b)',
+        fault: 'var(--fault)',
       },
       fontFamily: {
-        'sans': ['Segoe UI', 'system-ui', 'sans-serif'],
+        sans: ['var(--sans)'],
+        serif: ['var(--serif)'],
       },
-      colors: {
-        'psai-blue': '#012e69',
-        'psai-light-blue': '#0078d4',
+      borderRadius: {
+        // 0 is structural, 2px is interactive. Radius carries no other meaning.
+        interactive: '2px',
       },
-      animation: {
-        'bounce-alt': 'bounce-alt 0.5s infinite alternate',
-        'fade-in': 'fade-in 0.3s ease',
-      },
-      keyframes: {
-        'bounce-alt': {
-          'from': { transform: 'translateY(0)' },
-          'to': { transform: 'translateY(2px)' },
-        },
-        'fade-in': {
-          'from': { opacity: '0' },
-          'to': { opacity: '1' },
-        },
+      maxWidth: {
+        wrap: 'var(--wrap)',
       },
     },
   },

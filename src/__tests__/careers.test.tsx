@@ -1,35 +1,39 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import CareersPage from "../app/careers/page";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (str: string) => str,
-    i18n: {
-      changeLanguage: () => new Promise(() => {}),
-      language: "en",
-    },
-  }),
-}));
-
-describe("Careers Page", () => {
-  it("renders the hero and both openings", () => {
+describe("Careers page", () => {
+  it("renders both openings from the translation file", () => {
     render(<CareersPage />);
-    expect(screen.getByText("careers-hero-title")).toBeTruthy();
-    expect(screen.getByText("careers-eng-title")).toBeTruthy();
-    expect(screen.getByText("careers-tech-title")).toBeTruthy();
+    expect(
+      screen.getByRole("heading", { level: 2, name: /Intermediate Electrical Engineer/ }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("heading", { level: 2, name: /Electrical Field Technician/ }),
+    ).toBeTruthy();
   });
 
   it("renders the work-eligibility note", () => {
     render(<CareersPage />);
-    expect(screen.getByText("careers-eligibility")).toBeTruthy();
+    expect(screen.getByText(/legally entitled to work in Canada/)).toBeTruthy();
   });
 
-  it("links applications to the company email", () => {
+  it("sends applications to team@psaipowerinc.ca", () => {
     render(<CareersPage />);
-    const links = screen
+    const mailtos = screen
       .getAllByRole("link")
       .filter((a) => a.getAttribute("href")?.startsWith("mailto:"));
-    expect(links.length).toBeGreaterThanOrEqual(2);
+    expect(mailtos.length).toBeGreaterThanOrEqual(2);
+    mailtos.forEach((a) =>
+      expect(a.getAttribute("href")).toMatch(/^mailto:team@psaipowerinc\.ca/),
+    );
+  });
+
+  it("emits JobPosting structured data for each opening", () => {
+    const { container } = render(<CareersPage />);
+    const blocks = Array.from(
+      container.querySelectorAll('script[type="application/ld+json"]'),
+    ).map((s) => JSON.parse(s.innerHTML));
+    expect(blocks.filter((b) => b["@type"] === "JobPosting")).toHaveLength(2);
   });
 });

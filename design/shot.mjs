@@ -1,0 +1,13 @@
+import { chromium } from '@playwright/test';
+const b = await chromium.launch();
+const p = await b.newPage({ viewport:{width:1440,height:1000}, deviceScaleFactor:2 });
+await p.goto('file:///D:/PROJECTS/Website/PSAI-redesign/design/home.html');
+await p.waitForTimeout(2500);
+await p.screenshot({ path:'D:/PROJECTS/Website/PSAI-redesign/design/shot-hero.png' });
+await p.screenshot({ path:'D:/PROJECTS/Website/PSAI-redesign/design/shot-full.png', fullPage:true });
+const m = await b.newPage({ viewport:{width:390,height:844}, deviceScaleFactor:2 });
+await m.goto('file:///D:/PROJECTS/Website/PSAI-redesign/design/home.html');
+await m.waitForTimeout(1500);
+await m.screenshot({ path:'D:/PROJECTS/Website/PSAI-redesign/design/shot-mobile.png', fullPage:true });
+await b.close();
+console.log('OK');

@@ -1,70 +1,35 @@
 // src/app/layout.tsx
 
-import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
+import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/react";
+import { archivo, sourceSerif } from "./fonts";
+import { SiteHeader } from "@/components/site/SiteHeader";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import { ORG, SITE_URL } from "@/lib/constants";
+import { jsonLd, organizationSchema } from "@/lib/structured-data";
 import "../styles/globals.css";
 
-import PageTransition from "../components/layout/PageTransition";
-import I18nProvider from "../components/layout/I18nProvider";
-import ScrollMeter from "../components/effects/ScrollMeter";
-import { Analytics } from "@vercel/analytics/react";
-import { CONTACT } from "@/lib/constants";
+const TITLE = "PSAI Power — Power system engineering, Sudbury, Ontario";
+const DESCRIPTION =
+  "Power system studies, protection and control, arc flash, renewable interconnection, substation design and commissioning for utilities, mines and renewable developers.";
 
-const outfit = Outfit({ subsets: ["latin"] });
-
-const SITE_URL = "https://psaipowerinc.ca";
-const SITE_TITLE = "PSAI POWER - Powering the Future with Energy Solutions";
-const SITE_DESCRIPTION =
-  "Trusted power engineering solutions ensuring grid reliability, modernization, and seamless renewable energy integration across Canada and North America.";
-
+// Pages set their own title, description and canonical via pageMetadata().
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: SITE_TITLE,
-  description: SITE_DESCRIPTION,
+  title: { default: TITLE, template: "%s — PSAI Power" },
+  description: DESCRIPTION,
   openGraph: {
     type: "website",
-    url: SITE_URL,
-    siteName: "PSAI Power Inc.",
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
+    siteName: ORG.NAME,
     locale: "en_CA",
-    images: [
-      {
-        url: "/images/hero/services.jpg",
-        width: 1200,
-        height: 630,
-        alt: "PSAI Power Inc. — Power Engineering Solutions",
-      },
-    ],
+    title: TITLE,
+    description: DESCRIPTION,
   },
-  twitter: {
-    card: "summary_large_image",
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
-    images: ["/images/hero/services.jpg"],
-  },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: "PSAI Power Inc.",
-  url: SITE_URL,
-  email: CONTACT.EMAIL,
-  telephone: CONTACT.PHONE,
-  description: SITE_DESCRIPTION,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: CONTACT.ADDRESS.LINE1,
-    addressLocality: "Sudbury",
-    addressRegion: "ON",
-    postalCode: "P3A 2V5",
-    addressCountry: "CA",
-  },
-  areaServed: "CA",
-  sameAs: [CONTACT.LINKEDIN],
+export const viewport: Viewport = {
+  themeColor: "#172A3A",
 };
 
 export default function RootLayout({
@@ -73,24 +38,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={`${outfit.className} antialiased flex flex-col min-h-screen bg-gray-50`}
-      >
+    <html lang="en-CA" className={`${archivo.variable} ${sourceSerif.variable}`}>
+      <body className="flex min-h-screen flex-col">
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+        <SiteHeader />
+        <main id="main" className="flex-grow">
+          {children}
+        </main>
+        <SiteFooter />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={jsonLd(organizationSchema())}
         />
-        <I18nProvider>
-          <Header />
-
-          <main className="flex-grow">
-            <PageTransition>{children}</PageTransition>
-          </main>
-
-          <Footer />
-          <ScrollMeter />
-        </I18nProvider>
         <Analytics />
       </body>
     </html>

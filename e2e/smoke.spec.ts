@@ -1,31 +1,36 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
+import { capabilities } from "../src/content/capabilities";
+import { projects } from "../src/content/projects";
+import { sectors } from "../src/content/sectors";
 
-test.describe('Smoke tests', () => {
-    test('homepage should load and show main content', async ({ page }) => {
-        await page.goto('/');
+// Every route in the new information architecture.
+const ROUTES = [
+  "/",
+  "/capabilities",
+  ...capabilities.map((c) => `/capabilities/${c.slug}`),
+  "/projects",
+  ...projects.map((p) => `/projects/${p.slug}`),
+  "/sectors",
+  ...sectors.map((s) => `/sectors/${s.slug}`),
+  "/firm",
+  "/careers",
+  "/contact-us",
+  "/privacy-policy",
+  "/terms-of-service",
+  "/accessibility",
+];
 
-        // Check if the title is correct
-        await expect(page).toHaveTitle(/PSAI POWER/);
+for (const path of ROUTES) {
+  test(`${path} loads with one h1`, async ({ page }) => {
+    const res = await page.goto(path);
+    expect(res?.status()).toBe(200);
+    await expect(page.locator("h1")).toHaveCount(1);
+    await expect(page).toHaveTitle(/PSAI Power/);
+  });
+}
 
-        // Check if the main heading is visible
-        const heading = page.locator('h1');
-        await expect(heading).toBeVisible();
-
-        // Ensure the page content is not empty/blank
-        const mainContent = page.locator('main');
-        await expect(mainContent).not.toBeEmpty();
-
-        // Check if certain sections are visible
-        await expect(page.getByText('Core Solutions')).toBeVisible();
-    });
-
-    test('about page should load', async ({ page }) => {
-        await page.goto('/about');
-        await expect(page.locator('h1')).toContainText('About PSAI POWER');
-    });
-
-    test('services page should load', async ({ page }) => {
-        await page.goto('/services');
-        await expect(page.locator('h1')).toBeVisible();
-    });
+test("unknown pages return 404 with a way back", async ({ page }) => {
+  const res = await page.goto("/no-such-page");
+  expect(res?.status()).toBe(404);
+  await expect(page.locator("main").getByRole("link", { name: "Capabilities" })).toBeVisible();
 });

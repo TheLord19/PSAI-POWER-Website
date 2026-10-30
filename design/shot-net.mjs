@@ -1,0 +1,14 @@
+import { chromium } from '@playwright/test';
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
+const pending = new Map();
+p.on('request', (r) => pending.set(r, r.url()));
+p.on('requestfinished', (r) => pending.delete(r));
+p.on('requestfailed', (r) => pending.delete(r));
+await p.goto('http://localhost:3210/firm', { waitUntil: 'load' });
+await p.waitForTimeout(6000);
+console.log('still pending after 6s:');
+for (const url of pending.values()) console.log('  -', url);
+console.log('images without alt:', await p.locator('img:not([alt])').count());
+console.log('img srcs:', await p.locator('img').evaluateAll((els) => els.map((e) => e.currentSrc || e.src)));
+await b.close();

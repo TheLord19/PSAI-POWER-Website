@@ -1,133 +1,98 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
+import { projects } from "../src/content/projects";
 
-// ─── Page load tests ──────────────────────────────────────────────────────────
+test.describe("navigation", () => {
+  test("main nav reaches each section and marks it current", async ({ page }) => {
+    await page.goto("/");
+    const sections: [string, string][] = [
+      ["Capabilities", "/capabilities"],
+      ["Projects", "/projects"],
+      ["Sectors", "/sectors"],
+      ["Firm", "/firm"],
+    ];
+    for (const [label, path] of sections) {
+      const nav = page.getByRole("navigation", { name: "Main" });
+      await nav.getByRole("link", { name: label, exact: true }).click();
+      await expect(page).toHaveURL(new RegExp(`${path}$`));
+      await expect(
+        page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: label, exact: true }),
+      ).toHaveAttribute("aria-current", "page");
+    }
+  });
 
-const pages = [
-    { name: 'Home', path: '/', heading: null },
-    { name: 'Services', path: '/services', heading: 'services' },
-    { name: 'Who We Serve', path: '/who-we-serve', heading: null },
-    { name: 'About', path: '/about', heading: null },
-    { name: 'Licenses', path: '/licenses', heading: null },
-    { name: 'Contact Us', path: '/contact-us', heading: null },
+  test("header CTA goes to the contact page", async ({ page }) => {
+    await page.goto("/");
+    await page
+      .getByRole("navigation", { name: "Main" })
+      .getByRole("link", { name: "Talk to an engineer" })
+      .click();
+    await expect(page).toHaveURL(/\/contact-us$/);
+  });
+});
+
+// Every retired URL must 301/308 to its replacement, or rankings and inbound
+// links are lost.
+const REDIRECTS: [string, string][] = [
+  ["/services", "/capabilities"],
+  ["/services/electrical-protection", "/capabilities/protection-and-control"],
+  ["/services/system-analysis", "/capabilities/power-system-studies"],
+  ["/services/renewable-integration", "/capabilities/renewable-interconnection"],
+  ["/services/power-system-design", "/capabilities/substation-design"],
+  ["/who-we-serve", "/sectors"],
+  ["/who-we-serve/mining-industry", "/sectors/mining"],
+  ["/who-we-serve/oil-gas", "/sectors"],
+  ["/about", "/firm"],
+  ["/licenses", "/firm"],
+  ["/team", "/firm"],
+  ["/resources", "/capabilities"],
+  ["/resources/case-studies", "/capabilities"],
+  ["/contact", "/contact-us"],
 ];
 
-for (const { name, path } of pages) {
-    test(`[PAGE] ${name} loads with 200`, async ({ page }) => {
-        const response = await page.goto(path);
-        expect(response?.status()).toBe(200);
+test.describe("retired URLs redirect permanently", () => {
+  for (const [from, to] of REDIRECTS) {
+    test(`${from} → ${to}`, async ({ request }) => {
+      const res = await request.get(from, { maxRedirects: 0 });
+      expect(res.status()).toBe(308);
+      expect(new URL(res.headers()["location"], "http://localhost").pathname).toBe(to);
     });
-
-    test(`[PAGE] ${name} has no broken layout (body visible)`, async ({ page }) => {
-        await page.goto(path);
-        await page.waitForLoadState('domcontentloaded');
-        const body = page.locator('body');
-        await expect(body).toBeVisible();
-    });
-}
-
-// ─── Header navigation ────────────────────────────────────────────────────────
-
-test('[NAV] Header logo is visible', async ({ page }) => {
-    await page.goto('/');
-    const logo = page.locator('header img[alt="PSAI Power Inc."]');
-    await expect(logo).toBeVisible();
+  }
 });
 
-test('[NAV] All main nav links are present', async ({ page }) => {
-    await page.goto('/');
-    const navLinks = ['SERVICES', 'WHO WE SERVE', 'ABOUT', 'LICENSES', 'CONTACT US'];
-    for (const label of navLinks) {
-        await expect(page.getByRole('link', { name: label, exact: true }).first()).toBeVisible();
+test.describe("interactions", () => {
+  test("hero fault demo switches outcome", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.getByText("1 of 3")).toBeVisible();
+    const without = page.getByRole("button", { name: "Without a coordination study" });
+    await without.click();
+    await expect(without).toHaveAttribute("aria-pressed", "true");
+    await expect(page.getByText("3 of 3")).toBeVisible();
+  });
+
+  test("project archive filters by sector", async ({ page }) => {
+    await page.goto("/projects");
+    const total = projects.length;
+    const mining = projects.filter((p) => p.sector === "Mining").length;
+    await expect(page.getByText(`Showing ${total} of ${total}`)).toBeVisible();
+    await page.getByRole("button", { name: /^Mining/ }).click();
+    await expect(page.getByText(`Showing ${mining} of ${total}`)).toBeVisible();
+  });
+
+  test("contact form has the required fields and the referral question", async ({ page }) => {
+    await page.goto("/contact-us");
+    for (const name of ["name", "email", "subject", "message"]) {
+      await expect(page.locator(`[name="${name}"]`)).toHaveAttribute("required", "");
     }
+    await expect(page.locator('select[name="referral"]')).toBeVisible();
+    await expect(page.locator('main a[href="mailto:team@psaipowerinc.ca"]').first()).toBeVisible();
+    await expect(page.locator('main a[href="tel:+17059706244"]').first()).toBeVisible();
+  });
+
+  test("footer lists each legal link once, with the full address", async ({ page }) => {
+    await page.goto("/");
+    const footer = page.locator("footer");
+    await expect(footer.getByRole("link", { name: /privacy policy/i })).toHaveCount(1);
+    await expect(footer.getByRole("link", { name: /terms of service/i })).toHaveCount(1);
+    await expect(footer).toContainText("Sudbury, ON P3A 2V5");
+  });
 });
-
-test('[NAV] Services dropdown appears on hover', async ({ page }) => {
-    await page.goto('/');
-    await page.getByRole('link', { name: 'SERVICES', exact: true }).hover();
-    await page.waitForTimeout(400); // wait for 300ms delay + render
-    const dropdown = page.locator('div.bg-\\[\\#012e69\\]').first();
-    await expect(dropdown).toBeVisible();
-});
-
-test('[NAV] Language toggle EN/FR buttons visible', async ({ page }) => {
-    await page.goto('/');
-    await expect(page.getByRole('button', { name: 'EN' })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'FR' })).toBeVisible();
-});
-
-test('[NAV] Search button is NOT visible (disabled)', async ({ page }) => {
-    await page.goto('/');
-    const searchBtn = page.locator('button[aria-label="Open search"]');
-    await expect(searchBtn).toHaveCount(0);
-});
-
-// ─── Services page ────────────────────────────────────────────────────────────
-
-test('[SERVICES] All 6 service cards are present', async ({ page }) => {
-    await page.goto('/services');
-    await page.waitForLoadState('networkidle');
-    // Each card has an img element loaded from pexels
-    const cards = page.locator('img[src*="pexels.com"]');
-    const count = await cards.count();
-    expect(count).toBeGreaterThanOrEqual(6);
-});
-
-// ─── Who We Serve page ────────────────────────────────────────────────────────
-
-test('[WWS] All 5 industry cards are present', async ({ page }) => {
-    await page.goto('/who-we-serve');
-    await page.waitForLoadState('networkidle');
-    const cards = page.locator('img[src*="pexels.com"]');
-    const count = await cards.count();
-    expect(count).toBeGreaterThanOrEqual(5);
-});
-
-// ─── Contact page ─────────────────────────────────────────────────────────────
-
-test('[CONTACT] Contact form is present', async ({ page }) => {
-    await page.goto('/contact-us');
-    await expect(page.locator('form')).toBeVisible();
-});
-
-test('[CONTACT] Contact form has required fields', async ({ page }) => {
-    await page.goto('/contact-us');
-    await expect(page.locator('input[name="name"]')).toBeVisible();
-    await expect(page.locator('input[name="email"]')).toBeVisible();
-    await expect(page.locator('textarea[name="message"]')).toBeVisible();
-});
-
-test('[CONTACT] Phone and email links are present', async ({ page }) => {
-    await page.goto('/contact-us');
-    await expect(page.locator('a[href="tel:+17059706244"]')).toBeVisible();
-    await expect(page.locator('a[href="mailto:info@psaipowerinc.ca"]')).toBeVisible();
-});
-
-test('[CONTACT] Ontario slideshow is present', async ({ page }) => {
-    await page.goto('/contact-us');
-    await page.waitForLoadState('networkidle');
-    const slideshow = page.locator('img[src*="pexels.com"]').first();
-    await expect(slideshow).toBeVisible();
-});
-
-// ─── Licenses page ────────────────────────────────────────────────────────────
-
-test('[LICENSES] License cards are present (min 5)', async ({ page }) => {
-    await page.goto('/licenses');
-    // look for PEO, EGBC, WSIB, EngGeoMB, IEEE text
-    const orgs = ['PEO', 'EGBC', 'WSIB', 'IEEE'];
-    for (const org of orgs) {
-        await expect(page.getByText(org, { exact: false }).first()).toBeVisible();
-    }
-});
-
-// ─── No console errors on key pages ──────────────────────────────────────────
-
-for (const path of ['/', '/services', '/who-we-serve', '/contact-us']) {
-    test(`[CONSOLE] No JS errors on ${path}`, async ({ page }) => {
-        const errors: string[] = [];
-        page.on('pageerror', (err) => errors.push(err.message));
-        await page.goto(path);
-        await page.waitForLoadState('networkidle');
-        expect(errors).toHaveLength(0);
-    });
-}

@@ -1,173 +1,142 @@
-"use client";
-
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { CheckCircle2, Mail, MapPin, Briefcase } from "lucide-react";
-import Breadcrumbs from "@/components/common/Breadcrumbs";
+import Link from "next/link";
+import { TitleBlock } from "@/components/ui/TitleBlock";
 import { CONTACT } from "@/lib/constants";
+import { copy } from "@/lib/copy";
+import { pageMetadata } from "@/lib/metadata";
+import { jobPostingSchema, jsonLd } from "@/lib/structured-data";
 
-interface Job {
-  key: "eng" | "tech";
-  respCount: number;
-  qualCount: number;
-  assetCount: number;
-}
-
-const JOBS: Job[] = [
+// These two postings are the most technically credible writing on the site
+// and the house voice for everything else. Text stays in the translation file
+// so a French version can reuse the keys.
+const JOBS = [
   { key: "eng", respCount: 6, qualCount: 5, assetCount: 3 },
   { key: "tech", respCount: 6, qualCount: 5, assetCount: 4 },
-];
+] as const;
 
-function range(n: number): number[] {
-  return Array.from({ length: n }, (_, i) => i + 1);
+// Required by Google Jobs. Confirm the real posting date — list.md.
+const DATE_POSTED = "2026-09-11";
+
+const range = (n: number) => Array.from({ length: n }, (_, i) => i + 1);
+
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const htmlList = (items: string[]) =>
+  `<ul>${items.map((i) => `<li>${escapeHtml(i)}</li>`).join("")}</ul>`;
+
+export const metadata = pageMetadata({
+  title: "Careers",
+  description:
+    "Open roles at PSAI Power: intermediate electrical engineer (power systems) and electrical field technician. Sudbury, Ontario and project sites.",
+  path: "/careers",
+});
+
+function List({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div>
+      <h3 className="text-[1rem]">{title}</h3>
+      <ul className="checks mt-3">
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 export default function CareersPage() {
-  const { t } = useTranslation();
+  const jobs = JOBS.map((j) => ({
+    key: j.key,
+    title: copy(`careers-${j.key}-title`),
+    exp: copy(`careers-${j.key}-exp`),
+    summary: copy(`careers-${j.key}-summary`),
+    resp: range(j.respCount).map((i) => copy(`careers-${j.key}-r${i}`)),
+    qual: range(j.qualCount).map((i) => copy(`careers-${j.key}-q${i}`)),
+    assets: range(j.assetCount).map((i) => copy(`careers-${j.key}-a${i}`)),
+  }));
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-[#0B1120] text-white py-20 sm:py-28 px-4">
-        <div className="absolute inset-0 z-0 opacity-25 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-[100px]" />
-          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-cyan-600/20 rounded-full blur-[120px]" />
-        </div>
-        <div className="relative z-10 text-center max-w-3xl mx-auto">
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 tracking-tight">
-            {t("careers-hero-title")}
-          </h1>
-          <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
-            {t("careers-hero-subtitle")}
-          </p>
-        </div>
-      </section>
+    <>
+      {jobs.map((j) => (
+        <script
+          key={j.key}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={jsonLd(
+            jobPostingSchema({
+              title: j.title,
+              description: [
+                `<p>${escapeHtml(j.summary)}</p>`,
+                `<p>${escapeHtml(copy("careers-resp-title"))}</p>`,
+                htmlList(j.resp),
+                `<p>${escapeHtml(copy("careers-qual-title"))}</p>`,
+                htmlList(j.qual),
+                `<p>${escapeHtml(copy("careers-eligibility"))}</p>`,
+              ].join(""),
+              datePosted: DATE_POSTED,
+              employmentType: "FULL_TIME",
+            }),
+          )}
+        />
+      ))}
 
-      <Breadcrumbs items={[{ label: t("careers") }]} />
+      <TitleBlock
+        title="Careers"
+        sub={copy("careers-hero-subtitle")}
+        meta={[
+          { label: "Openings", value: String(jobs.length) },
+          { label: "Location", value: "Sudbury, ON and project sites" },
+          { label: "Employment", value: "Full-time" },
+          { label: "Eligibility", value: "Entitled to work in Canada" },
+        ]}
+      />
 
-      <section className="py-12 sm:py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          {/* Intro */}
-          <p className="text-slate-600 leading-relaxed text-base sm:text-lg mb-12 max-w-3xl">
-            {t("careers-intro")}
-          </p>
+      <div className="wrap pb-20 pt-12">
+        <p className="max-w-[64ch] text-[1.0625rem] leading-relaxed text-ink-2">
+          {copy("careers-intro")} <Link href="/projects">See the projects</Link>{" "}
+          for the kind of work involved.
+        </p>
 
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-8 tracking-tight">
-            {t("careers-openings-title")}
-          </h2>
+        {jobs.map((j) => {
+          const mailto = `mailto:${CONTACT.EMAIL}?subject=${encodeURIComponent(
+            `Application — ${j.title}`,
+          )}`;
+          return (
+            <article
+              key={j.key}
+              aria-labelledby={`job-${j.key}`}
+              className="mt-14 border-t-[3px] border-tank pt-6"
+            >
+              <h2 id={`job-${j.key}`} className="max-w-[32ch]">
+                {j.title}
+              </h2>
+              <p className="mt-3 text-[0.9375rem] text-ink-3">
+                {copy("careers-location")} · {j.exp}
+              </p>
+              <p className="mt-5 max-w-[68ch] leading-relaxed">{j.summary}</p>
 
-          {/* Postings */}
-          <div className="space-y-8">
-            {JOBS.map((job) => {
-              const title = t(`careers-${job.key}-title`);
-              const mailto = `mailto:${CONTACT.EMAIL}?subject=${encodeURIComponent(
-                `Application — ${title}`,
-              )}`;
+              <div className="mt-8 grid gap-10 md:grid-cols-2">
+                <List title={copy("careers-resp-title")} items={j.resp} />
+                <div className="space-y-8">
+                  <List title={copy("careers-qual-title")} items={j.qual} />
+                  <List title={copy("careers-assets-title")} items={j.assets} />
+                </div>
+              </div>
 
-              return (
-                <article
-                  key={job.key}
-                  className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 sm:p-8"
-                >
-                  <header className="mb-6">
-                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3">
-                      {title}
-                    </h3>
-                    <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-slate-500">
-                      <span className="inline-flex items-center gap-1.5">
-                        <MapPin className="w-4 h-4 text-blue-600" />
-                        {t("careers-location")}
-                      </span>
-                      <span className="inline-flex items-center gap-1.5">
-                        <Briefcase className="w-4 h-4 text-blue-600" />
-                        {t(`careers-${job.key}-exp`)}
-                      </span>
-                    </div>
-                  </header>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+                <a href={mailto} className="btn btn-tank self-start">
+                  {copy("careers-apply-cta")}
+                </a>
+                <p className="text-[0.9375rem] text-ink-3">
+                  {copy("careers-apply-note")} <a href={mailto}>{CONTACT.EMAIL}</a>
+                </p>
+              </div>
+            </article>
+          );
+        })}
 
-                  <p className="text-slate-600 leading-relaxed mb-8">
-                    {t(`careers-${job.key}-summary`)}
-                  </p>
-
-                  <div className="grid md:grid-cols-2 gap-8 mb-8">
-                    <div>
-                      <h4 className="text-sm font-semibold text-blue-700 uppercase tracking-widest mb-4">
-                        {t("careers-resp-title")}
-                      </h4>
-                      <ul className="space-y-2.5">
-                        {range(job.respCount).map((i) => (
-                          <li
-                            key={i}
-                            className="flex items-start text-sm text-slate-700"
-                          >
-                            <CheckCircle2 className="w-4 h-4 mr-2.5 flex-shrink-0 mt-0.5 text-blue-600" />
-                            <span>{t(`careers-${job.key}-r${i}`)}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-semibold text-blue-700 uppercase tracking-widest mb-4">
-                        {t("careers-qual-title")}
-                      </h4>
-                      <ul className="space-y-2.5">
-                        {range(job.qualCount).map((i) => (
-                          <li
-                            key={i}
-                            className="flex items-start text-sm text-slate-700"
-                          >
-                            <CheckCircle2 className="w-4 h-4 mr-2.5 flex-shrink-0 mt-0.5 text-blue-600" />
-                            <span>{t(`careers-${job.key}-q${i}`)}</span>
-                          </li>
-                        ))}
-                      </ul>
-
-                      <h4 className="text-sm font-semibold text-slate-500 uppercase tracking-widest mt-6 mb-4">
-                        {t("careers-assets-title")}
-                      </h4>
-                      <ul className="space-y-2.5">
-                        {range(job.assetCount).map((i) => (
-                          <li
-                            key={i}
-                            className="flex items-start text-sm text-slate-600"
-                          >
-                            <CheckCircle2 className="w-4 h-4 mr-2.5 flex-shrink-0 mt-0.5 text-slate-400" />
-                            <span>{t(`careers-${job.key}-a${i}`)}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  <footer className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center gap-4">
-                    <a
-                      href={mailto}
-                      className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-sm transition-colors"
-                    >
-                      <Mail className="w-4 h-4" />
-                      {t("careers-apply-cta")}
-                    </a>
-                    <p className="text-sm text-slate-500">
-                      {t("careers-apply-note")}{" "}
-                      <a
-                        href={mailto}
-                        className="text-blue-600 hover:underline font-medium"
-                      >
-                        {CONTACT.EMAIL}
-                      </a>
-                    </p>
-                  </footer>
-                </article>
-              );
-            })}
-          </div>
-
-          {/* Eligibility */}
-          <div className="mt-10 bg-slate-100 border border-slate-200 rounded-lg p-5 text-sm text-slate-600 leading-relaxed">
-            {t("careers-eligibility")}
-          </div>
-        </div>
-      </section>
-    </div>
+        <p className="mt-14 max-w-[68ch] border-l-[3px] border-rule pl-5 text-[0.9375rem] leading-relaxed text-ink-2">
+          {copy("careers-eligibility")}
+        </p>
+      </div>
+    </>
   );
 }

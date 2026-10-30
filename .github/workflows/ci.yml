@@ -1,33 +1,94 @@
-name: CI/CD Pipeline
+name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
 
 jobs:
-  build-and-test:
+  verify:
+    name: Lint, types, unit tests, build
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
+      - run: npm ci
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Lint
+        run: npm run lint
 
-    - name: Run Linting
-      run: npm run lint
+      - name: Type check
+        run: npx tsc --noEmit
 
-    - name: Run Tests
-      run: npm run test
+      - name: Unit tests
+        run: npm run test
 
-    - name: Build Project
-      run: npm run build
+      - name: Build
+        run: npm run build
+
+      # Production dependencies must carry no known vulnerabilities. Dev-only
+      # advisories are reported but do not fail the build: nothing in the test
+      # or build toolchain is served to a visitor.
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=low
+
+      - name: Audit dev dependencies (report only)
+        run: npm audit || true
+
+  e2e:
+    name: End-to-end
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+
+      - name: Playwright
+        run: npm run test:e2e
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  metrics:
+    name: Lighthouse and JS budget
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+
+      # Accessibility, SEO, best practices and CLS are held as hard gates.
+      # Performance and LCP are warnings against the brief's targets, which
+      # the site does not meet yet — see design/performance-budget.md.
+      - name: Lighthouse CI
+        run: npx lhci autorun
+
+      - name: JS transfer budget
+        run: |
+          npx next start -p 3210 &
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:3210/ -o /dev/null && break
+            sleep 2
+          done
+          node design/js-budget.mjs http://localhost:3210 --assert

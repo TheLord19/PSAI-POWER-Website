@@ -1,31 +1,330 @@
 /* src/styles/globals.css */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+/* ------------------------------------------------------------------------
+   PSAI Power design tokens — from psai-handoff/design/tokens.css.
+
+   Palette is grounded in substation materials and the logo. --live means
+   energised: it marks what is active or needs attention, never decoration.
+   If it covers more than ~3% of the screen it has been overused.
+
+   Contrast notes (WCAG AA):
+   - --steel is linework only. It fails as text on porcelain (2.7:1); use
+     --ink-3 (5.4:1) or --ink-2 for secondary text.
+   - --live is never text on a light ground (1.6:1). Use --live-ink for text
+     and --live-line for strokes on light figures.
+   ------------------------------------------------------------------------ */
+:root {
+  --porcelain: #f1f3f4; /* page base — cool insulator white, not cream */
+  --porcelain-2: #e7ebec; /* row hover, pressed states */
+  --figure-ground: #eaeeef; /* technical figure panels */
+  --tank: #172a3a; /* ink and dark sections — transformer tank navy */
+  --tank-deep: #0f1d28; /* footer */
+  --steel: #8a939a; /* diagram linework */
+  --rule: #d5d9db; /* structural rules */
+  --ink-2: #4e585f; /* secondary text on porcelain */
+  --ink-3: #5a646b; /* tertiary text on porcelain */
+  --on-tank: #c3ccd2; /* secondary text on tank */
+  --on-tank-2: #8fa0ac; /* labels on tank */
+  --tank-rule: rgba(255, 255, 255, 0.16);
+  --live: #f2b705; /* accent — energised, active, attention */
+  --live-ink: #7a5e00; /* live as text on light grounds */
+  --live-line: #a67c00; /* live as a stroke on light grounds */
+  --phase-b: #2e5d82; /* links and interactive affordances */
+  --fault: #c0392b; /* faults and error states only */
+
+  --sans: var(--font-archivo), "Archivo", system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --serif: var(--font-source-serif), "Source Serif 4", Georgia, serif;
+
+  /* Type scale, 1.25 ratio, anchored at 17px. */
+  --t-display: clamp(2.4rem, 5.2vw, 4.25rem);
+  --t-h1: clamp(2.1rem, 4.4vw, 3.5rem);
+  --t-h2: clamp(1.6rem, 2.6vw, 2.1rem);
+  --t-h3: 1.25rem;
+  --t-body: 1.0625rem;
+  --t-prose: 1.125rem;
+  --t-small: 0.875rem;
+
+  --wrap: 1160px;
+  --gutter: clamp(1rem, 4vw, 2rem);
 }
 
-.text-balance {
-  text-wrap: balance;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--porcelain);
+    color: var(--tank);
+    font-family: var(--sans);
+    font-size: var(--t-body);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Display type uses Archivo's width axis. The expanded width reads as
+     equipment signage and carries the personality of the page. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 600;
+    font-stretch: 112%;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+  h1 {
+    font-size: var(--t-h1);
+  }
+  h2 {
+    font-size: var(--t-h2);
+  }
+  h3 {
+    font-size: var(--t-h3);
+    font-stretch: 100%;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+  h4 {
+    font-size: 1rem;
+    font-stretch: 100%;
+    letter-spacing: 0;
+    line-height: 1.3;
+  }
+
+  a {
+    color: var(--phase-b);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--phase-b);
+    outline-offset: 3px;
+  }
+  .on-dark :focus-visible {
+    outline-color: var(--live);
+  }
+
+  ::selection {
+    background: var(--live);
+    color: var(--tank-deep);
+  }
 }
 
-/* Custom animations */
-@keyframes bounce-alt {
-  from { transform: translateY(0); }
-  to { transform: translateY(2px); }
+@layer components {
+  .wrap {
+    max-width: var(--wrap);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* Every kV, MW, year and count aligns. */
+  .num,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0.5rem;
+    z-index: 100;
+    background: var(--live);
+    color: var(--tank-deep);
+    padding: 0.5rem 0.9rem;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+  .skip-link:focus {
+    left: var(--gutter);
+  }
+
+  /* Buttons. Radius 2px means "clickable" and nothing else. No arrows. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font: inherit;
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.2;
+    padding: 0.8rem 1.35rem;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn:hover {
+    text-decoration: none;
+  }
+  .btn-live {
+    background: var(--live);
+    color: var(--tank-deep);
+  }
+  .btn-live:hover {
+    background: #ffc933;
+  }
+  .btn-ghost-dark {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+  .btn-ghost-dark:hover {
+    border-color: #fff;
+  }
+  .btn-ghost {
+    color: var(--tank);
+    border-color: var(--tank);
+  }
+  .btn-ghost:hover {
+    background: var(--porcelain-2);
+  }
+  /* Primary action on light grounds, where yellow would fail contrast. */
+  .btn-tank {
+    background: var(--tank);
+    color: #fff;
+  }
+  .btn-tank:hover {
+    background: var(--tank-deep);
+  }
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Long-form prose. Serif is the workhorse here and sans the display
+     face — a deliberate inversion of the usual arrangement. Confined to
+     capability and case study bodies. */
+  .prose {
+    font-family: var(--serif);
+    font-size: var(--t-prose);
+    line-height: 1.75;
+    max-width: 68ch;
+  }
+  .prose p {
+    margin: 0 0 1.1rem;
+  }
+  .prose h2 {
+    font-family: var(--sans);
+    margin: 3rem 0 1rem;
+  }
+  .prose > h2:first-child {
+    margin-top: 0;
+  }
+
+  /* Ruled list with a short energised tick. */
+  .checks {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
+    max-width: 64ch;
+    border-top: 1px solid var(--rule);
+  }
+  .checks li {
+    position: relative;
+    padding: 0.6rem 0 0.6rem 1.5rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  .checks li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1.2rem;
+    width: 10px;
+    height: 2px;
+    background: var(--live);
+  }
+  .on-dark .checks {
+    border-top-color: var(--tank-rule);
+  }
+  .on-dark .checks li {
+    border-bottom-color: var(--tank-rule);
+  }
+
+  /* Lead-in term + explanation, used for "what the study involves" and
+     "what usually goes wrong". */
+  .terms {
+    margin: 0;
+  }
+  .terms dt {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 1.0625rem;
+    line-height: 1.35;
+    margin-top: 1.6rem;
+  }
+  .terms dt:first-child {
+    margin-top: 0.25rem;
+  }
+  .terms dd {
+    margin: 0.35rem 0 0;
+  }
+
+  /* Technical figures, drawn in the site's own linework. */
+  .figure {
+    margin: 2.75rem 0;
+    border: 1px solid var(--rule);
+    background: var(--figure-ground);
+    padding: 1.5rem 1.25rem 1rem;
+  }
+  .figure svg {
+    width: 100%;
+    height: auto;
+  }
+  .figure figcaption {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--ink-3);
+    margin-top: 0.9rem;
+    max-width: 72ch;
+  }
+
+  /* Placeholder for facts awaiting confirmation (see list.md). Visible on
+     purpose so nothing ships by accident. */
+  .pending {
+    color: var(--ink-3);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .on-dark .pending {
+    color: var(--on-tank-2);
+  }
 }
 
-.animate-bounce-alt {
-  animation: bounce-alt 0.5s infinite alternate;
+/* The one motion moment on the site: the hero diagram energises once on
+   load. Everything else is static. */
+@media (prefers-reduced-motion: no-preference) {
+  .energise {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: energise 0.32s cubic-bezier(0.4, 0, 0.2, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes energise {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
 }
 
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.3s ease;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

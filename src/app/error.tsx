@@ -1,7 +1,8 @@
-'use client';
-import { useEffect } from 'react';
-import Link from 'next/link';
-import { AlertCircle } from 'lucide-react';
+"use client";
+
+import Link from "next/link";
+import { useEffect } from "react";
+import { CONTACT } from "@/lib/constants";
 
 export default function Error({
   error,
@@ -15,26 +16,18 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center p-4 text-center">
-      <div className="w-20 h-20 bg-red-50 text-red-600 rounded-full flex items-center justify-center mb-6">
-        <AlertCircle className="w-10 h-10" />
-      </div>
-      <h2 className="text-3xl font-bold text-slate-900 mb-4">Something went wrong!</h2>
-      <p className="text-slate-600 mb-8 max-w-md">
-        We apologize for the inconvenience. An unexpected error has occurred on our end.
+    <div className="wrap pb-24 pt-16 sm:pt-20">
+      <h1 className="max-w-[22ch]">Something went wrong on our side.</h1>
+      <p className="mt-4 max-w-[56ch] text-[1.0625rem] leading-relaxed text-ink-2">
+        Try again, or email <a href={`mailto:${CONTACT.EMAIL}`}>{CONTACT.EMAIL}</a> and
+        an engineer will reply directly.
       </p>
-      <div className="flex gap-4">
-        <button
-          onClick={() => reset()}
-          className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
-        >
+      <div className="mt-8 flex flex-wrap gap-3">
+        <button type="button" onClick={() => reset()} className="btn btn-tank">
           Try again
         </button>
-        <Link 
-          href="/"
-          className="px-6 py-3 bg-slate-100 text-slate-700 font-semibold rounded-lg hover:bg-slate-200 transition-colors"
-        >
-          Return Home
+        <Link href="/" className="btn btn-ghost">
+          Home
         </Link>
       </div>
     </div>

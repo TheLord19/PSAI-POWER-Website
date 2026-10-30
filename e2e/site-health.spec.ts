@@ -1,99 +1,62 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
+import { capabilities } from "../src/content/capabilities";
 
-test.describe('PSAI POWER Site Health & I18n', () => {
+// What crawlers and link previews see: the raw server response, before any
+// JavaScript runs.
 
-    test.beforeEach(async ({ page }) => {
-        await page.goto('/');
-        // Wait for page to be ready
-        await expect(page.locator('header')).toBeVisible();
-    });
+function jsonLdBlocks(html: string) {
+  const blocks: Record<string, unknown>[] = [];
+  const re = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html))) blocks.push(JSON.parse(m[1]));
+  return blocks;
+}
 
-    test('Homepage should load and switch languages', async ({ page }) => {
-        const h1 = page.locator('h1');
-        await expect(h1).toContainText(/Powering Progress/i);
+test.describe("server-rendered HTML", () => {
+  test("homepage has every capability description and no loading placeholder", async ({ request }) => {
+    const html = await (await request.get("/")).text();
+    expect(html).not.toContain("Loading...");
+    for (const c of capabilities) expect(html).toContain(c.summary);
+  });
 
-        // Switch to French
-        const frBtn = page.getByRole('button', { name: 'FR', exact: true });
-        await frBtn.click();
+  test("structured data describes the firm with the standard address", async ({ request }) => {
+    const html = await (await request.get("/")).text();
+    const org = jsonLdBlocks(html).find((b) => b["@type"] === "ProfessionalService") as
+      | { email: string; address: { postalCode: string; addressRegion: string } }
+      | undefined;
+    expect(org).toBeDefined();
+    expect(org!.email).toBe("team@psaipowerinc.ca");
+    expect(org!.address.postalCode).toBe("P3A 2V5");
+    expect(org!.address.addressRegion).toBe("ON");
+  });
 
-        // Wait for text to change - use a longer timeout and be less restrictive
-        await expect(h1).toContainText(/Propulser le Progrès/i, { timeout: 15000 });
+  test("capability pages carry Service structured data", async ({ request }) => {
+    const html = await (await request.get("/capabilities/protection-and-control")).text();
+    expect(jsonLdBlocks(html).some((b) => b["@type"] === "Service")).toBe(true);
+  });
 
-        // Switch back to English
-        const enBtn = page.getByRole('button', { name: 'EN', exact: true });
-        await enBtn.click();
-        await expect(h1).toContainText(/Powering Progress/i, { timeout: 15000 });
-    });
+  test("pages declare their canonical URL", async ({ request }) => {
+    const home = await (await request.get("/")).text();
+    expect(home).toMatch(/<link rel="canonical" href="https:\/\/psaipowerinc\.ca\/?"/);
+    for (const path of ["/capabilities/protection-and-control", "/firm", "/contact-us"]) {
+      const html = await (await request.get(path)).text();
+      expect(html).toContain(`<link rel="canonical" href="https://psaipowerinc.ca${path}"`);
+    }
+  });
 
-    test('Navigation links should reach 200 OK pages', async ({ page }) => {
-        page.on('console', msg => console.log(`BROWSER LOG: ${msg.text()}`));
-        const links = [
-            { name: "SERVICES", path: "/services" },
-            { name: "WHO WE SERVE", path: "/who-we-serve" },
-            { name: "ABOUT", path: "/about" },
-            { name: "RESOURCES", path: "/resources" },
-            { name: "LICENSES", path: "/licenses" },
-            { name: "CONTACT US", path: "/contact-us" }
-        ];
+  test("sitemap and robots are generated from the content", async ({ request }) => {
+    const sitemap = await (await request.get("/sitemap.xml")).text();
+    for (const c of capabilities) expect(sitemap).toContain(`/capabilities/${c.slug}`);
+    expect(sitemap).not.toContain("/resources");
+    expect(sitemap).not.toContain("/who-we-serve");
+    const robots = await (await request.get("/robots.txt")).text();
+    expect(robots).toContain("Sitemap: https://psaipowerinc.ca/sitemap.xml");
+  });
 
-        for (const link of links) {
-            console.log(`Checking link: ${link.name} at ${link.path}`);
-
-            // Retry logic for navigation
-            let attempts = 0;
-            let success = false;
-            while (attempts < 2 && !success) {
-                try {
-                    attempts++;
-                    const response = await page.goto(link.path, { waitUntil: 'domcontentloaded', timeout: 25000 });
-                    if (response?.status() === 200) {
-                        success = true;
-                    } else {
-                        console.log(`Attempt ${attempts} failed with status: ${response?.status()}`);
-                    }
-                } catch (e) {
-                    console.log(`Attempt ${attempts} failed with error: ${e}`);
-                }
-            }
-            expect(success).toBe(true);
-
-            // Wait for a key element that should be present on all pages (e.g., footer or specific h1)
-            await expect(page.locator('footer')).toBeVisible({ timeout: 15000 });
-        }
-    });
-
-    test('Dynamic Service pages should load correct content', async ({ page }) => {
-        await page.goto('/services/grid-modernization');
-        await expect(page.locator('h1')).toContainText(/Grid Modernization/i);
-
-        await page.getByRole('button', { name: 'FR', exact: true }).click();
-        await expect(page.locator('h1')).toContainText(/Modernisation/i, { timeout: 10000 });
-    });
-
-    test('Dynamic Industry pages should load correct content', async ({ page }) => {
-        await page.goto('/who-we-serve/renewable-energy');
-        await expect(page.locator('h1')).toContainText(/Renewable Energy/i);
-
-        // Switch to French
-        await page.getByRole('button', { name: 'FR', exact: true }).click();
-
-        // Wait for language to be applied (detect by checking button state or URL if applicable)
-        await expect(page.getByRole('button', { name: 'FR', exact: true })).toHaveClass(/bg-white/);
-
-        await expect(page.locator('h1')).toContainText(/Énergie renouvelable/i, { timeout: 15000 });
-    });
-
-    test('Contact form should be present and validatable', async ({ page }) => {
-        await page.goto('/contact-us');
-        const form = page.locator('form');
-        await expect(form.locator('input[name="email"]')).toHaveAttribute('type', 'email');
-        await expect(form.locator('button[type="submit"]')).toBeVisible();
-    });
-
-    test('Footer components presence', async ({ page }) => {
-        await page.goto('/');
-        const footer = page.locator('footer');
-        await expect(footer).toContainText(/PSAI POWER/i);
-        await expect(footer.getByRole('link', { name: /About/i })).toBeVisible();
-    });
+  test("no page mentions the retired info@ address", async ({ request }) => {
+    for (const path of ["/", "/contact-us", "/careers", "/privacy-policy", "/terms-of-service"]) {
+      const html = await (await request.get(path)).text();
+      expect(html, path).not.toContain("info@psaipowerinc.ca");
+    }
+  });
 });
